@@ -47,6 +47,31 @@ $$(document).on('page:init', function (e) {
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
 
     // console.log(e);
+
+    //- With callbacks on click
+var ac5 = app.actions.create({
+  buttons: [
+    {
+      text: 'Registrarme',
+      onClick: function () {
+        app.dialog.alert('Button1 clicked')
+      }
+    },
+    {
+      text: 'Iniciar sesión',
+      onClick: function () {
+        app.dialog.alert('Button2 clicked')
+      }
+    },
+    {
+      text: 'Cancelar',
+      color: 'red',
+      onClick: function () {
+        app.dialog.alert('Cancel clicked')
+      }
+    },
+  ]
+});
  
 })
 

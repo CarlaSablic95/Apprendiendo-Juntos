@@ -85,18 +85,36 @@
 }
 
 .col-100 {
-  background-color: red;
+  height: 25vh;
 }
 
-.col {
-  background-color: orange;
+.pGrado {
+    background-color: orange;
 }
 
-.imagen {
-  width: 64px;
-  height: 64px;
+.sGrado {
+    background-color: lightblue;
 }
 
-.lengua {
-  width: 40%;
+
+.tGrado {
+    background-color: violet;
+}
+
+img.materia {
+  width: 60%;
+  padding:20px;
+}
+
+img.lengua, .mat, .cs-nat, .cs-soc {
+  width: 100%;
+}
+
+.page-content {
+  background-color: pink;
+}
+
+.grados h2 {
+  margin-top: 45px;
+  color: black;
 }
