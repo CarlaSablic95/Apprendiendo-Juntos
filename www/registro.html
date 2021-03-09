@@ -1,12 +1,12 @@
 <!-- We don't need a full layout in this file because this page will be parsed with Ajax.  -->
-<div class="page" data-name="registro">
+<div class="page no-toolbar" data-name="registro">
     <div class="page-content">
         <div class="block-title text-align-center">Registro</div>
         <div class="block block-strong">
         <div class="list no-hairlines-md">
         <form class="list" id="my-form">
        <ul>
-       <li class="item-content item-input">
+       <!-- <li class="item-content item-input">
          <div class="item-inner">
            <div class="item-title item-label">Imagen</div>
            <div class="item-input-wrap">
@@ -14,12 +14,12 @@
              <span class="input-clear-button"></span>
            </div>
          </div>
-       </li>
+       </li> -->
          <li class="item-content item-input">
            <div class="item-inner">
              <div class="item-title item-label">Nombre</div>
              <div class="item-input-wrap">
-               <input type="text" placeholder="Ingresá tu nombre" />
+               <input type="text" value="" placeholder="Ingresá tu nombre" id="nombreRegistro"/>
                <span class="input-clear-button"></span>
              </div>
            </div>
@@ -29,7 +29,7 @@
            <div class="item-inner">
              <div class="item-title item-label">Email</div>
              <div class="item-input-wrap">
-               <input type="email" placeholder="Ingresá tu email"/>
+               <input type="email" value="" placeholder="Ingresá tu email" id="emailRegistro"/>
                <span class="input-clear-button"></span>
              </div>
            </div>
@@ -39,34 +39,30 @@
            <div class="item-inner">
              <div class="item-title item-label">Contraseña</div>
              <div class="item-input-wrap">
-               <input type="password" placeholder="Ingresá tu contraseña" />
+               <input type="password" value="" placeholder="Ingresá tu contraseña" id="passRegistro"/>
                <span class="input-clear-button"></span>
              </div>
            </div>
          </li>
 
-         <li class="item-content item-input">
-           <div class="item-inner">
-             <div class="item-input-wrap input-dropdown-wrap">
-               <div class="item-title item-label">Elegir Grado</div>
-               <select>
-                 <option value="Primer Grado">1er Grado</option>
-                 <option value="Segundo Grado">2do Grado</option>
-                 <option value="Tercer Grado">3er Grado</option>
-               </select>
-             </div>
-           </div>
-     </li>
+         
         </ul>
 
            <div class="row">
-            <a href="/login/" class="link col-50 button color-black">¿Ya tenés una cuenta?</a>
-            <button class="col-40 button button-large button-raised button-fill">Registrarme</button>
+            <a class="col-40 button button-large button-raised button-fill dynamic-popover" id="btnRegistro">Registrarme</a>
           </div>
-
            </form>
            </div>
 
+             <!-- Top sheet -->
+  <div class="sheet-modal sheet-modal-top my-sheet-top">
+    <div class="sheet-modal-inner">
+      <div class="block">
+        <h4>¡Atención!</h4>
+        <p>Debés registrarte para ingresar</p>
+      </div>
+    </div>
+  </div>
         </div>
     </div>
 </div>

@@ -84,22 +84,21 @@
 	font-family: 'Poppins', Arial, sans-serif;
 }
 
-.col-100 {
-  height: 25vh;
+.inicio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.pGrado {
-    background-color: orange;
+.chicos {
+  width: 80%;
+  margin: 20px 0 25px 0;
 }
 
-.sGrado {
-    background-color: lightblue;
+.reg, .login {
+  background-color: white;
 }
 
-
-.tGrado {
-    background-color: violet;
-}
 
 img.materia {
   width: 60%;
@@ -110,11 +109,12 @@ img.lengua, .mat, .cs-nat, .cs-soc {
   width: 100%;
 }
 
-.page-content {
-  background-color: pink;
-}
-
 .grados h2 {
   margin-top: 45px;
   color: black;
+}
+
+.col-15 {
+background-color: lightblue;
+
 }
