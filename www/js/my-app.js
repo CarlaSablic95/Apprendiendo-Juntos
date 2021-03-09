@@ -19,12 +19,14 @@ var app = new Framework7({
 
       { path: '/registro/', url: 'registro.html', },
       { path: '/login/', url: 'login.html', },
+      { path: '/perfil/', url: 'perfil.html', },
 
       { path: '/primer-grado/', url: 'primer-grado.html', },
       { path: '/primer-grado/lengua/', url: 'lengua.html', },
       { path: '/primer-grado/lengua/abecedario/', url: 'abecedario.html', },
       { path: '/primer-grado/lengua/vyc/', url: 'vyc.html', },
       { path: '/primer-grado/lengua/vyc/vocales', url: 'vocales.html', },
+      { path: '/primer-grado/lengua/lectura', url: 'lectura.html', },
       { path: '/primer-grado/matematica/', url: 'matematica.html', },
       { path: '/primer-grado/sociales/', url: 'sociales.html', },
       { path: '/primer-grado/naturales/', url: 'naturales.html', },
@@ -43,6 +45,7 @@ var mainView = app.views.create('.view-main');
  var db = firebase.firestore();
  var colUsuarios = db.collection("usuarios");
  var nom="";
+ var nombre="";
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
@@ -59,11 +62,14 @@ console.log(e);
 
 
 // Option 2. Using live 'page:init' event handlers for each page
+
+// INDEX
+
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
 console.log("carga index");
 
+// Oculto navbar y toolbar en el index
     app.navbar.hide('#navBar');
-
     app.toolbar.hide('#toolBar');
 
     $$('#registro').on('click', function(){
@@ -76,92 +82,117 @@ console.log("carga index");
 
 })
 
+// REGISTRO
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
+
+console.log("carga registro");
+
+$$('#btnRegistro').on('click', function() {
+  nombre = $$('#nombreRegistro').val();
+});
 
 $$('#btnRegistro').on('click', registrarUsuarios);
 
 app.navbar.hide('#navbar');
-
 app.toolbar.hide('#toolBar');
 
 
 })
 
+// LOGIN
 
 $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
-app.navbar.hide('#navBar');
+console.log("carga login");
 
-app.toolbar.hide('#toolBar')
+app.navbar.hide('#navBar');
+app.toolbar.hide('#toolBar');
 
 $$('#btnLogin').on('click', loginUsuarios);
 
+})
+
+// PERFIL
+
+$$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
+
+// Muestro el Navbar y Toolbar para la pagina del listado de las materias
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
+
+    $$('#nombreUsuario').html(nombre);
 
 })
 
-
+// 1ER GRADO -> LISTADO DE MATERIAS
 
 $$(document).on('page:init', '.page[data-name="primer-grado"]', function (e) {
 
+// Muestro el Navbar y Toolbar para la pagina del listado de las materias
     app.navbar.show('#navBar');
-
     app.toolbar.show('#toolBar');
   
 })
+
+// LENGUA
 
 $$(document).on('page:init', '.page[data-name="lengua"]', function (e) {
 
     app.navbar.show('#navBar');
-
     app.toolbar.show('#toolBar');
   
 })
 
+// MATEMÁTICA
 
 $$(document).on('page:init', '.page[data-name="matematica"]', function (e) {
 
     app.navbar.show('#navBar');
-
     app.toolbar.show('#toolBar');
   
 })
+
+// CIENCIAS SOCIALES
 
 $$(document).on('page:init', '.page[data-name="sociales"]', function (e) {
 
     app.navbar.show('#navBar');
-
     app.toolbar.show('#toolBar');
   
 })
+
+// CIENCIAS NATURALES
 
 $$(document).on('page:init', '.page[data-name="naturales"]', function (e) {
 
     app.navbar.show('#navBar');
-
     app.toolbar.show('#toolBar');
   
 })
+
+// ABECEDARIO (ACTIVIDADES)
 
 $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
 
     app.navbar.show('#navBar');
-
     app.toolbar.show('#toolBar');
   
 })
 
+// VOCALES Y CONSONANTES (ACTIVIDADES)
+
 $$(document).on('page:init', '.page[data-name="vyc"]', function (e) {
 
     app.navbar.show('#navBar');
-
     app.toolbar.show('#toolBar');
 })
+
+// VOCALES (ACTIVIDAD)
 
 $$(document).on('page:init', '.page[data-name="vocales"]', function (e) {
 
     app.navbar.show('#navBar');
-
     app.toolbar.show('#toolBar');
   
 })
@@ -173,10 +204,12 @@ $$(document).on('page:init', '.page[data-name="vocales"]', function (e) {
 // Registro de usuario
 function registrarUsuarios() {
   
+  // Guardo en variables cada dato que el usuario ingresa
     nom = $$('#nombreRegistro').val();
     email = $$('#emailRegistro').val();
     pass = $$('#passRegistro').val();
 
+    // Guardo el email del usuario en una variable para 
     idUsuario = email;
 
   var datosReg = {
@@ -185,16 +218,20 @@ function registrarUsuarios() {
     Password: pass
   };
    
+   // Creo usuario a partir del mail y contraseña
 firebase.auth().createUserWithEmailAndPassword(email, pass)
 
 
-// creo el usuario en la BD
+// Creo el usuario en la BD
 .then((docRef) => {
  
 console.log('Estas registrado ');
 
+// Al documento de la coleccion usuarios, le agrego datos propios del usuario
    colUsuarios.doc(idUsuario).set(datosReg);
+
   // Mensaje de bienvenida al usuario
+// Creación de popover dinámico 
 
 var dynamicPopover = app.popover.create({
   targetEl: 'a.dynamic-popover',
@@ -209,10 +246,12 @@ var dynamicPopover = app.popover.create({
 
 });
 
+// Abre popover
 $$('.dynamic-popover').on('click', function () {
   dynamicPopover.open();
 });
 
+//Cierra popover
 dynamicPopover.on('close', function (popover) {
  dynamicPopover.close();
 });
@@ -224,19 +263,19 @@ mainView.router.navigate('/primer-grado/');
 
 
 .catch((error) => {
-  var errorCode = error.code;
- var errorMessage = error.message;
+ //  var errorCode = error.code;
+ // var errorMessage = error.message;
 
-  // console.log('error1: ' + errorCode + ' error2: ' + errorMessage);
+   // console.log('error1: ' + errorCode);
+   // console.log(' error2: ' + errorMessage);
+console.log('ERROR: ' + error);
+// Errores al registrarte 
 
-  if(nom == "") {
-    console.log('El campo nombre está vacío');
+  if( email == error ) {
+    console.log('El formato de email es inválido');
   } else {
-    if(email == ""){
-      console.log('El campo email está vacío');
-    }
-    if(pass < 8) {
-      console.log('La contraseña debe contener 8 caracteres');
+    if(pass == error){
+      console.log('La contraseña debe contener 6 o más caracteres');
     }
   }
 
