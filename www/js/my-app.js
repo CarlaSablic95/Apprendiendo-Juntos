@@ -192,9 +192,6 @@ firebase.auth().createUserWithEmailAndPassword(email, pass)
 .then((docRef) => {
  
 console.log('Estas registrado ');
-if(nom == "") {
-    console.log('El campo nombre está vacío');
-  } 
 
    colUsuarios.doc(idUsuario).set(datosReg);
   // Mensaje de bienvenida al usuario
@@ -254,6 +251,7 @@ function loginUsuarios() {
   passLogin = $$('#passLogin').val();
 
 emLogin = emailLogin;
+pLogin = passLogin;
 
 var datosLog = {
   Email: emailLogin,
@@ -264,7 +262,8 @@ firebase.auth().signInWithEmailAndPassword(emailLogin, passLogin)
 .then((docRef) => {
     colUsuarios.doc(emLogin).set(datosLog);
 
-    mainView.router.navigate('/primer-grado/');
+        mainView.router.navigate('/primer-grado/');
+  
   })
 
  .catch((error) => {
