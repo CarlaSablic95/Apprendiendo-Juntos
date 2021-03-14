@@ -1,7 +1,7 @@
 
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
-
+ 
 var app = new Framework7({
     // App root element
     root: '#app',
@@ -19,18 +19,50 @@ var app = new Framework7({
 
       { path: '/registro/', url: 'registro.html', },
       { path: '/login/', url: 'login.html', },
-      { path: '/perfil/', url: 'perfil.html', },
+      { path: '/perfil/', url: 'perfil.html', options: { transition: 'f7-circle',}, },
 
+      //LENGUA
       { path: '/primer-grado/', url: 'primer-grado.html', },
       { path: '/primer-grado/lengua/', url: 'lengua.html', },
       { path: '/primer-grado/lengua/abecedario/', url: 'abecedario.html', },
       { path: '/primer-grado/lengua/vyc/', url: 'vyc.html', },
       { path: '/primer-grado/lengua/vyc/vocales', url: 'vocales.html', },
-      { path: '/primer-grado/lengua/lectura', url: 'lectura.html', },
+      { path: '/primer-grado/lengua/vyc/vocal-e', url: 'vocal-e.html', },
+      { path: '/primer-grado/lengua/lectura', url: 'lectura.html', options: { transition: 'f7-circle',}, },
+      { path: '/primer-grado/lengua/lectura/mozart', url: 'mozart.html', options: { transition: 'f7-dive',},  },
+      { path: '/primer-grado/lengua/lectura/jirafa', url: 'jirafa.html', options: { transition: 'f7-dive',},  },
+      { path: '/primer-grado/lengua/audiocuentos', url: 'audiocuentos.html', },
+
+      // MATEMATICA
       { path: '/primer-grado/matematica/', url: 'matematica.html', },
+
+      // SOCIALES
       { path: '/primer-grado/sociales/', url: 'sociales.html', },
+
+      // NATURALES
       { path: '/primer-grado/naturales/', url: 'naturales.html', },
+
+      // DIBUJO
+      { path: '/primer-grado/dibujar/', url: 'dibujar.html', },
       
+  {
+    path: '/primer-grado/',
+    async({ resolve }) {
+      if (userIsLoggedIn) {
+        resolve({
+          url: 'primer-grado.html',
+        });
+      } else {
+        resolve({
+            url: 'login.html' ,
+        });
+      }
+    },
+  }
+ 
+
+
+
 ]
 
 
@@ -44,8 +76,14 @@ var mainView = app.views.create('.view-main');
 // db me hace la conexión a la BD
  var db = firebase.firestore();
  var colUsuarios = db.collection("usuarios");
- var nom="";
- var nombre="";
+
+ var nom="", valRespuestas="";
+ var nombreUsuario="";
+ var email="";
+ var fechaNac="";
+ var avatarReg="";
+ var avatarElegido="";
+
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
@@ -80,6 +118,9 @@ console.log("carga index");
       mainView.router.navigate('/login/');
     })
 
+//Panel
+
+     
 })
 
 // REGISTRO
@@ -88,19 +129,94 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
 
 console.log("carga registro");
 
-$$('#btnRegistro').on('click', function() {
-  nombre = $$('#nombreRegistro').val();
-});
-
-$$('#btnRegistro').on('click', registrarUsuarios);
-
 app.navbar.hide('#navbar');
 app.toolbar.hide('#toolBar');
 
 
+$$('#btnRegistro').on('click', function() {
+
+ nombreUsuario = $$('#nombreRegistro').val();
+
+ $$('#msjBienvenida').html('<h1> ¡Bienvenido/a, ' +nombreUsuario+'!</h1>');
+});
+
+//Al hacer click en Registrarme, llamas a la funcion para registro de usuarios
+$$('#btnRegistro').on('click', registroUsuarios);
+
+ 
+$$('.fotoPerfil').on('click', avatarUsuario);
+
 })
 
-// LOGIN
+// Elijo foto de perfil
+
+function avatarUsuario() {
+  avatarElegido = this.id;
+  console.log('Avatar elegido: ' + avatarElegido);
+
+// Evalúo distintos casos, dependiendo de la imagen que el elijo, se selecciona
+  switch(avatarElegido){
+    case 'nene':
+      $$('#nene').addClass('miAvatar');
+      $$('#avion').removeClass('miAvatar');
+      $$('#nena').removeClass('miAvatar');
+      $$('#icon-mariposa').removeClass('miAvatar');
+      $$('#icon-pelota').removeClass('miAvatar');
+      $$('#flor').removeClass('miAvatar');
+    break
+
+    case 'nena':
+      $$('#nena').addClass('miAvatar');
+      $$('#nene').removeClass('miAvatar');
+      $$('#avion').removeClass('miAvatar');
+      $$('#icon-mariposa').removeClass('miAvatar');
+      $$('#icon-pelota').removeClass('miAvatar');
+      $$('#flor').removeClass('miAvatar');
+         
+    break
+
+    case 'icon-mariposa':
+      $$('#icon-mariposa').addClass('miAvatar');
+      $$('#nene').removeClass('miAvatar');
+      $$('#avion').removeClass('miAvatar');
+      $$('#nena').removeClass('miAvatar');
+      $$('#icon-pelota').removeClass('miAvatar');
+      $$('#flor').removeClass('miAvatar');
+          
+    break
+
+    case 'avion':
+      $$('#avion').addClass('miAvatar');
+      $$('#nene').removeClass('miAvatar');
+      $$('#nena').removeClass('miAvatar');
+      $$('#icon-mariposa').removeClass('miAvatar');
+      $$('#icon-pelota').removeClass('miAvatar');
+      $$('#flor').removeClass('miAvatar');
+    break
+
+    case 'icon-pelota':
+      $$('#icon-pelota').addClass('miAvatar');
+      $$('#nene').removeClass('miAvatar');
+      $$('#avion').removeClass('miAvatar');
+      $$('#nena').removeClass('miAvatar');
+      $$('#icon-mariposa').removeClass('miAvatar');
+      $$('#flor').removeClass('miAvatar');
+    break
+
+    case 'flor':
+      $$('#flor').addClass('miAvatar');
+      $$('#nene').removeClass('miAvatar');
+      $$('#avion').removeClass('miAvatar');
+      $$('#nena').removeClass('miAvatar');
+      $$('#icon-mariposa').removeClass('miAvatar');
+      $$('#icon-pelota').removeClass('miAvatar');  
+    break  
+  } 
+
+}
+
+
+// LOGIN--------------------------------------------------------------
 
 $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
@@ -113,7 +229,7 @@ $$('#btnLogin').on('click', loginUsuarios);
 
 })
 
-// PERFIL
+// PERFIL----------------------------------------
 
 $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
 
@@ -121,21 +237,23 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
 
-    $$('#nombreUsuario').html(nombre);
+    $$('#nomUsuario').html('<h1> Soy ' +nombreUsuario+' </h1>');
+
 
 })
 
-// 1ER GRADO -> LISTADO DE MATERIAS
+// 1ER GRADO -> LISTADO DE MATERIAS--------------------------
 
 $$(document).on('page:init', '.page[data-name="primer-grado"]', function (e) {
 
 // Muestro el Navbar y Toolbar para la pagina del listado de las materias
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
+
   
 })
 
-// LENGUA
+// LENGUA------------------------------------------------------
 
 $$(document).on('page:init', '.page[data-name="lengua"]', function (e) {
 
@@ -144,7 +262,142 @@ $$(document).on('page:init', '.page[data-name="lengua"]', function (e) {
   
 })
 
-// MATEMÁTICA
+// Compresión lectora-----------------------------------------------
+$$(document).on('page:init', '.page[data-name="lectura"]', function (e) {
+
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
+
+    $$('#btnLeer').on('click', function(){
+      mainView.router.navigate('/primer-grado/lengua/lectura/mozart');
+    })
+
+    $$('#aLeer').on('click', function(){
+      mainView.router.navigate('/primer-grado/lengua/lectura/jirafa');
+    })
+  
+})
+
+// JUEGO MOZART--------------------------------------------------
+
+$$(document).on('page:init', '.page[data-name="mozart"]', function (e) {
+
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
+
+    $$('.radio').on('click', FnRespuestas);
+    $$('.checkbox').on('click', FnRespuestas);
+
+    $$('#btnFin').on('click', function() {
+      $$('.popover-fin').on('popover:open', function (e) {
+        console.log('About popover open');
+      });
+    })
+    
+
+
+function FnRespuestas(){
+  //capturo el value de cada input radio
+  valRespuestas = this.value;
+  console.log('VALUE: ' + valRespuestas);
+
+////////   Respuestas correctas  /////////
+    switch(valRespuestas) {
+      case 'austria':
+      $$('#rta1C').addClass('fondoVerde');
+      break
+
+      case 'padre':
+      $$('#rta2A').addClass('fondoVerde');
+    
+      break
+
+       case 'palacios':
+       $$('#rta3C').addClass('fondoVerde');
+     
+       break
+
+       case 'piano':
+         $$('#rta4A').addClass('fondoVerde');
+         
+        break
+
+      case 'violin':
+       $$('#rta4D').addClass('fondoVerde');
+
+      break
+
+////////   Respuestas incorrectas  /////////
+
+      case 'paisMaravillas':
+       $$('#rta1A').addClass('fondoRojo');
+      break
+
+      case 'españa':
+       $$('#rta1B').addClass('fondoRojo');
+      break
+
+       case 'rumania':
+        $$('#rta1D').addClass('fondoRojo');
+      break
+
+      case 'hermana':
+       $$('#rta2B').addClass('fondoRojo');
+      break
+
+      case 'internet':
+       $$('#rta2C').addClass('fondoRojo');
+      break
+
+      case 'vecino':
+       $$('#rta2D').addClass('fondoRojo');
+      break
+
+      case 'centro':
+       $$('#rta3A').addClass('fondoRojo');
+      break
+
+      case 'ciudad':
+       $$('#rta3B').addClass('fondoRojo');
+      break
+
+      case 'colegio':
+       $$('#rta3D').addClass('fondoRojo');
+      break
+
+      case 'trompeta':
+       $$('#rta4B').addClass('fondoRojo');
+      break
+
+      case 'gElectrica':
+       $$('#rta4C').addClass('fondoRojo');
+      break
+    }
+
+   }
+
+})
+
+$$(document).on('page:init', '.page[data-name="dibujar"]', function (e) {
+console.log("carga index");
+
+// Oculto navbar y toolbar en el index
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
+
+   colorPickerWheel = app.colorPicker.create({
+        inputEl: '#demo-color-picker-wheel',
+        targetEl: '#demo-color-picker-wheel-value',
+        targetElSetBackgroundColor: true,
+        modules: ['wheel'],
+        openIn: 'popover',
+        value: {
+          hex: '#00ff00',
+        },
+      });
+})
+
+// MATEMÁTICA--------------------------------------------------------------
 
 $$(document).on('page:init', '.page[data-name="matematica"]', function (e) {
 
@@ -153,7 +406,7 @@ $$(document).on('page:init', '.page[data-name="matematica"]', function (e) {
   
 })
 
-// CIENCIAS SOCIALES
+// CIENCIAS SOCIALES------------------------------------------------------
 
 $$(document).on('page:init', '.page[data-name="sociales"]', function (e) {
 
@@ -162,7 +415,7 @@ $$(document).on('page:init', '.page[data-name="sociales"]', function (e) {
   
 })
 
-// CIENCIAS NATURALES
+// CIENCIAS NATURALES------------------------------------------------------
 
 $$(document).on('page:init', '.page[data-name="naturales"]', function (e) {
 
@@ -171,7 +424,7 @@ $$(document).on('page:init', '.page[data-name="naturales"]', function (e) {
   
 })
 
-// ABECEDARIO (ACTIVIDADES)
+// ABECEDARIO (ACTIVIDADES)-----------------------------------------------
 
 $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
 
@@ -180,7 +433,7 @@ $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
   
 })
 
-// VOCALES Y CONSONANTES (ACTIVIDADES)
+// VOCALES Y CONSONANTES (ACTIVIDADES)------------------------------
 
 $$(document).on('page:init', '.page[data-name="vyc"]', function (e) {
 
@@ -188,129 +441,121 @@ $$(document).on('page:init', '.page[data-name="vyc"]', function (e) {
     app.toolbar.show('#toolBar');
 })
 
-// VOCALES (ACTIVIDAD)
+// VOCALES (ACTIVIDAD)-------------------------------------------------
 
 $$(document).on('page:init', '.page[data-name="vocales"]', function (e) {
 
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
-  
+
+    $$('.vocal').on('click', function() { elegirVocales(this.id) });
+
+    $$('#btnSiguiente').on('click', function(){  
+      $$('#juegosVocales').html('');  
+    })
+
+
+    function elegirVocales(id){
+      opciones = id;
+        console.log('Elegido: ' + opciones);
+
+        switch(opciones) {
+          case 'abeja':
+            $$('#abeja').addClass('fondoVerde');
+            $$('.textoA').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+          case 'te':
+            $$('#te').addClass('fondoRojo');
+            $$('.textoC').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+
+           case 'naranja':
+            $$('#naranja').addClass('fondoVerde');
+            $$('.textoD').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+          case 'sol':
+           $$('#sol').addClass('fondoRojo');
+            $$('.textoB').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+          
+        }
+
+      }
 })
 
 
-
-
-
-// Registro de usuario
-function registrarUsuarios() {
+// Registro de usuario-----------------------------------------
+function registroUsuarios() {
   
   // Guardo en variables cada dato que el usuario ingresa
     nom = $$('#nombreRegistro').val();
     email = $$('#emailRegistro').val();
     pass = $$('#passRegistro').val();
-
-    // Guardo el email del usuario en una variable para 
+    fechaNacReg = $$('#fechaNacReg').val();
+    avatarReg;
+   
+    // Guardo el email del usuario en una variable
     idUsuario = email;
 
-  var datosReg = {
-    Nombre: nom,
-    Email: email,
-    Password: pass
-  };
-   
-   // Creo usuario a partir del mail y contraseña
-firebase.auth().createUserWithEmailAndPassword(email, pass)
-
-
-// Creo el usuario en la BD
-.then((docRef) => {
- 
-console.log('Estas registrado ');
-
-// Al documento de la coleccion usuarios, le agrego datos propios del usuario
-   colUsuarios.doc(idUsuario).set(datosReg);
-
-  // Mensaje de bienvenida al usuario
-// Creación de popover dinámico 
-
-var dynamicPopover = app.popover.create({
-  targetEl: 'a.dynamic-popover',
-  content: '<div class="popover">'+
-              '<div class="popover-inner">'+
-                '<div class="block">'+
-                  '<p>¡ Bienvenido/a, ' + '<h3>' + nom + '</h3>' + ' !</p>'+
-                  '<p><a href="#" class="link popover-close">Cerrar</a></p>'+
-                '</div>'+
-              '</div>'+
-            '</div>',
-
-});
-
-// Abre popover
-$$('.dynamic-popover').on('click', function () {
-  dynamicPopover.open();
-});
-
-//Cierra popover
-dynamicPopover.on('close', function (popover) {
- dynamicPopover.close();
-});
-
-mainView.router.navigate('/primer-grado/');
-
-})
-
-
-
-.catch((error) => {
- //  var errorCode = error.code;
- // var errorMessage = error.message;
-
-   // console.log('error1: ' + errorCode);
-   // console.log(' error2: ' + errorMessage);
-console.log('ERROR: ' + error);
-// Errores al registrarte 
-
-  if( email == error ) {
-    console.log('El formato de email es inválido');
-  } else {
-    if(pass == error){
-      console.log('La contraseña debe contener 6 o más caracteres');
-    }
-  }
-
-});
-
-}
-
-//Login de usuario
-
-function loginUsuarios() {
-  emailLogin = $$('#emailLogin').val();
-  passLogin = $$('#passLogin').val();
-
-emLogin = emailLogin;
-pLogin = passLogin;
-
-var datosLog = {
-  Email: emailLogin,
-  Password: passLogin
-}
-
-firebase.auth().signInWithEmailAndPassword(emailLogin, passLogin)
-.then((docRef) => {
-    colUsuarios.doc(emLogin).set(datosLog);
-
-        mainView.router.navigate('/primer-grado/');
   
-  })
+   
 
- .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
+firebase.auth().createUserWithEmailAndPassword(email, pass)
+    .then((user) => {
 
+      // Datos de usuario guardados en BD
+        var datosReg = {
+            Nombre: nom,
+            Email: email,
+            Fecha: fechaNacReg,
+            Password: pass,
+            Avatar: avatarElegido, // debo validar foto de perfil?
+          };
+          colUsuarios.doc(email).set(datosReg);
+          mainView.router.navigate('/primer-grado/');
 
-  });
+    })
 
+    .catch((error) =>{
+       var errorCode = error.code;
+       var errorMessage = error.message;
+      if(nom == "" | email == "" | fechaNacReg == "" | pass == "" ){
+         app.dialog.alert('¡Debés completar todos los campos!', 'Atención');
+         mainView.router.navigate('/registro/');
+      }
+    })
 
+  
 }
+
+
+//Login de usuario-------------------
+
+ function loginUsuarios() {
+   emailLogin = $$('#emailLogin').val();
+   passLogin = $$('#passLogin').val();
+
+ emLogin = emailLogin;
+
+ var datosLog = {
+   Email: emailLogin,
+   Password: passLogin
+ }
+
+ firebase.auth().signInWithEmailAndPassword(emailLogin, passLogin)
+ .then((docRef) => {
+     colUsuarios.doc(emLogin).set(datosLog);
+         mainView.router.navigate('/primer-grado/');
+   })
+
+   .catch((error) =>{
+       var errorCode = error.code;
+       var errorMessage = error.message;
+      if(emailLogin == "" | passLogin == "" ){
+         app.dialog.alert('¡Debés completar todos los campos!', 'Atención');
+         mainView.router.navigate('/login/');
+      }
+    })
+ }

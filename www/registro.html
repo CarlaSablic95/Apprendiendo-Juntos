@@ -2,23 +2,34 @@
 <div class="page no-toolbar" data-name="registro">
     <div class="page-content">
 
+        <div class="popover popover-bienvenida">
+      <div class="popover-inner">
+        <div class="block">
+         <div id="msjBienvenida"></div>
+        </div>
+      </div>
+    </div>
+
         <div class="block-title text-align-center">
           <h1>Registro</h1>
         </div>
-        
+      
+
         <div class="block block-strong">
         <div class="list no-hairlines-md">
         <form class="list" id="my-form">
+          <h2>Elegí tu foto de perfil</h2>
+          <div class="row">
+            <div class="col-70 padding">
+              <img src="img/iconos/nene.png" alt="" class="fotoPerfil" id="nene">
+              <img src="img/iconos/avion.png" alt="" class="fotoPerfil" id="avion">
+              <img src="img/iconos/nena.png" alt="" class="fotoPerfil" id="nena">
+              <img src="img/iconos/icon-mariposa.png" alt="" class="fotoPerfil" id="icon-mariposa">
+              <img src="img/iconos/icon-pelota.png" alt="" class="fotoPerfil" id="icon-pelota">
+              <img src="img/iconos/flor.png" alt="" class="fotoPerfil" id="flor">
+            </div>
+          </div>
        <ul>
-       <!-- <li class="item-content item-input">
-         <div class="item-inner">
-           <div class="item-title item-label">Imagen</div>
-           <div class="item-input-wrap">
-             <input type="file"/>
-             <span class="input-clear-button"></span>
-           </div>
-         </div>
-       </li> -->
          <li class="item-content item-input">
            <div class="item-inner">
              <div class="item-title item-label">Nombre</div>
@@ -33,17 +44,27 @@
            <div class="item-inner">
              <div class="item-title item-label">Email</div>
              <div class="item-input-wrap">
-               <input type="email" value="" placeholder="Ingresá tu email" id="emailRegistro"/>
+               <input type="email" value="" placeholder="Ingresá tu email" id="emailRegistro" required validate/>
                <span class="input-clear-button"></span>
              </div>
            </div>
            </li>
+  
+            <li class="item-content item-input">
+                    <div class="item-inner">
+                      <div class="item-title item-label">Fecha de nacimiento</div>
+                      <div class="item-input-wrap">
+                        <input type="date" value="" placeholder="Fecha de nacimiento" id="fechaNacReg" required validate/>
+                      </div>
+                    </div>
+                  </li>
+
 
          <li class="item-content item-input">
            <div class="item-inner">
              <div class="item-title item-label">Contraseña</div>
              <div class="item-input-wrap">
-               <input type="password" value="" placeholder="Ingresá tu contraseña" id="passRegistro"/>
+               <input type="password" value="" placeholder="Ingresá tu contraseña" id="passRegistro" required validate/>
                <span class="input-clear-button"></span>
              </div>
            </div>
@@ -51,10 +72,12 @@
         </ul>
 
            <div class="row">                                         <!-- CLASE QUE LLAMA AL POPOVER-->
-            <a class="col-40 button button-large button-raised button-fill dynamic-popover" id="btnRegistro">Registrarme</a>
+            <a href="" class="col-40 button button-large button-raised button-fill link popover-open" data-popover=".popover-bienvenida" id="btnRegistro">Registrarme</a>
           </div>
            </form>
            </div>
-        </div>
+
     </div>
+
+    
 </div>

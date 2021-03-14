@@ -101,12 +101,27 @@
 
 
 img.materia {
-  width: 60%;
+  width: 50%;
   padding:20px;
 }
 
-img.lengua, .mat, .cs-nat, .cs-soc {
-  width: 100%;
+.instrumentos {
+  width: 70%;
+}
+
+.vocal {
+  border: 2px dotted black;
+  margin-bottom: 10px;
+}
+
+.nombre {
+  font-weight: bold;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+img.lengua, .mat, .cs-nat, .cs-soc, .imagen {
+  width: 80%;
 }
 
 .grados h2 {
@@ -114,7 +129,24 @@ img.lengua, .mat, .cs-nat, .cs-soc {
   color: black;
 }
 
-.col-15 {
-background-color: lightblue;
+.fondoRojo {
+  background-color: #ee6055;
+}
 
+.fondoVerde {
+  background-color: #a7c957;
+}
+
+.fondoNaranja {
+  background-color: #f8c772;
+}
+
+.miAvatar {
+  border: 2px solid green;
+}
+
+.fotoPerfil {
+  border-radius: 5%;
+  padding: 5px;
+  margin-right: 10px;
 }
