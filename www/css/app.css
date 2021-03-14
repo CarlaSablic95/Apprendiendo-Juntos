@@ -150,3 +150,11 @@ img.lengua, .mat, .cs-nat, .cs-soc, .imagen {
   padding: 5px;
   margin-right: 10px;
 }
+
+.bordeVerde {
+  border: 2px solid #a7c957;
+}
+
+.bordeRojo {
+  border: 2px solid #ee6055;
+}

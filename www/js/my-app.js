@@ -27,7 +27,7 @@ var app = new Framework7({
       { path: '/primer-grado/lengua/abecedario/', url: 'abecedario.html', },
       { path: '/primer-grado/lengua/vyc/', url: 'vyc.html', },
       { path: '/primer-grado/lengua/vyc/vocales', url: 'vocales.html', },
-      { path: '/primer-grado/lengua/vyc/vocal-e', url: 'vocal-e.html', },
+      { path: '/primer-grado/lengua/vyc/consonantes', url: 'consonantes.html', },
       { path: '/primer-grado/lengua/lectura', url: 'lectura.html', options: { transition: 'f7-circle',}, },
       { path: '/primer-grado/lengua/lectura/mozart', url: 'mozart.html', options: { transition: 'f7-dive',},  },
       { path: '/primer-grado/lengua/lectura/jirafa', url: 'jirafa.html', options: { transition: 'f7-dive',},  },
@@ -42,26 +42,9 @@ var app = new Framework7({
       // NATURALES
       { path: '/primer-grado/naturales/', url: 'naturales.html', },
 
-      // DIBUJO
-      { path: '/primer-grado/dibujar/', url: 'dibujar.html', },
-      
-  {
-    path: '/primer-grado/',
-    async({ resolve }) {
-      if (userIsLoggedIn) {
-        resolve({
-          url: 'primer-grado.html',
-        });
-      } else {
-        resolve({
-            url: 'login.html' ,
-        });
-      }
-    },
-  }
+      // // DIBUJO
+      // { path: '/primer-grado/dibujar/', url: 'dibujar.html', },
  
-
-
 
 ]
 
@@ -78,7 +61,6 @@ var mainView = app.views.create('.view-main');
  var colUsuarios = db.collection("usuarios");
 
  var nom="", valRespuestas="";
- var nombreUsuario="";
  var email="";
  var fechaNac="";
  var avatarReg="";
@@ -133,12 +115,6 @@ app.navbar.hide('#navbar');
 app.toolbar.hide('#toolBar');
 
 
-$$('#btnRegistro').on('click', function() {
-
- nombreUsuario = $$('#nombreRegistro').val();
-
- $$('#msjBienvenida').html('<h1> ¡Bienvenido/a, ' +nombreUsuario+'!</h1>');
-});
 
 //Al hacer click en Registrarme, llamas a la funcion para registro de usuarios
 $$('#btnRegistro').on('click', registroUsuarios);
@@ -154,7 +130,7 @@ function avatarUsuario() {
   avatarElegido = this.id;
   console.log('Avatar elegido: ' + avatarElegido);
 
-// Evalúo distintos casos, dependiendo de la imagen que el elijo, se selecciona
+// Evalúo distintos casos, dependiendo de la imagen que elijo
   switch(avatarElegido){
     case 'nene':
       $$('#nene').addClass('miAvatar');
@@ -227,6 +203,7 @@ app.toolbar.hide('#toolBar');
 
 $$('#btnLogin').on('click', loginUsuarios);
 
+
 })
 
 // PERFIL----------------------------------------
@@ -237,7 +214,8 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
 
-    $$('#nomUsuario').html('<h1> Soy ' +nombreUsuario+' </h1>');
+// El nombre se imprime en el perfil si te REGISTRÁS, no cuando inicias sesión
+    $$('#nomUsuario').html('<h1> Nombre: ' +nombreUsuario+' </h1>');
 
 
 })
@@ -274,11 +252,12 @@ $$(document).on('page:init', '.page[data-name="lectura"]', function (e) {
 
     $$('#aLeer').on('click', function(){
       mainView.router.navigate('/primer-grado/lengua/lectura/jirafa');
+
     })
   
 })
 
-// JUEGO MOZART--------------------------------------------------
+// COMP. LECTORA MOZART--------------------------------------------------
 
 $$(document).on('page:init', '.page[data-name="mozart"]', function (e) {
 
@@ -304,73 +283,85 @@ function FnRespuestas(){
 ////////   Respuestas correctas  /////////
     switch(valRespuestas) {
       case 'austria':
-      $$('#rta1C').addClass('fondoVerde');
+        $$('#rta1C').addClass('fondoVerde');
+        $$('.austria').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
       break
 
       case 'padre':
-      $$('#rta2A').addClass('fondoVerde');
-    
+        $$('#rta2A').addClass('fondoVerde');
+        $$('.padre').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
       break
 
        case 'palacios':
-       $$('#rta3C').addClass('fondoVerde');
-     
+         $$('#rta3C').addClass('fondoVerde');
+         $$('.palacio').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
        break
 
        case 'piano':
          $$('#rta4A').addClass('fondoVerde');
-         
+         $$('.piano').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
         break
 
       case 'violin':
-       $$('#rta4D').addClass('fondoVerde');
-
+        $$('#rta4D').addClass('fondoVerde');
+        $$('.violin').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
       break
 
 ////////   Respuestas incorrectas  /////////
 
       case 'paisMaravillas':
        $$('#rta1A').addClass('fondoRojo');
+       $$('.maravillas').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'españa':
        $$('#rta1B').addClass('fondoRojo');
+       $$('.españa').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
        case 'rumania':
         $$('#rta1D').addClass('fondoRojo');
+        $$('.rumania').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'hermana':
        $$('#rta2B').addClass('fondoRojo');
+       $$('.hna').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'internet':
        $$('#rta2C').addClass('fondoRojo');
+       $$('.internet').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'vecino':
        $$('#rta2D').addClass('fondoRojo');
+       $$('.vecino').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'centro':
        $$('#rta3A').addClass('fondoRojo');
+       $$('.centro').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'ciudad':
        $$('#rta3B').addClass('fondoRojo');
+       $$('.ciudad').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'colegio':
        $$('#rta3D').addClass('fondoRojo');
+       $$('.colegio').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'trompeta':
        $$('#rta4B').addClass('fondoRojo');
+       $$('.trompeta').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
 
       case 'gElectrica':
        $$('#rta4C').addClass('fondoRojo');
+       $$('.guitarra').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
       break
     }
 
@@ -378,24 +369,95 @@ function FnRespuestas(){
 
 })
 
-$$(document).on('page:init', '.page[data-name="dibujar"]', function (e) {
-console.log("carga index");
+// COMP. LECTORA---> CUENTO JIRAFA FITA
+$$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
+  $$('.jirafaJuego').on('click', opcionesCorrectas);
+  $$('.jirafaJuego').on('click', opcionesIncorrectas);
 
-// Oculto navbar y toolbar en el index
-    app.navbar.show('#navBar');
-    app.toolbar.show('#toolBar');
 
-   colorPickerWheel = app.colorPicker.create({
-        inputEl: '#demo-color-picker-wheel',
-        targetEl: '#demo-color-picker-wheel-value',
-        targetElSetBackgroundColor: true,
-        modules: ['wheel'],
-        openIn: 'popover',
-        value: {
-          hex: '#00ff00',
-        },
-      });
-})
+  function opcionesCorrectas(){
+    rtaC= this.value;
+
+    console.log('Mi respuesta: ' + rtaC);
+
+    switch(rtaC) {
+          case 'liebre':
+            $$('.liebre').attr('src', 'img/iconos/tilde.png');
+            $$('#a1').addClass('bordeVerde');
+          break
+
+          case 'acacia':
+            $$('.acacia').attr('src', 'img/iconos/tilde.png');
+            $$('#b2').addClass('bordeVerde');
+          break
+
+           case 'pelaje':
+            $$('.pelaje').attr('src', 'img/iconos/tilde.png');
+            $$('#c3').addClass('bordeVerde');
+          break
+          
+        }
+
+      }
+
+
+  function opcionesIncorrectas(){
+    rtaI= this.value;
+
+    switch(rtaI) {
+          case 'ballena':
+            $$('.ballena').attr('src', 'img/iconos/cruz.png');
+            $$('#b1').addClass('bordeRojo');
+          break
+
+          case 'cebra':
+            $$('.cebra').attr('src', 'img/iconos/cruz.png');
+            $$('#c1').addClass('bordeRojo');
+          break
+
+           case 'hierba':
+            $$('.hierba').attr('src', 'img/iconos/cruz.png');
+            $$('#a2').addClass('bordeRojo');
+          break
+
+          case 'bananas':
+            $$('.bananas').attr('src', 'img/iconos/cruz.png');
+            $$('#c2').addClass('bordeRojo');
+          break
+          
+          case 'comprobar':
+            $$('.comprobar').attr('src', 'img/iconos/cruz.png');
+            $$('#a3').addClass('bordeRojo');
+          break
+
+          case 'suerte':
+            $$('.suerte').attr('src', 'img/iconos/cruz.png');
+            $$('#b3').addClass('bordeRojo');
+          break
+        }
+
+      }
+
+  })
+
+// $$(document).on('page:init', '.page[data-name="dibujar"]', function (e) {
+// console.log("carga index");
+
+// // Oculto navbar y toolbar en el index
+//     app.navbar.show('#navBar');
+//     app.toolbar.show('#toolBar');
+
+//    colorPickerWheel = app.colorPicker.create({
+//         inputEl: '#demo-color-picker-wheel',
+//         targetEl: '#demo-color-picker-wheel-value',
+//         targetElSetBackgroundColor: true,
+//         modules: ['wheel'],
+//         openIn: 'popover',
+//         value: {
+//           hex: '#00ff00',
+//         },
+//       });
+// })
 
 // MATEMÁTICA--------------------------------------------------------------
 
@@ -450,34 +512,125 @@ $$(document).on('page:init', '.page[data-name="vocales"]', function (e) {
 
     $$('.vocal').on('click', function() { elegirVocales(this.id) });
 
-    $$('#btnSiguiente').on('click', function(){  
-      $$('#juegosVocales').html('');  
-    })
-
-
     function elegirVocales(id){
       opciones = id;
         console.log('Elegido: ' + opciones);
 
         switch(opciones) {
+// VOCAL A
           case 'abeja':
             $$('#abeja').addClass('fondoVerde');
-            $$('.textoA').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-          break
-
-          case 'te':
-            $$('#te').addClass('fondoRojo');
-            $$('.textoC').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-          break
-
-           case 'naranja':
-            $$('#naranja').addClass('fondoVerde');
-            $$('.textoD').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+            $$('.vocal-1A').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
 
           case 'sol':
            $$('#sol').addClass('fondoRojo');
-            $$('.textoB').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            $$('.vocal-2A').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+
+          case 'te':
+            $$('#te').addClass('fondoRojo');
+            $$('.vocal-3A').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+
+           case 'naranja':
+            $$('#naranja').addClass('fondoVerde');
+            $$('.vocal-4A').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+          
+          
+
+
+        // VOCAL E
+
+        case 'barco':
+            $$('#barco').addClass('fondoRojo');
+            $$('.vocal-1E').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+
+          case 'vaca':
+            $$('#vaca').addClass('fondoRojo');
+            $$('.vocal-2E').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+
+           case 'estrella':
+            $$('#estrella').addClass('fondoVerde');
+            $$('.vocal-3E').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+          case 'leon':
+           $$('#leon').addClass('fondoVerde');
+            $$('.vocal-4E').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+          
+  
+
+         // VOCAL I
+        case 'bicicleta':
+            $$('#bicicleta').addClass('fondoVerde');
+            $$('.vocal-1I').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+          case 'jirafa':
+            $$('#jirafa').addClass('fondoVerde');
+            $$('.vocal-2I').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+           case 'nena':
+            $$('#nena').addClass('fondoRojo');
+            $$('.vocal-3I').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+
+          case 'ventana':
+           $$('#ventana').addClass('fondoRojo');
+            $$('.vocal-4I').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+          
+
+
+         // VOCAL O
+
+        case 'oso':
+            $$('#oso').addClass('fondoVerde');
+            $$('.vocal-1O').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+          case 'flor':
+            $$('#flor').addClass('fondoVerde');
+            $$('.vocal-2O').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+           case 'isla':
+            $$('#isla').addClass('fondoRojo');
+            $$('.vocal-3O').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+
+          case 'pez':
+           $$('#pez').addClass('fondoRojo');
+            $$('.vocal-4O').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+          
+         // VOCAL U
+
+        case 'luna':
+            $$('#luna').addClass('fondoVerde');
+            $$('.vocal-1U').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+          case 'frutilla':
+            $$('#frutilla').addClass('fondoVerde');
+            $$('.vocal-2U').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          break
+
+           case 'mariposa':
+            $$('#mariposa').addClass('fondoRojo');
+            $$('.vocal-3U').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          break
+
+          case 'libro':
+           $$('#libro').addClass('fondoRojo');
+            $$('.vocal-4U').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
           break
           
         }
@@ -494,8 +647,9 @@ function registroUsuarios() {
     email = $$('#emailRegistro').val();
     pass = $$('#passRegistro').val();
     fechaNacReg = $$('#fechaNacReg').val();
-    avatarReg;
+    avatarReg= $$('.fotoPerfil').attr('src');
    
+   console.log('Mi avatar es:' +  avatarReg);
     // Guardo el email del usuario en una variable
     idUsuario = email;
 
@@ -511,10 +665,14 @@ firebase.auth().createUserWithEmailAndPassword(email, pass)
             Email: email,
             Fecha: fechaNacReg,
             Password: pass,
-            Avatar: avatarElegido, // debo validar foto de perfil?
+            Avatar: avatarReg, // debo validar foto de perfil?
           };
           colUsuarios.doc(email).set(datosReg);
+
+
+          $$('#msjBienvenida').html('<h1> ¡Bienvenido/a, ' +nom+'!</h1>');
           mainView.router.navigate('/primer-grado/');
+
 
     })
 
