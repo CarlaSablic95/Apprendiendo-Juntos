@@ -109,9 +109,13 @@ img.materia {
   width: 70%;
 }
 
-.vocal {
+.vocal, .numeros,  {
   border: 2px dotted black;
   margin-bottom: 10px;
+}
+
+.naturales {
+  border: 1px solid black;
 }
 
 .nombre {
@@ -120,8 +124,16 @@ img.materia {
   text-transform: uppercase;
 }
 
-img.lengua, .mat, .cs-nat, .cs-soc, .imagen {
+img.lengua, .mat, .cs-nat, .cs-soc, .imagen, {
   width: 80%;
+}
+
+.naturales {
+  width: 50%;
+}
+
+ul li{
+  list-style-type: none;
 }
 
 .grados h2 {
@@ -135,10 +147,6 @@ img.lengua, .mat, .cs-nat, .cs-soc, .imagen {
 
 .fondoVerde {
   background-color: #a7c957;
-}
-
-.fondoNaranja {
-  background-color: #f8c772;
 }
 
 .miAvatar {
@@ -157,4 +165,22 @@ img.lengua, .mat, .cs-nat, .cs-soc, .imagen {
 
 .bordeRojo {
   border: 2px solid #ee6055;
+}
+
+.numeros {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.btn-nro {
+  width:10px;
+}
+
+#miAvatar {
+  display: block;
+    width: 20%;
+    border: 1px solid rgb(0 0 0);
+    border-radius: 50%;
+    padding: 3px;
 }
