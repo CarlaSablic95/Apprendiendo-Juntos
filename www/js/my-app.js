@@ -20,6 +20,7 @@ var app = new Framework7({
       { path: '/registro/', url: 'registro.html', },
       { path: '/login/', url: 'login.html', },
       { path: '/perfil/', url: 'perfil.html', options: { transition: 'f7-circle',}, },
+      { path: '/mis-juegos/', url: 'mis-juegos.html', options: { transition: 'f7-circle',}, },
 
       //LENGUA
       { path: '/primer-grado/', url: 'primer-grado.html', },
@@ -46,10 +47,7 @@ var app = new Framework7({
 
 
 ]
-
-
-
-    // ... other parameters
+ // ... other parameters
   });
 
 
@@ -68,7 +66,7 @@ var mainView = app.views.create('.view-main');
 
  var nom="", email="", emailLogin="", emLogin="", fechaNac="", tipoUsuario="";
 
- var avatarReg="", avatarElegido="", valRespuestas="", respuestaCorrecta="", rtaCorrecta="";
+ var avatarReg="", avatarElegido="", valRespuestas="";
 
 // VAR GLOBALES PARA LAS MATERIAS
  var nomMateria="", actNombre="", nomJuego="", contenido="", actividad="";
