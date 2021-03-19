@@ -77,6 +77,7 @@ var mainView = app.views.create('.view-main');
 
  var botella="", ventana="", libro="", uva="";
 
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");
@@ -563,8 +564,89 @@ $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
 
      // Obtener la URL de descarga
 
+     var url = "gs://apprendiendo-juntos.appspot.com/plantillas-abc/a.png";
+
+     var nombre = "a.png";
+
+     downloadFile(nombre,url);
+
+     function downloadFile(nombre,url){
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url);
+      xhr.responseType = "blob";
+          xhr.onload = function () {
+              if (this.status == 200) {
+                     var blob = xhr.response;
+                     saveFile(nombre, blob);
+             //blob tiene el contenido de la respuesta del servidor
+                  }
+              };
+        xhr.send();
+    }
+    
+
+    function saveFile(nombre,blob){
+      window.requestFileSystem( LocalFileSystem.PERSISTENT, 0, function (fs) {                                                                                              
+         //abrimos el sistema de archivos                                                                                                                              
+         console.log("file system open: " + fs.nombre);     
+         window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory, function (dirEntry){                                                                   
+                  //vamos a la raiz del sistema '/'                                                                                                                     
+                  console.log("root ", dirEntry);                                                                                                                       
+                  dirEntry.getDirectory( "Download", { create: true, exclusive: false }, function (dirEntry)           
+                  {                                                          
+                              //vamos a la carpeta download                                                                                                                 
+                              console.log("downloads ", dirEntry);                                                                                                          
+                              dirEntry.getFile( nombre, { create: true, exclusive: false }, function (fileEntry){                                                            
+                              writeFile(fileEntry, blob);                                                                                                           
+                              //llamamos a la function writeFile y le pasamos el archivo a guardar                                                                  
+                            },                                                                                                                                        
+                           function (err) {                                                                                  
+                              console.log("failed to create file");                                                                                                 
+                              console.log(err);                                                                                                                     
+                            });                                                                                                                                            
+                  },function (err) {                                                                                                                                  
+                       console.log(err);
+                    });                                                                                                                                                    
+             },function (err) {                                                                                                                                          
+                     console.log("Error al descargar el archivo");                                                                                                    
+                     console.log(err);                                                                                                                                     
+                });                                                                                                                                                            
+        },                                                                                                                                                                
+        function (err) {                                                                                                                                                  
+            console.log("Error al descargar el archivo");                                                                                                            
+            console.log(err);                                                                                                                                                
+        }); 
+      }
+      
+
+      function writeFile(fileEntry, dataObj) {
+        fileEntry.createWriter(function (fileWriter) {
+           fileWriter.onwriteend = function () {
+                console.log("Successful file write...");
+                app.dialog.close();
+            };
+    
+            fileWriter.onerror = function (e) {
+                console.log("Failed file write: " + e.toString());
+                app.dialog.close();
+                console.log("Error al descargar el archivo");
+            };
+    
+            fileWriter.write(dataObj);
+            app.dialog.preloader("Descargando");
+        });
+    } 
+   
+
+
+
+
+
+
     //  abcRef.getDownloadURL().then(function(url) {
     //   // Insert url into an <img> tag to "download"
+
+    //   console.log('ENTRANDO A LA FUNCION PARA DESCARGAR');
     // }).catch(function(error) {
     
     //   // A full list of error codes is available at
@@ -581,9 +663,7 @@ $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
     //     case 'storage/canceled':
     //       // User canceled the upload
     //       break;
-    
-    //     ...
-    
+
     //     case 'storage/unknown':
     //       // Unknown error occurred, inspect the server response
     //       break;
