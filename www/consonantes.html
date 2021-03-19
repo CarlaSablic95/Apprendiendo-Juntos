@@ -1,7 +1,7 @@
 <div class="page" data-name="consonantes">
     <div class="page-content">
-        <div class="block-title text-align-center">
-          
+        <div class="block-title">
+         
         </div>
 
 <div class="block block-strong">
@@ -12,8 +12,9 @@
             </div>
           </div>
 
-          <div class="block"><h2>Seleccioná la consonante correcta para completar la palabra:</h2>
-          	<h2 class="text-align-center">¿B  ó  V?</h2>
+          <div class="block text-align-center">
+             <h2>¿B  ó  V?</h2>
+            <h2>Seleccioná la consonante correcta para completar la palabra:</h2>
 		  </div>
 
           <div class="row margin-bottom">
@@ -22,7 +23,7 @@
                   <li id="botella" class="vocal">
                     <div class="text-align-center" class="contenedor">
                        <div class="item-title">
-                         <h3 class="nombre">_otella</h3>
+                         <h3 class="botella palabras">_otella</h3>
                          <img class="" src="img/iconos/botella.png" alt="" />
                      	</div>
                       </div>
@@ -31,8 +32,8 @@
           	</div>
 
           	<div class="block col-30">
-          		<button class="col margin-bottom button button-raised button-fill rtaCor" id="A1">B</button>
-          		<button class="col button button-raised button-fill rtaInc" id="A2">V</button>
+          		<button class="col margin-bottom button button-raised button-fill rtaCor popover-open" data-popover=".popover-bien" id="botella">B</button>
+          		<button class="col button button-raised button-fill rtaInc popover-open" data-popover=".popover-mal" id="v1">V</button>
           	</div>
 
           </div>
@@ -44,7 +45,7 @@
                  <li id="ventanaIcono" class="vocal">
                   <div class="text-align-center" class="contenedor">
                     <div class="item-title text-align-center">
-                      <h3 class="nombre">_entana</h3>
+                      <h3 class="ventana palabras">_entana</h3>
                     <img class="" src="img/iconos/ventana.png" alt="" />
                     </div>
                   </div>
@@ -53,8 +54,8 @@
           	</div>
 
           	<div class="block col-30">
-          		<button class="col margin-bottom button button-raised button-fill rtaInc" id="B1">B</button>
-          		<button class="col button button-raised button-fill rtaCor" id="B2">V</button>
+          		<button class="col margin-bottom button button-raised button-fill rtaInc popover-open" id="b2" data-popover=".popover-mal">B</button>
+          		<button class="col button button-raised button-fill rtaCor popover-open" id="ventana" data-popover=".popover-bien">V</button>
           	</div>
 
           </div>
@@ -66,7 +67,7 @@
                   <li id="libroIcono" class="vocal">
                       <div class="text-align-center" class="contenedor">
                         <div class="item-title">
-                        <h3 class="nombre">Li_ro</h3>
+                        <h3 class="libro palabras">Li_ro</h3>
                         <img class="" src="img/iconos/libro.png" alt="" />
                         <p class="vocal-1A"></p>
                       </div>
@@ -76,8 +77,8 @@
           	</div>
 
           	<div class="block col-30">
-          		<button class="col margin-bottom button button-raised button-fill rtaCor" id="C1">B</button>
-          		<button class="col button button-raised button-fill rtaInc" id="C2">V</button>
+          		<button class="col margin-bottom button button-raised button-fill rtaCor popover-open" id="libro" data-popover=".popover-bien">B</button>
+          		<button class="col button button-raised button-fill rtaInc popover-open" id="v3" data-popover=".popover-mal">V</button>
           	</div>
 
           </div>
@@ -89,7 +90,7 @@
           		<li id="uva" class="vocal">
                   <div class="text-align-center" class="contenedor">
                     <div class="item-title text-align-center">
-                      <h3 class="nombre">U_a</h3>
+                      <h3 class="uva palabras">U_a</h3>
                     <img class="" src="img/iconos/uva.png" alt="" />
                     </div>
                   </div>
@@ -98,8 +99,8 @@
           	</div>
 
           	<div class="block col-30">
-          		<button class="col margin-bottom button button-raised button-fill rtaInc" id="D1">B</button>
-          		<button class="col button button-raised button-fill rtaCor" id="D4">V</button>
+          		<button class="col margin-bottom button button-raised button-fill rtaInc popover-open" id="b4" data-popover=".popover-mal">B</button>
+          		<button class="col button button-raised button-fill rtaCor popover-open" id="uva" data-popover=".popover-bien">V</button>
           	</div>
 
           </div>
@@ -108,9 +109,31 @@
 
 		<div class="row">
 			<div class="col-50 text-align-center">
-             <a class="col-40 button button-large  col-40button-raised button-fill" id="juego-consonante">Terminar Juego</a>
-           </div>
-          </div>
+        <button class="button button-fill popover-open" id="nuevoJuego">Volver a jugar</button>
+        </div>
+
+        <div class="col-50">
+          <button class="button button-large button-raised button-fill" id="guardar">Terminar Juego</button>
+        </div>  
     </div>
+
+    </div>
+
+    <div class="popover popover-bien">
+      <div class="popover-inner">
+        <div class="block" id="contenido">
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="popover popover-mal">
+      <div class="popover-inner">
+        <div class="block" id="correccion">
+          
+        </div>
+      </div>
+    </div>
+
 </div>
 </div>

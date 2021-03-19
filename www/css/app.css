@@ -118,7 +118,7 @@ img.materia {
   border: 1px solid black;
 }
 
-.nombre {
+.palabras {
   font-weight: bold;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -178,9 +178,22 @@ ul li{
 }
 
 #miAvatar {
-  display: block;
+    display: block;
     width: 20%;
     border: 1px solid rgb(0 0 0);
     border-radius: 50%;
     padding: 3px;
+}
+
+.abc {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+
+.plantilla {
+  width: 80%;
+  border: 1px solid black;
+
 }

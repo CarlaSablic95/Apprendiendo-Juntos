@@ -87,7 +87,8 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-browsersync-gen2": {}
+      "cordova-plugin-browsersync-gen2": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
       "browser"

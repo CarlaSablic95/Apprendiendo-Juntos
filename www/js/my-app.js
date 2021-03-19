@@ -68,10 +68,12 @@ var mainView = app.views.create('.view-main');
 
  var nom="", email="", emailLogin="", emLogin="", fechaNac="", tipoUsuario="";
 
- var avatarReg="", avatarElegido="", valRespuestas="";
+ var avatarReg="", avatarElegido="", valRespuestas="", respuestaCorrecta="", rtaCorrecta="";
 
 // VAR GLOBALES PARA LAS MATERIAS
  var nomMateria="", actNombre="", nomJuego="", contenido="", actividad="";
+
+ var botella="", ventana="", libro="", uva="";
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
@@ -134,12 +136,12 @@ $$('.fotoPerfil').on('click', avatarUsuario);
 
 $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
-console.log("carga login");
+    console.log("carga login");
 
-app.navbar.hide('#navBar');
-app.toolbar.hide('#toolBar');
+    app.navbar.hide('#navBar');
+    app.toolbar.hide('#toolBar');
 
-$$('#btnLogin').on('click', loginUsuarios);
+    $$('#btnLogin').on('click', loginUsuarios);
 
 
 })
@@ -161,14 +163,14 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
       
       console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego.nombreActividad));
 
-      $$('#btnLogout').on('click', cerrarSesion);
-
       $$('.open-confirm').on('click', function () {
         app.dialog.confirm('¿Estás seguro/a de cerrar sesión?',nom , function () {
           mainView.router.navigate('/login/');
           app.dialog.alert('¡Volvé pronto!');
         });
       });
+
+       $$('#btnLogout').on('click', cerrarSesion);
 
       // Se muestra el avatar en el perfil
       $$('#avatarUsuario').attr('src', avatarReg);
@@ -239,8 +241,8 @@ function FnRespuestas(){
 ////////   Respuestas correctas  /////////
     switch(valRespuestas) {
       case 'austria':
-        $$('#rta1C').addClass('fondoVerde');
-        $$('.austria').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+        respuestaCorrecta = $$('#rta1C').addClass('fondoVerde');
+        rtaCorrecta = $$('.austria').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
       break
 
       case 'padre':
@@ -357,6 +359,7 @@ $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
 
      $$('.suerte').attr('src', '');
     $$('#b3').removeClass('bordeRojo');
+    })
   })
 
   function opcionesCorrectas(){
@@ -383,7 +386,6 @@ $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
         }
 
       }
-
 
   function opcionesIncorrectas(){
     rtaI= this.value;
@@ -419,21 +421,57 @@ $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
             $$('#b3').addClass('bordeRojo');
           break
         }
-
-      }
-
-  })
+}
 
 
+// JUEGO CONSONANTES
 $$(document).on('page:init', '.page[data-name="consonantes"]', function (e) {
 
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
 
-    $$(rtaCor).on('click', function(){
+    $$('.rtaCor').on('click', function() { rtaCorrecta(this.id) });
 
-    })
-  
+    $$('.rtaInc').on('click', function() { rtaIncorrecta(this.id) });
+
+    $$('#guardar').on('click', juegoConsonante);
+
+// reinicio el juego, borrando el contenido cada palabra
+    $$('#nuevoJuego').on('click', function() {
+
+        botella = $$('.botella').text();
+        // reemplazo la B con _
+       botella = botella.replace('B', '_');
+        $$('.botella').text(botella);
+
+        ventana = $$('.ventana').text();
+        // reemplazo la V con _
+        ventana = ventana.replace('V', '_');
+        $$('.ventana').text(ventana);
+
+         libro = $$('.libro').text();
+        // reemplazo la B con _
+        libro = libro.replace('B', '_');
+        $$('.libro').text(libro);
+
+         uva = $$('.uva').text();
+        // reemplazo la V con _
+        uva = uva.replace('V', '_');
+        $$('.uva').text(uva);
+
+    });
+
+    $$('.popover-bien').on('popover:open', function (e) {
+          $$('#contenido').html('<h4 style="color:green">¡Muy bien!</h4>' + '<img src="img/iconos/bien.png" alt="">');
+        console.log('1er Popover');
+      });
+
+    $$('.popover-mal').on('popover:open', function (e) {
+          $$('#correccion').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+        console.log('2do Popover');
+      });
+
+
 })
 
 // MATEMÁTICA--------------------------------------------------------------
@@ -469,7 +507,36 @@ $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
 
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
+
+
+    $$('.open-preloader-indicator').on('click', function () {
+        app.preloader.show();
+        setTimeout(function () { 
+          app.preloader.hide(); 
+        }, 3000);
+      });
+
+
+    // var listRef = storageRef.child(('plantillas-abc/a.png'));
+
+    //Obtengo una referencia al servicio de almacenamiento, que se utiliza para crear referencias en mi depósito de almacenamiento
   
+    var storage = firebase.storage();
+
+    //Creo una referencia de almacenamiento desde el servicio de almacenamiento de firebase
+
+    var storageRef = storage.ref();
+
+    // Las referencias secundarias también pueden tomar rutas delimitadas por '/'
+    //plantillaRef ahora apunta a "img/lengua/plantilla-abc/a.png"
+
+    var plantillaRef = storageRef.child('img/lengua/plantillas-abc/a.png');
+
+    console.log('Mostrar: ' + plantillaRef);
+
+    // parent() nos permite movernos al padre de una referencia.
+    var imagesRef = storage.parent;
+
 })
 
 // VOCALES Y CONSONANTES (ACTIVIDADES)------------------------------
@@ -489,7 +556,72 @@ $$(document).on('page:init', '.page[data-name="vocales"]', function (e) {
     app.toolbar.show('#toolBar');
 
     $$('.vocal').on('click', function() { elegirVocales(this.id) });
-    $$('#guardarJuego').on('click', juegoVocales);
+    // jugar nuevamente
+    $$('#jugar').on('click', function(){
+
+      $$('#abeja').removeClass('fondoVerde');
+      $$('.vocal-1A').html('');
+
+      $$('#sol').removeClass('fondoRojo');
+      $$('.vocal-2A').html('');
+
+
+      $$('#te').removeClass('fondoRojo');
+      $$('.vocal-3A').html('');
+
+      $$('#naranja').removeClass('fondoVerde');
+      $$('.vocal-4A').html('');
+
+      $$('#barco').removeClass('fondoRojo');
+      $$('.vocal-1E').html('');
+
+      $$('#vaca').removeClass('fondoRojo');
+      $$('.vocal-2E').html('');
+          
+      $$('#estrella').removeClass('fondoVerde');
+      $$('.vocal-3E').html('');
+          
+      $$('#leon').removeClass('fondoVerde');
+      $$('.vocal-4E').html('');
+          
+      $$('#bicicleta').removeClass('fondoVerde');
+      $$('.vocal-1I').html('');
+          
+      $$('#jirafa').removeClass('fondoVerde');
+      $$('.vocal-2I').html('');
+          
+      $$('#nena').removeClass('fondoRojo');
+      $$('.vocal-3I').html('');
+        
+      $$('#ventana').removeClass('fondoRojo');
+      $$('.vocal-4I').html('');
+
+      $$('#oso').removeClass('fondoVerde');
+      $$('.vocal-1O').html('');
+          
+      $$('#flor').removeClass('fondoVerde');
+      $$('.vocal-2O').html('');
+          
+      $$('#isla').removeClass('fondoRojo');
+      $$('.vocal-3O').html('');
+          
+      $$('#pez').removeClass('fondoRojo');
+      $$('.vocal-4O').html('');
+          
+      $$('#luna').removeClass('fondoVerde');
+      $$('.vocal-1U').html('');
+          
+      $$('#frutilla').removeClass('fondoVerde');
+      $$('.vocal-2U').html('');
+          
+      $$('#mariposa').removeClass('fondoRojo');
+      $$('.vocal-3U').html('');
+          
+      $$('#libro').removeClass('fondoRojo');
+      $$('.vocal-4U').html('');
+
+})
+    $$('#guardarJuego').on('click', buscandoVocales);
 
 })
 
@@ -608,6 +740,85 @@ function elegirVocales(id){
           break
   }
  }         
+
+
+// CONSONANTES (ACTIVIDAD)-------------------------------------------------
+    function rtaCorrecta(id) {
+      palabra = id;
+      console.log('Consonante: ' + palabra);
+
+      if (palabra == 'botella') {
+        // guardo en la variable, para recuperar el texto
+        botella = $$('.botella').text();
+        // reemplazo el _ con la consonante correcta
+        botella = botella.replace('_', 'B');
+
+        // sobrescribo la palabra, con la consonante correcta
+        $$('.botella').text(botella);
+
+        console.log('Palabra: ' + botella);
+    } else {
+       $$('.popover-respuesta').on('popover:open', function (e) {
+        console.log('Popover correcto');
+      });
+    }
+
+    if (palabra == 'ventana') {
+        // guardo en la variable, para recuperar el texto
+        ventana = $$('.ventana').text();
+        // reemplazo el _ con la consonante correcta
+        ventana = ventana.replace('_', 'V');
+
+        // sobrescribo la palabra, con la consonante correcta
+        $$('.ventana').text(ventana);
+
+        console.log('Palabra: ' + ventana);
+    } else {
+       $$('.popover-respuesta').on('popover:open', function (e) {
+        console.log('Popover correcto');
+      });
+    }
+
+    if (palabra == 'libro') {
+        // guardo en la variable, para recuperar el texto
+        libro = $$('.libro').text();
+        // reemplazo el _ con la consonante correcta
+        libro = libro.replace('_', 'B');
+
+        // sobrescribo la palabra, con la consonante correcta
+        $$('.libro').text(libro);
+
+        console.log('Palabra: ' + libro);
+    } else {
+       $$('.popover-respuesta').on('popover:open', function (e) {
+        console.log('Popover correcto');
+      });
+    }
+
+    if (palabra == 'uva') {
+        // guardo en la variable, para recuperar el texto
+        uva = $$('.uva').text();
+        // reemplazo el _ con la consonante correcta
+        uva = uva.replace('_', 'V');
+
+        // sobrescribo la palabra, con la consonante correcta
+        $$('.uva').text(uva);
+
+        console.log('Palabra: ' + uva);
+    } else {
+       $$('.popover-respuesta').on('popover:open', function (e) {
+        console.log('Popover correcto');
+      });
+    }
+ 
+
+ }
+    function rtaIncorrecta(id) {
+      consonanteIncorrecta = id;
+      console.log('Consonante: ' + consonanteIncorrecta);
+
+    }
+
 
 
 // Registro de usuario-----------------------------------------
@@ -912,6 +1123,60 @@ function juegoJirafa(miEmail, nomJuego) {
         console.log("Error getting document:", error);
     });
 }
+
+
+// Guarda juego de vocales
+
+function buscandoVocales(miEmail, nomJuego) {
+  console.log('juego vocales');
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            nomJuego = { nombreActividad : "Buscando las vocales"};
+            actResueltas.doc(miEmail).set(nomJuego);
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
+
+
+
+// Guarda juego de consonante
+
+function juegoConsonante(miEmail, nomJuego) {
+  console.log('juego consonante');
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            nomJuego = { nombreActividad : "B ó V"};
+            actResueltas.doc(miEmail).set(nomJuego);
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
+
+
+
 
 // CERRAR SESIÓN DE USUARIO
 function cerrarSesion() {
