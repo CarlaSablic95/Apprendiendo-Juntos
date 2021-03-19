@@ -560,82 +560,82 @@ $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
 
    //  Creo una referencia al archivo que quiero descargar
 
-    var abcRef = storageRef.child('img/lengua/plantilla-abc/a.png');
+    // var abcRef = storageRef.child('img/lengua/plantilla-abc/a.png');
 
-     // Obtener la URL de descarga
+    //  // Obtener la URL de descarga
 
-     var url = "gs://apprendiendo-juntos.appspot.com/plantillas-abc/a.png";
+    //  var url = "gs://apprendiendo-juntos.appspot.com/plantillas-abc/a.png";
 
-     var nombre = "a.png";
+    //  var nombre = "a.png";
 
-     downloadFile(nombre,url);
+    //  downloadFile(nombre,url);
 
-     function downloadFile(nombre,url){
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", url);
-      xhr.responseType = "blob";
-          xhr.onload = function () {
-              if (this.status == 200) {
-                     var blob = xhr.response;
-                     saveFile(nombre, blob);
-             //blob tiene el contenido de la respuesta del servidor
-                  }
-              };
-        xhr.send();
-    }
+    //  function downloadFile(nombre,url){
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.open("GET", url);
+    //   xhr.responseType = "blob";
+    //       xhr.onload = function () {
+    //           if (this.status == 200) {
+    //                  var blob = xhr.response;
+    //                  saveFile(nombre, blob);
+    //          //blob tiene el contenido de la respuesta del servidor
+    //               }
+    //           };
+    //     xhr.send();
+    // }
     
 
-    function saveFile(nombre,blob){
-      window.requestFileSystem( LocalFileSystem.PERSISTENT, 0, function (fs) {                                                                                              
-         //abrimos el sistema de archivos                                                                                                                              
-         console.log("file system open: " + fs.nombre);     
-         window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory, function (dirEntry){                                                                   
-                  //vamos a la raiz del sistema '/'                                                                                                                     
-                  console.log("root ", dirEntry);                                                                                                                       
-                  dirEntry.getDirectory( "Download", { create: true, exclusive: false }, function (dirEntry)           
-                  {                                                          
-                              //vamos a la carpeta download                                                                                                                 
-                              console.log("downloads ", dirEntry);                                                                                                          
-                              dirEntry.getFile( nombre, { create: true, exclusive: false }, function (fileEntry){                                                            
-                              writeFile(fileEntry, blob);                                                                                                           
-                              //llamamos a la function writeFile y le pasamos el archivo a guardar                                                                  
-                            },                                                                                                                                        
-                           function (err) {                                                                                  
-                              console.log("failed to create file");                                                                                                 
-                              console.log(err);                                                                                                                     
-                            });                                                                                                                                            
-                  },function (err) {                                                                                                                                  
-                       console.log(err);
-                    });                                                                                                                                                    
-             },function (err) {                                                                                                                                          
-                     console.log("Error al descargar el archivo");                                                                                                    
-                     console.log(err);                                                                                                                                     
-                });                                                                                                                                                            
-        },                                                                                                                                                                
-        function (err) {                                                                                                                                                  
-            console.log("Error al descargar el archivo");                                                                                                            
-            console.log(err);                                                                                                                                                
-        }); 
-      }
+    // function saveFile(nombre,blob){
+    //   window.requestFileSystem( LocalFileSystem.PERSISTENT, 0, function (fs) {                                                                                              
+    //      //abrimos el sistema de archivos                                                                                                                              
+    //      console.log("file system open: " + fs.nombre);     
+    //      window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory, function (dirEntry){                                                                   
+    //               //vamos a la raiz del sistema '/'                                                                                                                     
+    //               console.log("root ", dirEntry);                                                                                                                       
+    //               dirEntry.getDirectory( "Download", { create: true, exclusive: false }, function (dirEntry)           
+    //               {                                                          
+    //                           //vamos a la carpeta download                                                                                                                 
+    //                           console.log("downloads ", dirEntry);                                                                                                          
+    //                           dirEntry.getFile( nombre, { create: true, exclusive: false }, function (fileEntry){                                                            
+    //                           writeFile(fileEntry, blob);                                                                                                           
+    //                           //llamamos a la function writeFile y le pasamos el archivo a guardar                                                                  
+    //                         },                                                                                                                                        
+    //                        function (err) {                                                                                  
+    //                           console.log("failed to create file");                                                                                                 
+    //                           console.log(err);                                                                                                                     
+    //                         });                                                                                                                                            
+    //               },function (err) {                                                                                                                                  
+    //                    console.log(err);
+    //                 });                                                                                                                                                    
+    //          },function (err) {                                                                                                                                          
+    //                  console.log("Error al descargar el archivo");                                                                                                    
+    //                  console.log(err);                                                                                                                                     
+    //             });                                                                                                                                                            
+    //     },                                                                                                                                                                
+    //     function (err) {                                                                                                                                                  
+    //         console.log("Error al descargar el archivo");                                                                                                            
+    //         console.log(err);                                                                                                                                                
+    //     }); 
+    //   }
       
 
-      function writeFile(fileEntry, dataObj) {
-        fileEntry.createWriter(function (fileWriter) {
-           fileWriter.onwriteend = function () {
-                console.log("Successful file write...");
-                app.dialog.close();
-            };
+    //   function writeFile(fileEntry, dataObj) {
+    //     fileEntry.createWriter(function (fileWriter) {
+    //        fileWriter.onwriteend = function () {
+    //             console.log("Successful file write...");
+    //             app.dialog.close();
+    //         };
     
-            fileWriter.onerror = function (e) {
-                console.log("Failed file write: " + e.toString());
-                app.dialog.close();
-                console.log("Error al descargar el archivo");
-            };
+    //         fileWriter.onerror = function (e) {
+    //             console.log("Failed file write: " + e.toString());
+    //             app.dialog.close();
+    //             console.log("Error al descargar el archivo");
+    //         };
     
-            fileWriter.write(dataObj);
-            app.dialog.preloader("Descargando");
-        });
-    } 
+    //         fileWriter.write(dataObj);
+    //         app.dialog.preloader("Descargando");
+    //     });
+    // } 
    
 
 
