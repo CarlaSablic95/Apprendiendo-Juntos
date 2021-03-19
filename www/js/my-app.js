@@ -64,12 +64,16 @@ var mainView = app.views.create('.view-main');
 
  var actResueltas = db.collection("actResueltas");
 
- var nom="", email="", emailLogin="", emLogin="", fechaNac="", tipoUsuario="";
+ var nom="", email="", emailLogin="", emLogin="", fechaNac="";
 
  var avatarReg="", avatarElegido="", valRespuestas="";
 
 // VAR GLOBALES PARA LAS MATERIAS
- var nomMateria="", actNombre="", nomJuego="", contenido="", actividad="";
+ var nomMateria="", actNombre="", contenido="", actividad="";
+
+ var nomJuego="";
+
+ var juegoRealizado="";
 
  var botella="", ventana="", libro="", uva="";
 
@@ -157,9 +161,6 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
       $$('#nomUsuario').html('<p>Nombre: ' + nom +'</p>');
       $$('#emUsuario').html('<p>Email: ' +emLogin+'</p>');
 
-      $$('#miProgreso').html('<p>Mis juegos: ' +nomJuego.nombreActividad+ '</p>');
-      
-      console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego.nombreActividad));
 
       $$('.open-confirm').on('click', function () {
         app.dialog.confirm('¿Estás seguro/a de cerrar sesión?',nom , function () {
@@ -173,6 +174,38 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
       // Se muestra el avatar en el perfil
       $$('#avatarUsuario').attr('src', avatarReg);
 })
+
+
+// MIS JUEGOS
+$$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
+
+  console.log("carga misJuegos");
+
+  app.navbar.hide('#navBar');
+  app.toolbar.hide('#toolBar');
+
+
+  var docRef = actResueltas.doc(emLogin);
+
+docRef.get().then((doc) => {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+        juegoRealizado = doc.data().nombreActividad;
+        console.log('NOMBRE JUEGO: ' + JSON.stringify(juegoRealizado));
+        $$('#miProgreso').html('<p>Mis juegos: ' + JSON.stringify(juegoRealizado) +'</p>');
+
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch((error) => {
+    console.log("Error getting document:", error);
+});
+
+
+})
+
+
 
 // 1ER GRADO -> LISTADO DE MATERIAS--------------------------
 
@@ -515,25 +548,66 @@ $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
       });
 
 
-    // var listRef = storageRef.child(('plantillas-abc/a.png'));
-
     //Obtengo una referencia al servicio de almacenamiento, que se utiliza para crear referencias en mi depósito de almacenamiento
   
     var storage = firebase.storage();
 
-    //Creo una referencia de almacenamiento desde el servicio de almacenamiento de firebase
+  //Creo una referencia de almacenamiento desde el servicio de almacenamiento de firebase
 
     var storageRef = storage.ref();
+
+
+   //  Creo una referencia al archivo que quiero descargar
+
+    var abcRef = storageRef.child('img/lengua/plantilla-abc/a.png');
+
+     // Obtener la URL de descarga
+
+    //  abcRef.getDownloadURL().then(function(url) {
+    //   // Insert url into an <img> tag to "download"
+    // }).catch(function(error) {
+    
+    //   // A full list of error codes is available at
+    //   // https://firebase.google.com/docs/storage/web/handle-errors
+    //   switch (error.code) {
+    //     case 'storage/object-not-found':
+    //       // File doesn't exist
+    //       break;
+    
+    //     case 'storage/unauthorized':
+    //       // User doesn't have permission to access the object
+    //       break;
+    
+    //     case 'storage/canceled':
+    //       // User canceled the upload
+    //       break;
+    
+    //     ...
+    
+    //     case 'storage/unknown':
+    //       // Unknown error occurred, inspect the server response
+    //       break;
+    //   }
+    // });
+
+
+
+
+
+
+
+
+
 
     // Las referencias secundarias también pueden tomar rutas delimitadas por '/'
     //plantillaRef ahora apunta a "img/lengua/plantilla-abc/a.png"
 
-    var plantillaRef = storageRef.child('img/lengua/plantillas-abc/a.png');
+    //var plantillaRef = storageRef.child('img/lengua/plantillas-abc/a.png');
 
-    console.log('Mostrar: ' + plantillaRef);
+    //console.log('Mostrar: ' + plantillaRef);
 
     // parent() nos permite movernos al padre de una referencia.
-    var imagesRef = storage.parent;
+    //var imagesRef = storage.parent;
 
 })
 
@@ -849,7 +923,7 @@ firebase.auth().createUserWithEmailAndPassword(email, pass)
 
           colUsuarios.doc(email).set(datosReg);
 
-          console.log('Datos de usuario: '+ JSON.stringify(datosReg));
+          console.log('Datos de usuario: '+ (datosReg));
 
           mainView.router.navigate('/primer-grado/');
          
@@ -951,6 +1025,7 @@ function avatarUsuario() {
 //Login de usuario-------------------
 
  function loginUsuarios() {
+  console.log('ENTRANDO A: login');
    emailLogin = $$('#emailLogin').val();
    passLogin = $$('#passLogin').val();
    
@@ -966,7 +1041,7 @@ function avatarUsuario() {
      // colUsuarios.doc(emLogin).get(datosLog);
 
     var docRef = colUsuarios.doc(emLogin);
-
+  
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
@@ -988,7 +1063,7 @@ function avatarUsuario() {
 
         // if (usuario) {
         //   // User is signed in.
-        //   // console.log('Usuario actual: ' + JSON.stringify(datosLog));
+        //   // console.log('Usuario actual: ' + (datosLog));
         // } else {
         //   // No user is signed in.
         //   console.log('error');
@@ -1038,41 +1113,6 @@ function avatarUsuario() {
 
 /////////////  AGREGO ACTIVIDADES A LA BD ///////////////
 
-
-// Guarda juego de vocales
-    function juegoVocales(miEmail, nomJuego) {
-      console.log('juego vocal');
-
-    var docRef = colUsuarios.doc(emLogin);
-    docRef.get().then((doc) => {
-        if (doc.exists) {
-            console.log("Document data:", doc.data());
-            emLogin = doc.data().Email;
-            miEmail = emLogin;
-            nomJuego = { nombreActividad : "Vocales"};
-            actResueltas.doc(miEmail).set(nomJuego);
-            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
-
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });
-
-        // var usuario = firebase.auth().currentUser;
-
-        // if (usuario) {
-        //   // User is signed in.
-        //   // console.log('Usuario actual: ' + JSON.stringify(datosLog));
-        // } else {
-        //   // No user is signed in.
-        //   console.log('error');
-        // }
-
-}
-
 // Guarda juego de mozart
 
 function juegoMozart(miEmail, nomJuego) {
@@ -1086,6 +1126,7 @@ function juegoMozart(miEmail, nomJuego) {
             miEmail = emLogin;
            var nomJuego = { nombreActividad : "Mozart"};
             actResueltas.doc(miEmail).set(nomJuego);
+            mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
         } else {
@@ -1111,8 +1152,9 @@ function juegoJirafa(miEmail, nomJuego) {
             miEmail = emLogin;
             nomJuego = { nombreActividad : "Jirafa Fita"};
             actResueltas.doc(miEmail).set(nomJuego);
+            mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
-
+            
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -1136,6 +1178,7 @@ function buscandoVocales(miEmail, nomJuego) {
             miEmail = emLogin;
             nomJuego = { nombreActividad : "Buscando las vocales"};
             actResueltas.doc(miEmail).set(nomJuego);
+            mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
         } else {
@@ -1162,6 +1205,7 @@ function juegoConsonante(miEmail, nomJuego) {
             miEmail = emLogin;
             nomJuego = { nombreActividad : "B ó V"};
             actResueltas.doc(miEmail).set(nomJuego);
+            mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
         } else {
