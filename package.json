@@ -51,6 +51,7 @@
     "babel-loader": "^8.2.2",
     "chalk": "^4.1.0",
     "copy-webpack-plugin": "^7.0.0",
+    "cordova-android": "^9.0.0",
     "cordova-browser": "^6.0.0",
     "cordova-plugin-browsersync-gen2": "^1.1.7",
     "cordova-plugin-file": "^6.0.2",
@@ -91,7 +92,8 @@
       "cordova-plugin-file": {}
     },
     "platforms": [
-      "browser"
+      "browser",
+      "android"
     ]
   },
   "scripts": {

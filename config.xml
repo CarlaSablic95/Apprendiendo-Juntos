@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.framework7.apprendiendo-juntos" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Apprendidendo Juntos</name>
+<widget id="com.apprendiendojuntos" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Apprendiendo Juntos</name>
     <description>
         Apprendiendo Juntos es una app educativa didáctica, que tiene como finalidad ser un complemento a la enseñanza principal, para chicos de primer grado.
     </description>
@@ -31,7 +31,7 @@
       <preference name="phonegap-version" value="cli-7.1.0" />
       <preference name="AndroidPersistentFileLocation" value="Compatibility" />
       <preference name="android-minSdkVersion" value="22" />
-      <preference name="android-targetSdkVersion" value="29" />
+      <preference name="android-targetSdkVersion" value="28" />
       <preference name="SplashMaintainAspectRatio" value="true" />
       <preferance name="android-usesCleartextTraffic" value="true" />
       <preference name="android.permission.INTERNET" value="none" />
