@@ -39,8 +39,7 @@ var app = new Framework7({
 
       // SOCIALES
       { path: '/primer-grado/sociales/', url: 'sociales.html', },
-      { path: '/primer-grado/sociales/fechas-patrias', url: 'fechas-patrias.html', },
-      { path: '/primer-grado/sociales/fechas-patrias/belgrano', url: 'belgrano.html', },
+      { path: '/primer-grado/sociales/belgrano', url: 'belgrano.html', },
 
       // NATURALES
       { path: '/primer-grado/naturales/', url: 'naturales.html', },
@@ -531,7 +530,18 @@ $$(document).on('page:init', '.page[data-name="belgrano"]', function (e) {
 
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
-  
+
+
+    $$('#env1').on('click', pregA);
+
+    function pregA() {
+
+
+
+      
+    }
+
+
 })
 
 // CIENCIAS NATURALES------------------------------------------------------

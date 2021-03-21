@@ -84,6 +84,30 @@
 	font-family: 'Poppins', Arial, sans-serif;
 }
 
+/*#fondo {
+
+  height: 100vh;
+  
+}*/
+
+#registro, #login {
+  background-color: #689F82;
+  color: rgb(244 245 239);
+  border: 2px solid rgb(0 0 0);
+  width: 90%;
+  letter-spacing: 2px;
+  padding: 20px;
+  margin-top: 50px;
+}
+
+#registro{
+   margin-right: 25px;
+}
+
+#login {
+   margin-left: 25px;
+}
+
 .inicio {
   display: flex;
   justify-content: center;
@@ -92,7 +116,12 @@
 
 .chicos {
   width: 80%;
-  margin: 20px 0 25px 0;
+}
+
+.img-inicio {
+   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .reg, .login {
