@@ -8,28 +8,159 @@
           <div class="row">
 	          <div class="col-100.medium-50 text-align-center">
                 <img src="img/sociales/belgrano.jpg" alt="">
-                <h3>Conozcamos al prócer argentino</h3>
-                <p>Nació el día tres de junio del año 1770, Buenos Aires fue su cuna, que lo mecía contenta.</p>
-                <p>Domingo Belgrano, el padre, y María Josefa, su madre, no sabían que ese niño sería un ejemplo.</p>
-                <p>El niño muy estudioso y también muy educado, estudió en España y llegó a ser un buen abogado. De regreso a nuestra patria, convertido en militar, les regaló a los soldados el Emblema Nacional celeste y blanca.</p>
-                <p>Hoy Belgrano sigue vivo cuando izo mi bandera y le canto con orgullo en el patio de la escuela.</p>
+                <h3><a class="button popup-open" href="#" data-popup=".popup-about">Leamos</a> sobre nuestro prócer argentino</h3>
 	      </div>
 
           <div class="row">
-              <div class="col">
-                  <h4>Luego de leer el texto, completá las siguientes oraciones:</h4>
-                  <p id="p1">Belgrano fue el creador de la _______.</p>
-                  <input type="text" value="" id="belgrano">
-                  <button type="submit" id="env1">Enviar</button>
-                  <p>Belgrano se recibió de abogado en _ _ _ _ _ _ _.</p>
-                  <p>Regresó a nuestra patria convertido en _ _ _ _ _ _ _.</p>
-                  <p>Les regaló el emblema nacional  a sus _ _ _ _ _ _ _ _.</p>
-                  <p>Los colores de nuestra bandera, son: _ _ _ _ _ _ _  _  _ _ _ _ _ _.</p>
+            <div class="col">
+              <h2>Marcá la respuesta correcta y deslizá para ver las demás preguntas</h2>
               </div>
-          </div>
+        </div>
+
+          <div class="swiper-container swiper-init demo-swiper">
+            <div class="swiper-wrapper">
+               <div class="swiper-slide">
+                  <div class="list">
+                    <h3>Nombre del creador de nuestra bandera argentina:</h3>
+                    <ul>
+                      <li id="sanMartin" class="margin-bottom itemOpcionesR">
+                        <label class="item-radio item-radio-icon-start item-content">
+                          <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="san martin"/>
+                          <i class="icon icon-radio"></i>
+                          <div class="item-inner">
+                            <div class="item-title">José de San Martín</div>
+                            <img class="tilde sMartin" src="">
+                          </div>
+                        </label>
+                      </li>
+
+                      <li id="belgrano" class="margin-bottom itemOpcionesV">
+                        <label class="item-radio item-radio-icon-start item-content">
+                          <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="belgrano" />
+                          <i class="icon icon-radio"></i>
+                          <div class="item-inner">
+                            <div class="item-title">Manuel Belgrano</div>
+                            <img class="cruz mBelgrano" src="">
+                          </div>
+                        </label>
+                      </li>
+
+                      <li id="castelli" class="itemOpcionesR">
+                        <label class="item-radio item-radio-icon-start item-content">
+                          <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="castelli" />
+                          <i class="icon icon-radio"></i>
+                          <div class="item-inner">
+                            <div class="item-title color-green">Juan José Catelli</div>
+                            <img class="cruz jCastelli" src="">
+                          </div>
+                        </label>
+                      </li>                      
+                    </ul>
+                  </div>
+               </div>
+
+
+               <div class="swiper-slide">
+                  <div class="list">
+                    <h3>País donde Belgrano se recibió de abogado:</h3>
+                    <ul>
+                      <li id="esp" class="margin-bottom itemOpcionesV">
+                        <label class="item-radio item-radio-icon-start item-content">
+                          <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="españa"/>
+                          <i class="icon icon-radio"></i>
+                          <div class="item-inner">
+                            <div class="item-title color-green">España</div>
+                            <img class="cruz espania" src="">
+                          </div>
+                        </label>
+                      </li>
+                      <li id="ing" class="margin-bottom itemOpcionesR">
+                        <label class="item-radio item-radio-icon-start item-content">
+                          <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="inglaterra" />
+                          <i class="icon icon-radio"></i>
+                          <div class="item-inner">
+                            <div class="item-title">Inglaterra</div>
+                            <img class="tilde inglaterra" src="">
+                          </div>
+                        </label>
+                      </li>
+                      <li id="fr" class="itemOpcionesR">
+                        <label class="item-radio item-radio-icon-start item-content">
+                          <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="francia"/>
+                          <i class="icon icon-radio"></i>
+                          <div class="item-inner">
+                            <div class="item-title">Francia</div>
+                            <img class="cruz francia" src="">
+                          </div>
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+               </div>
+
+               <div class="swiper-slide">
+                <div class="list">
+                  <h3>Colores de la bandera argentina:</h3>
+                  <ul>
+                    <li id="rojaB" class="margin-bottom itemOpcionesR">
+                      <label class="item-radio item-radio-icon-start item-content">
+                        <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="rojaBlanca"/>
+                        <i class="icon icon-radio"></i>
+                        <div class="item-inner">
+                          <div class="item-title color-green">Roja y blanca</div>
+                          <img class="cruz ryb" src="">
+                        </div>
+                      </label>
+                    </li>
+                    <li id="rojaC" class="margin-bottom itemOpcionesR">
+                      <label class="item-radio item-radio-icon-start item-content">
+                        <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="rojaCeleste" />
+                        <i class="icon icon-radio"></i>
+                        <div class="item-inner">
+                          <div class="item-title">Roja y celeste</div>
+                          <img class="cruz ryc" src="">
+                        </div>
+                      </label>
+                    </li>
+                    <li id="celesteB" class="itemOpcionesV">
+                      <label class="item-radio item-radio-icon-start item-content">
+                        <input type="radio" name="demo-radio-start" class="radio juegoBelgrano" value="celesteBlanca"/>
+                        <i class="icon icon-radio"></i>
+                        <div class="item-inner">
+                          <div class="item-title">Celeste y blanca</div>
+                          <img class="tilde cyb" src="">
+                        </div>
+                      </label>
+                    </li>
+                  </ul>
+                </div>
+             </div>
+       
           
     	</div>
-
+        <div class="row">
+            <button class="col-50 button button-fill popover-open" id="aJugar">Volver a jugar</button>
+            <button class="col-50 button button-fill popover-open" data-popover=".popover-fin" id="btnGuardar">Finalizar</button>
         </div>
+        </div>
+
+        <div class="popup popup-about">
+            <div class="block">
+              <p>Belgrano</p>
+              <p><a class="link popup-close text-align-right" href="#">Cerrar</a></p>
+              <p>Manuel Belgrano nació en Buenos Aires, el 3 de junio de 1770.</p>
+              <p>A Manuel le gustaba estudiar mucho, por eso, fue a la primaria y luego al colegio Real de San Carlos. Cuando fue más grande siguió estudiando, y para eso viajó en barco a España, donde se recibió de abogado.</p>
+
+              <p>Luego, decidió volver para ayudar a nuestro país, que necesitaba de hombres con ideas buenas y distintas. Acá en Argentina, las cosas no andaban muy bien, ya que nos gobernaba un rey que no era de estas tierras.</p>
+
+              <p>El pueblo quería ser libre, por eso Manuel Belgrano participó en la primera junta de gobierno de los criollos, y realizó muchas tareas importantes.</p>
+
+              <p>Creó colegios para todos los niños, inclusive para las nenas, que en esa época no tenían tanto acceso a la educación.</p>
+
+              <p>Belgrano ayudó en todo lo que pudo a nuestra patria, tal es así que también fue soldado, general, y con un grupo de valientes fue a la guerra para defender nuestro país.</p>
+
+              <p>Creó una Bandera con los colores celeste y blanco, para que nos diferenciara de la roja de los españoles. Así lo hizo, y fue a orillas de río Paraná que flameó por primera vez la bandera celeste y blanca, que hasta hoy nos identifica como argentinos.</p>
+            </div>
+          </div>
     </div>
 </div>

@@ -581,23 +581,87 @@ $$(document).on('page:init', '.page[data-name="sociales"]', function (e) {
 
 // BELGRANO ------------------------------------------------------
 
-// $$(document).on('page:init', '.page[data-name="belgrano"]', function (e) {
+$$(document).on('page:init', '.page[data-name="belgrano"]', function (e) {
 
-//     app.navbar.show('#navBar');
-//     app.toolbar.show('#toolBar');
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
 
+  $$('.juegoBelgrano').on('click', correcta);
+  $$('.juegoBelgrano').on('click', incorrecta);
+    
+  // Guardar Juego
+  $$('#btnGuardar').on('click', juegoBelgrano);
 
-//     $$('#env1').on('click', pregA);
+  // Jugar nuevamente
+  $$('#aJugar').on('click', function() {
+    $$('.tilde').attr('src', '');
+    $$('.cruz').attr('src', '');
 
-//     function pregA() {
+    $$('.itemOpcionesV').removeClass('bordeVerde');
+    $$('.itemOpcionesR').removeClass('bordeRojo');
+  })
+})
 
+// Respuestas correctas
 
+function correcta() {
+  item = this.value;
+  console.log('VALUE: ' + item);
 
-      
-//     }
+  if(item == "belgrano") {
+      $$('.mBelgrano').attr('src', 'img/iconos/tilde.png');
+      $$('#belgrano').addClass('bordeVerde');
+  } else {
+    if (item == "españa"){
+      $$('.espania').attr('src', 'img/iconos/tilde.png');
+      $$('#esp').addClass('bordeVerde');
+    }
+  }if (item == "celesteBlanca"){
+    $$('.cyb').attr('src', 'img/iconos/tilde.png');
+    $$('#celesteB').addClass('bordeVerde');
+  }
 
+}
 
-// })
+// Respuestas incorrectas
+
+function incorrecta() {
+  item = this.value;
+
+  switch(item) {
+    case 'san martin':
+      $$('.sMartin').attr('src', 'img/iconos/cruz.png');
+      $$('#sanMartin').addClass('bordeRojo');
+    break
+
+    case 'castelli':
+      $$('.jCastelli').attr('src', 'img/iconos/cruz.png');
+      $$('#castelli').addClass('bordeRojo');
+    break
+
+    case 'francia':
+      $$('.francia').attr('src', 'img/iconos/cruz.png');
+      $$('#fr').addClass('bordeRojo');
+    break
+
+    case 'inglaterra':
+      $$('.inglaterra').attr('src', 'img/iconos/cruz.png');
+      $$('#ing').addClass('bordeRojo');
+    break
+
+    case 'rojaBlanca':
+      $$('.ryb').attr('src', 'img/iconos/cruz.png');
+      $$('#rojaB').addClass('bordeRojo');
+    break
+
+    case 'rojaCeleste':
+      $$('.ryc').attr('src', 'img/iconos/cruz.png');
+      $$('#rojaC').addClass('bordeRojo');
+    break
+
+  }
+
+}
 
 // CIENCIAS NATURALES------------------------------------------------------
 
@@ -1326,6 +1390,32 @@ function serONoSer(miEmail, nomJuego) {
         console.log("Error getting document:", error);
     });
 }
+
+// Guardo el juego Belgrano
+
+function juegoBelgrano(miEmail, nomJuego) { 
+  console.log('juego belgrano');
+
+  var docRef = colUsuarios.doc(emLogin);
+  docRef.get().then((doc) => {
+    if(doc.exists) {
+      console.log("Document data:", doc.data());
+      emLogin = doc.data().Email;
+      miEmail = emLogin;
+      nomJuego = { nombreActividad : "Belgrano" };
+
+      actResueltas.doc(miEmail).set(nomJuego);
+      mainView.router.navigate('/mis-juegos/');
+      console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  }
+
 
 
 // CERRAR SESIÓN DE USUARIO
