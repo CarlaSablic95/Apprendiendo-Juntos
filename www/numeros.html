@@ -21,10 +21,9 @@
               <img class="margin-right" src="img/iconos/mariposa.png" alt="">
               <img src="img/iconos/mariposa.png" alt="">
              </div>
-            <div class="col-20 btn-nro">
-              <button class="button margin-bottom button-round button-fill rtaCor" id="">4</button>
-              <button class="button margin-bottom button-round button-fill rtaInc" id="">5</button>
-              <button class="button button-round button-fill rtaInc" id="">3</button>
+            <div class="col">
+              <button class="button margin-bottom button-round button-fill juegoNro popover-open" id="cant4" data-popover=".popover-cor">4</button>
+              <button class="button button-round button-fill respuestaInc popover-open" id="nro3" data-popover=".popover-inc">3</button>
             </div>
         </div>
 
@@ -34,10 +33,9 @@
               <img class="margin-right" src="img/iconos/pez.png" alt="">
               <img src="img/iconos/pez.png" alt="">
              </div>
-            <div class="col-20 btn-nro">
-              <button class="button margin-bottom button-round button-fill rtaCor" id="">4</button>
-              <button class="button margin-bottom button-round button-fill rtaInc" id="">2</button>
-              <button class="button button-round button-fill rtaInc" id="">3</button>
+            <div class="col-20">
+              <button class="button margin-bottom button-round button-fill respuestaInc popover-open" id="nro4" data-popover=".popover-inc">4</button>
+              <button class="button margin-bottom button-round button-fill juegoNro popover-open" id="cant2" data-popover=".popover-cor">2</button>
             </div>
         </div>
 
@@ -46,10 +44,9 @@
           	<div class="numeros padding">
           		<img src="img/iconos/flor.png" alt="">
           	 </div>
-          	<div class="col-20 btn-nro">
-          		<button class="button margin-bottom button-round button-fill rtaCor" id="">1</button>
-          		<button class="button margin-bottom button-round button-fill rtaInc" id="">2</button>
-          		<button class="button button-round button-fill rtaInc" id="">3</button>
+          	<div class="col-20">
+          		<button class="button margin-bottom button-round button-fill juegoNro popover-open" id="cant1" data-popover=".popover-cor">1</button>
+          		<button class="button margin-bottom button-round button-fill respuestaInc popover-open" id="nro2" data-popover=".popover-inc">2</button>
           	</div>
         </div>
 
@@ -59,10 +56,9 @@
           		<img class="margin-right" src="img/iconos/estrella.png" alt="">
           		<img src="img/iconos/estrella.png" alt="">
           	 </div>
-          	<div class="col-20 btn-nro">
-          		<button class="button margin-bottom button-round button-fill rtaCor" id="">2</button>
-          		<button class="button margin-bottom button-round button-fill rtaInc" id="">3</button>
-          		<button class="button button-round button-fill rtaInc" id="">5</button>
+          	<div class="col-20">
+          		<button class="button margin-bottom button-round button-fill juegoNro popover-open" id="cant3" data-popover=".popover-cor">3</button>
+          		<button class="button button-round button-fill respuestaInc popover-open" id="nro5" data-popover=".popover-inc">5</button>
           	</div>
         </div>
 
@@ -76,12 +72,32 @@
           		<img src="img/iconos/leon.png" alt="">
           		<img src="img/iconos/leon.png" alt="">
           	 </div>
-          	<div class="col-20 btn-nro">
-          		<button class="button margin-bottom button-round button-fill rtaCor" id="">5</button>
-          		<button class="button margin-bottom button-round button-fill rtaInc" id="">4</button>
-          		<button class="button button-round button-fill rtaInc" id="">3</button>
+          	<div class="col-20">
+          		<button class="button margin-bottom button-round button-fill juegoNro popover-open" id="cant5" data-popover=".popover-cor">5</button>
+          		<button class="button margin-bottom button-round button-fill respuestaInc popover-open" id="nro6" data-popover=".popover-inc">6</button>
           	</div>
         </div>
 
+
+        <div class="popover popover-cor">
+      <div class="popover-inner">
+        <div class="block" id="cont-popover">
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="popover popover-inc">
+      <div class="popover-inner">
+        <div class="block" id="nroInc">
+          
+        </div>
+      </div>
+    </div>
+
+     <div class="row">
+          <button class="col-50 button button-fill popover-open" id="juegoNuevo">Volver a jugar</button>
+          <button class="col-50 button button-fill popover-open" id="terminar">Finalizar</button>
+      </div>
     </div>
 </div>

@@ -195,13 +195,13 @@ docRef.get().then((doc) => {
         console.log('NOMBRE JUEGO: ' + JSON.stringify(juegoRealizado));
         $$('#miProgreso').html('<p>Mis juegos: ' + JSON.stringify(juegoRealizado) +'</p>');
 
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}).catch((error) => {
-    console.log("Error getting document:", error);
-});
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+      }).catch((error) => {
+          console.log("Error getting document:", error);
+      });
 
 
 })
@@ -255,11 +255,14 @@ $$(document).on('page:init', '.page[data-name="mozart"]', function (e) {
     $$('.radio').on('click', FnRespuestas);
     $$('.checkbox').on('click', FnRespuestas);
 
-    // $$('#btnFin').on('click', function() {
-    //   $$('.popover-fin').on('popover:open', function (e) {
-    //     console.log('About popover open');
-    //   });
-    // })
+    // JUGAR DE NUEVO
+    $$('#otroJuego').on('click', function() {
+        $$('.opcionCor').removeClass('fondoVerde');
+        $$('.opcionInc').removeClass('fondoRojo');
+        $$('.rtaFinal').html('');
+        $$('.rtas').html('');
+    } )
+
 
     $$('#btnFin').on('click', juegoMozart);
 
@@ -365,33 +368,11 @@ $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
   $$('#btnFinalizar').on('click', juegoJirafa);
   $$('#rehacer').on('click', function(){
 
-    $$('.liebre').attr('src', '');
-    $$('#a1').removeClass('bordeVerde');
+    $$('.good').removeClass('bordeVerde');
+    $$('.bad').removeClass('bordeRojo');
 
-    $$('.acacia').attr('src', '');
-    $$('#b2').removeClass('bordeVerde');
-
-    $$('.pelaje').attr('src', '');
-    $$('#c3').removeClass('bordeVerde');
-////////////////////////////////////////
-     $$('.ballena').attr('src', '');
-    $$('#b1').removeClass('bordeRojo');
-
-     $$('.cebra').attr('src', '');
-    $$('#c1').removeClass('bordeRojo');
-
-     $$('.hierba').attr('src', '');
-    $$('#a2').removeClass('bordeRojo');
-
-     $$('.bananas').attr('src', '');
-    $$('#c2').removeClass('bordeRojo');
-
-     $$('.comprobar').attr('src', '');
-    $$('#a3').removeClass('bordeRojo');
-
-     $$('.suerte').attr('src', '');
-    $$('#b3').removeClass('bordeRojo');
-    })
+    $$('.img-bien').attr('src', '');
+    $$('.img-error').attr('src', '');
   })
 
   function opcionesCorrectas(){
@@ -453,8 +434,8 @@ $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
             $$('#b3').addClass('bordeRojo');
           break
         }
-}
-
+    }
+})
 
 // JUEGO CONSONANTES
 $$(document).on('page:init', '.page[data-name="consonantes"]', function (e) {
@@ -491,16 +472,17 @@ $$(document).on('page:init', '.page[data-name="consonantes"]', function (e) {
         uva = uva.replace('V', '_');
         $$('.uva').text(uva);
 
+        $$('.rtaCor').removeClass('fondoVerde')
+        $$('.rtaInc').removeClass('fondoRojo');
     });
 
     $$('.popover-bien').on('popover:open', function (e) {
           $$('#contenido').html('<h4 style="color:green">¡Muy bien!</h4>' + '<img src="img/iconos/bien.png" alt="">');
-        console.log('1er Popover');
+  
       });
 
     $$('.popover-mal').on('popover:open', function (e) {
           $$('#correccion').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
-        console.log('2do Popover');
       });
 
 
@@ -512,7 +494,80 @@ $$(document).on('page:init', '.page[data-name="matematica"]', function (e) {
 
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
+
+})
+
+// JUEGO NUMEROS ---------------------------------------------------------
+$$(document).on('page:init', '.page[data-name="numeros"]', function (e) {
+
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
   
+
+
+$$('.juegoNro').on('click', function() { fnContar(this.id) });
+$$('.respuestaInc').on('click', function() { nroIncorrecto(this.id) });
+
+$$('#juegoNuevo').on('click', function() { 
+  $$('.juegoNro').removeClass('fondoVerde');
+  $$('.respuestaInc').removeClass('fondoRojo');
+});
+
+$$('#terminar').on('click', juegoNumeros);
+
+
+    function fnContar(id) {
+      cantidad = id;
+      console.log('ID: ' + cantidad);
+      if( cantidad == "cant4") {
+        $$('#cant4').addClass('fondoVerde');
+      } else {
+          if(cantidad == "cant2"){
+            $$('#cant2').addClass('fondoVerde');
+          }
+          if(cantidad == "cant1") {
+            $$('#cant1').addClass('fondoVerde');
+          }
+          if(cantidad == "cant3") {
+            $$('#cant3').addClass('fondoVerde');
+          }
+          if(cantidad == "cant5") {
+            $$('#cant5').addClass('fondoVerde');
+          }
+      }
+
+    }
+
+    function nroIncorrecto(id) {
+      nroInc = id;
+      console.log('ID: ' + nroInc);
+      if( nroInc == "nro3") {
+        $$('#nro3').addClass('fondoRojo');
+      } else {
+          if(nroInc == "nro4"){
+            $$('#nro4').addClass('fondoRojo');
+          }
+          if(nroInc == "nro2") {
+            $$('#nro2').addClass('fondoRojo');
+          }
+          if(nroInc == "nro5") {
+            $$('#nro5').addClass('fondoRojo');
+          }
+          if(nroInc == "nro6") {
+            $$('#nro6').addClass('fondoRojo');
+          }
+      }
+    }
+
+
+ $$('.popover-cor').on('popover:open', function (e) {
+          $$('#cont-popover').html('<h4 style="color:green">¡Muy bien!</h4>' + '<img src="img/iconos/bien.png" alt="">');
+      });
+
+    $$('.popover-inc').on('popover:open', function (e) {
+          $$('#nroInc').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+      });
+
 })
 
 // CIENCIAS SOCIALES------------------------------------------------------
@@ -524,34 +579,98 @@ $$(document).on('page:init', '.page[data-name="sociales"]', function (e) {
   
 })
 
-// CIENCIAS SOCIALES------------------------------------------------------
+// BELGRANO ------------------------------------------------------
 
-$$(document).on('page:init', '.page[data-name="belgrano"]', function (e) {
+// $$(document).on('page:init', '.page[data-name="belgrano"]', function (e) {
 
-    app.navbar.show('#navBar');
-    app.toolbar.show('#toolBar');
+//     app.navbar.show('#navBar');
+//     app.toolbar.show('#toolBar');
 
 
-    $$('#env1').on('click', pregA);
+//     $$('#env1').on('click', pregA);
 
-    function pregA() {
+//     function pregA() {
 
 
 
       
-    }
+//     }
 
 
-})
+// })
 
 // CIENCIAS NATURALES------------------------------------------------------
 
-$$(document).on('page:init', '.page[data-name="naturales"]', function (e) {
+$$(document).on('page:init', '.page[data-name="cs-naturales"]', function (e) {
 
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
   
 })
+
+// JUEGO NATURALES ------------------------------------------------------
+
+$$(document).on('page:init', '.page[data-name="naturaleza"]', function (e) {
+
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
+
+    $$('.rtaV').on('click', function() { rtaVerdadera(this.id) });
+    $$('.rtaF').on('click', function() { rtaFalsa(this.id) });
+    $$('#juegoNat').on('click', serONoSer);
+
+    // Reinicia el Juego
+    $$('#intentos').on('click', function() {
+      $$('.rtaV').removeClass('fondoVerde');
+      $$('.rtaF').removeClass('fondoRojo');
+    })
+
+    $$('.popover-rtaVerdadera').on('popover:open', function (e) {
+          $$('#popoverV').html('<h4 style="color:green">¡Excelente!</h4>' + '<img src="img/iconos/bien.png" alt="">');
+      });
+
+    $$('.popover-rtaFalsa').on('popover:open', function (e) {
+          $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+      });
+  })
+
+  function rtaVerdadera(id) {
+    rtasV = id;
+    console.log('rtaVerdadera: ' + rtasV);
+
+      if(rtasV == "mesa") {
+        $$('#mesa').addClass('fondoVerde');
+      } else {
+          if(rtasV == "arbol") {
+          $$('#arbol').addClass('fondoVerde');
+        }
+          if(rtasV == "elefante") {
+          $$('#elefante').addClass('fondoVerde');
+        }
+          if(rtasV == "casa") {
+          $$('#casa').addClass('fondoVerde');
+        }
+      }
+  }
+  
+  function rtaFalsa(id) {
+    rtasF = id;
+    console.log('rtaFalsa: ' + rtasF);
+
+     if(rtasF == "a") {
+        $$('#a').addClass('fondoRojo');
+      } else {
+          if(rtasF == "b") {
+          $$('#b').addClass('fondoRojo');
+        }
+          if(rtasF == "c") {
+          $$('#c').addClass('fondoRojo');
+        }
+          if(rtasF == "d") {
+          $$('#d').addClass('fondoRojo');
+        }
+    }
+  }
 
 // ABECEDARIO (ACTIVIDADES)-----------------------------------------------
 
@@ -578,138 +697,7 @@ $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
     var storageRef = storage.ref();
 
 
-   //  Creo una referencia al archivo que quiero descargar
-
-    // var abcRef = storageRef.child('img/lengua/plantilla-abc/a.png');
-
-    //  // Obtener la URL de descarga
-
-    //  var url = "gs://apprendiendo-juntos.appspot.com/plantillas-abc/a.png";
-
-    //  var nombre = "a.png";
-
-    //  downloadFile(nombre,url);
-
-    //  function downloadFile(nombre,url){
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open("GET", url);
-    //   xhr.responseType = "blob";
-    //       xhr.onload = function () {
-    //           if (this.status == 200) {
-    //                  var blob = xhr.response;
-    //                  saveFile(nombre, blob);
-    //          //blob tiene el contenido de la respuesta del servidor
-    //               }
-    //           };
-    //     xhr.send();
-    // }
-    
-
-    // function saveFile(nombre,blob){
-    //   window.requestFileSystem( LocalFileSystem.PERSISTENT, 0, function (fs) {                                                                                              
-    //      //abrimos el sistema de archivos                                                                                                                              
-    //      console.log("file system open: " + fs.nombre);     
-    //      window.resolveLocalFileSystemURL( cordova.file.externalRootDirectory, function (dirEntry){                                                                   
-    //               //vamos a la raiz del sistema '/'                                                                                                                     
-    //               console.log("root ", dirEntry);                                                                                                                       
-    //               dirEntry.getDirectory( "Download", { create: true, exclusive: false }, function (dirEntry)           
-    //               {                                                          
-    //                           //vamos a la carpeta download                                                                                                                 
-    //                           console.log("downloads ", dirEntry);                                                                                                          
-    //                           dirEntry.getFile( nombre, { create: true, exclusive: false }, function (fileEntry){                                                            
-    //                           writeFile(fileEntry, blob);                                                                                                           
-    //                           //llamamos a la function writeFile y le pasamos el archivo a guardar                                                                  
-    //                         },                                                                                                                                        
-    //                        function (err) {                                                                                  
-    //                           console.log("failed to create file");                                                                                                 
-    //                           console.log(err);                                                                                                                     
-    //                         });                                                                                                                                            
-    //               },function (err) {                                                                                                                                  
-    //                    console.log(err);
-    //                 });                                                                                                                                                    
-    //          },function (err) {                                                                                                                                          
-    //                  console.log("Error al descargar el archivo");                                                                                                    
-    //                  console.log(err);                                                                                                                                     
-    //             });                                                                                                                                                            
-    //     },                                                                                                                                                                
-    //     function (err) {                                                                                                                                                  
-    //         console.log("Error al descargar el archivo");                                                                                                            
-    //         console.log(err);                                                                                                                                                
-    //     }); 
-    //   }
-      
-
-    //   function writeFile(fileEntry, dataObj) {
-    //     fileEntry.createWriter(function (fileWriter) {
-    //        fileWriter.onwriteend = function () {
-    //             console.log("Successful file write...");
-    //             app.dialog.close();
-    //         };
-    
-    //         fileWriter.onerror = function (e) {
-    //             console.log("Failed file write: " + e.toString());
-    //             app.dialog.close();
-    //             console.log("Error al descargar el archivo");
-    //         };
-    
-    //         fileWriter.write(dataObj);
-    //         app.dialog.preloader("Descargando");
-    //     });
-    // } 
-   
-
-
-
-
-
-
-    //  abcRef.getDownloadURL().then(function(url) {
-    //   // Insert url into an <img> tag to "download"
-
-    //   console.log('ENTRANDO A LA FUNCION PARA DESCARGAR');
-    // }).catch(function(error) {
-    
-    //   // A full list of error codes is available at
-    //   // https://firebase.google.com/docs/storage/web/handle-errors
-    //   switch (error.code) {
-    //     case 'storage/object-not-found':
-    //       // File doesn't exist
-    //       break;
-    
-    //     case 'storage/unauthorized':
-    //       // User doesn't have permission to access the object
-    //       break;
-    
-    //     case 'storage/canceled':
-    //       // User canceled the upload
-    //       break;
-
-    //     case 'storage/unknown':
-    //       // Unknown error occurred, inspect the server response
-    //       break;
-    //   }
-    // });
-
-
-
-
-
-
-
-
-
-
-    // Las referencias secundarias también pueden tomar rutas delimitadas por '/'
-    //plantillaRef ahora apunta a "img/lengua/plantilla-abc/a.png"
-
-    //var plantillaRef = storageRef.child('img/lengua/plantillas-abc/a.png');
-
-    //console.log('Mostrar: ' + plantillaRef);
-
-    // parent() nos permite movernos al padre de una referencia.
-    //var imagesRef = storage.parent;
-
-})
+  })
 
 // VOCALES Y CONSONANTES (ACTIVIDADES)------------------------------
 
@@ -727,199 +715,169 @@ $$(document).on('page:init', '.page[data-name="vocales"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
 
-    $$('.vocal').on('click', function() { elegirVocales(this.id) });
-    // jugar nuevamente
-    $$('#jugar').on('click', function(){
+    $$('.vocal').on('click', function() { fnVocalA(this.id) });
+    $$('.vocal').on('click', function() { fnVocalE(this.id) });
+    $$('.vocal').on('click', function() { fnVocalI(this.id) });
+    $$('.vocal').on('click', function() { fnVocalO(this.id) });
+    $$('.vocal').on('click', function() { fnVocalU(this.id) });
 
-      $$('#abeja').removeClass('fondoVerde');
-      $$('.vocal-1A').html('');
+    // JUGAR NUEVAMENTE
 
-      $$('#sol').removeClass('fondoRojo');
-      $$('.vocal-2A').html('');
+$$('#juegoNuevo').on('click', function() { 
+    $$('.vocal').removeClass('fondoVerde');
+    $$('.vocal-inc').removeClass('fondoRojo');
 
+    $$('.texto').html('');
+});
 
-      $$('#te').removeClass('fondoRojo');
-      $$('.vocal-3A').html('');
+    $$('#guardarJuego').on('click', encontrarVocales);
 
-      $$('#naranja').removeClass('fondoVerde');
-      $$('.vocal-4A').html('');
-
-      $$('#barco').removeClass('fondoRojo');
-      $$('.vocal-1E').html('');
-
-      $$('#vaca').removeClass('fondoRojo');
-      $$('.vocal-2E').html('');
-          
-      $$('#estrella').removeClass('fondoVerde');
-      $$('.vocal-3E').html('');
-          
-      $$('#leon').removeClass('fondoVerde');
-      $$('.vocal-4E').html('');
-          
-      $$('#bicicleta').removeClass('fondoVerde');
-      $$('.vocal-1I').html('');
-          
-      $$('#jirafa').removeClass('fondoVerde');
-      $$('.vocal-2I').html('');
-          
-      $$('#nena').removeClass('fondoRojo');
-      $$('.vocal-3I').html('');
-        
-      $$('#ventana').removeClass('fondoRojo');
-      $$('.vocal-4I').html('');
-
-      $$('#oso').removeClass('fondoVerde');
-      $$('.vocal-1O').html('');
-          
-      $$('#flor').removeClass('fondoVerde');
-      $$('.vocal-2O').html('');
-          
-      $$('#isla').removeClass('fondoRojo');
-      $$('.vocal-3O').html('');
-          
-      $$('#pez').removeClass('fondoRojo');
-      $$('.vocal-4O').html('');
-          
-      $$('#luna').removeClass('fondoVerde');
-      $$('.vocal-1U').html('');
-          
-      $$('#frutilla').removeClass('fondoVerde');
-      $$('.vocal-2U').html('');
-          
-      $$('#mariposa').removeClass('fondoRojo');
-      $$('.vocal-3U').html('');
-          
-      $$('#libro').removeClass('fondoRojo');
-      $$('.vocal-4U').html('');
-
-})
-    $$('#guardarJuego').on('click', buscandoVocales);
-
-})
+ })
 
 
-function elegirVocales(id){
-      opciones = id;
-        console.log('Elegido: ' + opciones);
+function fnVocalA(id){
+      vocalA = id;
+        console.log('Elegido: ' + vocalA);
 
-        switch(opciones) {
+        switch(vocalA) {
 // VOCAL A
-          case 'abeja':
-            $$('#abeja').addClass('fondoVerde');
+          case 'item-abeja':
+            $$('#item-abeja').addClass('fondoVerde');
             $$('.vocal-1A').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
 
-          case 'sol':
-           $$('#sol').addClass('fondoRojo');
+          case 'item-sol':
+           $$('#item-sol').addClass('fondoRojo');
             $$('.vocal-2A').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
           break
 
-          case 'te':
-            $$('#te').addClass('fondoRojo');
+          case 'item-te':
+            $$('#item-te').addClass('fondoRojo');
             $$('.vocal-3A').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
           break
 
-           case 'naranja':
-            $$('#naranja').addClass('fondoVerde');
+           case 'item-naranja':
+            $$('#item-naranja').addClass('fondoVerde');
             $$('.vocal-4A').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
+  }
+ }          // VOCAL E
 
-        // VOCAL E
+        function fnVocalE(id){
+          vocalE = id;
+            console.log('Elegido: ' + vocalE);
 
-        case 'barco':
-            $$('#barco').addClass('fondoRojo');
+        switch(vocalE) {
+          case 'item-barco':
+            $$('#item-barco').addClass('fondoRojo');
             $$('.vocal-1E').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
           break
 
-          case 'vaca':
-            $$('#vaca').addClass('fondoRojo');
+          case 'item-vaca':
+            $$('#item-vaca').addClass('fondoRojo');
             $$('.vocal-2E').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
           break
 
-           case 'estrella':
-            $$('#estrella').addClass('fondoVerde');
+           case 'item-estrella':
+            $$('#item-estrella').addClass('fondoVerde');
             $$('.vocal-3E').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
 
-          case 'leon':
-           $$('#leon').addClass('fondoVerde');
+          case 'item-leon':
+           $$('#item-leon').addClass('fondoVerde');
             $$('.vocal-4E').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
-
-         // VOCAL I
-        case 'bicicleta':
-            $$('#bicicleta').addClass('fondoVerde');
+  }
+}
+      function fnVocalI(id){
+        vocalI = id;
+         console.log('Elegido: ' + vocalI);
+    // VOCAL I
+      switch(vocalI){
+        case 'item-bicicleta':
+            $$('#item-bicicleta').addClass('fondoVerde');
             $$('.vocal-1I').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
 
-          case 'jirafa':
-            $$('#jirafa').addClass('fondoVerde');
+          case 'item-jirafa':
+            $$('#item-jirafa').addClass('fondoVerde');
             $$('.vocal-2I').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
 
-           case 'nena':
-            $$('#nena').addClass('fondoRojo');
+           case 'item-nena':
+            $$('#item-nena').addClass('fondoRojo');
             $$('.vocal-3I').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
           break
 
-          case 'ventana':
-           $$('#ventana').addClass('fondoRojo');
+          case 'item-ventana':
+           $$('#item-ventana').addClass('fondoRojo');
             $$('.vocal-4I').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
           break
 
+        }
+}
+         function fnVocalO(id){
+        vocalO = id;
+         console.log('Elegido: ' + vocalO);
+       
          // VOCAL O
+        switch(vocalO){
+          case 'item-oso':
+              $$('#item-oso').addClass('fondoVerde');
+              $$('.vocal-1O').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+            break
 
-        case 'oso':
-            $$('#oso').addClass('fondoVerde');
-            $$('.vocal-1O').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-          break
+            case 'item-flor':
+              $$('#item-flor').addClass('fondoVerde');
+              $$('.vocal-2O').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+            break
 
-          case 'flor':
-            $$('#flor').addClass('fondoVerde');
-            $$('.vocal-2O').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-          break
+             case 'item-isla':
+              $$('#item-isla').addClass('fondoRojo');
+              $$('.vocal-3O').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            break
 
-           case 'isla':
-            $$('#isla').addClass('fondoRojo');
-            $$('.vocal-3O').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-          break
+            case 'item-pez':
+             $$('#item-pez').addClass('fondoRojo');
+              $$('.vocal-4O').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            break
+  }    
+}
+          function fnVocalU(id){
 
-          case 'pez':
-           $$('#pez').addClass('fondoRojo');
-            $$('.vocal-4O').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-          break
-          
-         // VOCAL U
+              vocalU = id;
+               console.log('Elegido: ' + vocalU);
+           // VOCAL U
+        switch(vocalU){
+            case 'item-luna':
+                $$('#item-luna').addClass('fondoVerde');
+                $$('.vocal-1U').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+              break
 
-        case 'luna':
-            $$('#luna').addClass('fondoVerde');
-            $$('.vocal-1U').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-          break
+              case 'item-frutilla':
+                $$('#item-frutilla').addClass('fondoVerde');
+                $$('.vocal-2U').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+              break
 
-          case 'frutilla':
-            $$('#frutilla').addClass('fondoVerde');
-            $$('.vocal-2U').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-          break
+               case 'item-mariposa':
+                $$('#item-mariposa').addClass('fondoRojo');
+                $$('.vocal-3U').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+              break
 
-           case 'mariposa':
-            $$('#mariposa').addClass('fondoRojo');
-            $$('.vocal-3U').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-          break
-
-          case 'libro':
-           $$('#libro').addClass('fondoRojo');
-            $$('.vocal-4U').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-          break
-  }
- }         
-
-
+              case 'item-libro':
+               $$('#item-libro').addClass('fondoRojo');
+                $$('.vocal-4U').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+              break
+   }
+  }    
+  
+ 
 // CONSONANTES (ACTIVIDAD)-------------------------------------------------
     function rtaCorrecta(id) {
       palabra = id;
       console.log('Consonante: ' + palabra);
 
-      if (palabra == 'botella') {
+      if (palabra == 'btnBotella') {
         // guardo en la variable, para recuperar el texto
         botella = $$('.botella').text();
         // reemplazo el _ con la consonante correcta
@@ -928,14 +886,11 @@ function elegirVocales(id){
         // sobrescribo la palabra, con la consonante correcta
         $$('.botella').text(botella);
 
+         $$('#btnBotella').addClass('fondoVerde');
+
         console.log('Palabra: ' + botella);
     } else {
-       $$('.popover-respuesta').on('popover:open', function (e) {
-        console.log('Popover correcto');
-      });
-    }
-
-    if (palabra == 'ventana') {
+       if (palabra == 'btnVentana') {
         // guardo en la variable, para recuperar el texto
         ventana = $$('.ventana').text();
         // reemplazo el _ con la consonante correcta
@@ -943,15 +898,11 @@ function elegirVocales(id){
 
         // sobrescribo la palabra, con la consonante correcta
         $$('.ventana').text(ventana);
+        $$('#btnVentana').addClass('fondoVerde');
 
         console.log('Palabra: ' + ventana);
-    } else {
-       $$('.popover-respuesta').on('popover:open', function (e) {
-        console.log('Popover correcto');
-      });
     }
-
-    if (palabra == 'libro') {
+      if (palabra == 'btnLibro') {
         // guardo en la variable, para recuperar el texto
         libro = $$('.libro').text();
         // reemplazo el _ con la consonante correcta
@@ -959,15 +910,11 @@ function elegirVocales(id){
 
         // sobrescribo la palabra, con la consonante correcta
         $$('.libro').text(libro);
+        $$('#btnLibro').addClass('fondoVerde');
 
         console.log('Palabra: ' + libro);
-    } else {
-       $$('.popover-respuesta').on('popover:open', function (e) {
-        console.log('Popover correcto');
-      });
     }
-
-    if (palabra == 'uva') {
+      if (palabra == 'btnUva') {
         // guardo en la variable, para recuperar el texto
         uva = $$('.uva').text();
         // reemplazo el _ con la consonante correcta
@@ -976,20 +923,30 @@ function elegirVocales(id){
         // sobrescribo la palabra, con la consonante correcta
         $$('.uva').text(uva);
 
+        $$('#btnUva').addClass('fondoVerde');
         console.log('Palabra: ' + uva);
-    } else {
-       $$('.popover-respuesta').on('popover:open', function (e) {
-        console.log('Popover correcto');
-      });
     }
- 
-
- }
+  }
+}
     function rtaIncorrecta(id) {
-      consonanteIncorrecta = id;
-      console.log('Consonante: ' + consonanteIncorrecta);
+      consonanteInc = id;
+      console.log('Consonante: ' + consonanteInc);
 
+      if(consonanteInc == "v1") {
+        $$('#v1').addClass('fondoRojo');
+      } else {
+
+          if(consonanteInc == "b2") {
+          $$('#b2').addClass('fondoRojo');
+        }
+          if(consonanteInc == "v3") {
+            $$('#v3').addClass('fondoRojo');
+          }
+          if(consonanteInc == "b4") {
+          $$('#b4').addClass('fondoRojo');
+        }
     }
+}
 
 
 
@@ -1267,7 +1224,7 @@ function juegoJirafa(miEmail, nomJuego) {
 
 // Guarda juego de vocales
 
-function buscandoVocales(miEmail, nomJuego) {
+function encontrarVocales(miEmail, nomJuego) {
   console.log('juego vocales');
 
  var docRef = colUsuarios.doc(emLogin);
@@ -1276,7 +1233,7 @@ function buscandoVocales(miEmail, nomJuego) {
             console.log("Document data:", doc.data());
             emLogin = doc.data().Email;
             miEmail = emLogin;
-            nomJuego = { nombreActividad : "Buscando las vocales"};
+            nomJuego = { nombreActividad : "Encontrando las vocales"};
             actResueltas.doc(miEmail).set(nomJuego);
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
@@ -1318,6 +1275,57 @@ function juegoConsonante(miEmail, nomJuego) {
 }
 
 
+// Guarda JUEGO NUMEROS
+
+
+function juegoNumeros(miEmail, nomJuego) {
+  console.log('juego consonante');
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            nomJuego = { nombreActividad : "¡A contar!"};
+            actResueltas.doc(miEmail).set(nomJuego);
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
+
+
+// Guarda JUEGO NATURALES
+
+function serONoSer(miEmail, nomJuego) {
+  console.log('juego ser o no ser');
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            nomJuego = { nombreActividad : "Ser o no ser"};
+            actResueltas.doc(miEmail).set(nomJuego);
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
 
 
 // CERRAR SESIÓN DE USUARIO

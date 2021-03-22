@@ -84,11 +84,22 @@
 	font-family: 'Poppins', Arial, sans-serif;
 }
 
-/*#fondo {
+body {
+  color: black;
+}
 
-  height: 100vh;
-  
-}*/
+div[data-name="index"] {
+  background-image: url('../img/fondo.jpg');
+  background-size: 100vw;
+  background-repeat: no-repeat;
+}
+
+.botones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 460px;
+}
 
 #registro, #login {
   background-color: #689F82;
@@ -97,15 +108,24 @@
   width: 90%;
   letter-spacing: 2px;
   padding: 20px;
-  margin-top: 50px;
 }
 
 #registro{
-   margin-right: 25px;
+   margin-left: 25px;
 }
 
-#login {
-   margin-left: 25px;
+.link-login {
+  margin-top: 10px;
+}
+
+.container-fotos{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toolbar-inner a.link {
+  color: black;
 }
 
 .inicio {
@@ -147,7 +167,7 @@ img.materia {
   border: 1px solid black;
 }
 
-.palabras {
+.palabrasB, .palabrasV {
   font-weight: bold;
   letter-spacing: 3px;
   text-transform: uppercase;
