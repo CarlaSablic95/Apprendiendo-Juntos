@@ -53,7 +53,7 @@ var app = new Framework7({
 
 var mainView = app.views.create('.view-main');
 
-// db me hace la conexión a la BD
+// db hace la conexión a la BD
  var db = firebase.firestore();
 
  var colUsuarios = db.collection("usuarios");
@@ -64,6 +64,18 @@ var mainView = app.views.create('.view-main');
 
  var actResueltas = db.collection("actResueltas");
 
+const fecha = "";
+var colFechas = db.collection("fechaHora");
+
+//  var fechaBD ="";
+
+//  var horaBD ="";
+
+//  var hoy="";
+// var fecha = "";
+// var hora="";
+// var diaActual = "";
+ // Para el usuario
  var nom="", email="", emailLogin="", emLogin="", fechaNac="";
 
  var avatarReg="", avatarElegido="", valRespuestas="";
@@ -91,7 +103,7 @@ console.log(e);
 
     // Llamada a funciones donde cada una tendrá datos que se subirán a la BD
     fnAgregarMaterias();
-    // fnActResueltas();
+
 })
 
 
@@ -1194,6 +1206,7 @@ function avatarUsuario() {
    .catch((error) =>{
        var errorCode = error.code;
        var errorMessage = error.message;
+       console.log(errorCode + errorMessage);
       if(emailLogin == "" | passLogin == "" ){
          app.dialog.alert('¡Debés completar todos los campos!', 'Atención');
          mainView.router.navigate('/login/');
@@ -1231,6 +1244,22 @@ function avatarUsuario() {
 
  }
 
+// function fnFechayHora() {
+//   // hoy = new Date();
+//   // console.log('FECHA: ' + Date);
+//   // fecha = hoy.getDate() + '-' + (hoy.getMonth() + 1 ) + '-' + hoy.getFullYear();
+//   // hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+//   // diaActual = fecha + ' ' + hora;
+
+//   // console.log('Hoy es: ' + diaActual);
+
+
+//   // const timestamp = Date.now();
+//   // const Fecha = new Date(timestamp);
+//   // console.log('FECHA: ' + Fecha);
+ 
+//   // colFechas.doc(Fecha).set();
+// }
 
 /////////////  AGREGO ACTIVIDADES A LA BD ///////////////
 
@@ -1238,15 +1267,20 @@ function avatarUsuario() {
 
 function juegoMozart(miEmail, nomJuego) {
   console.log('juego mozart');
-
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
+  console.log('FECHA: ' + Fecha);
+  // ME TRAIGO DE LA BD, LA COLUMNA DE USUARIOS
  var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
             emLogin = doc.data().Email;
             miEmail = emLogin;
-           var nomJuego = { nombreActividad : "Mozart"};
-            actResueltas.doc(miEmail).set(nomJuego);
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "Mozart", email: miEmail, fecha: Fecha};
+            //actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1257,6 +1291,26 @@ function juegoMozart(miEmail, nomJuego) {
     }).catch((error) => {
         console.log("Error getting document:", error);
     });
+
+  //   // ME TRAIGO DE LA BD, LA COLUMNA DE MATERIAS
+  //   var docRef = colMaterias.doc(nomMateria);
+
+  //   docRef.get().then((doc) => {
+  //     if (doc.exists) {
+  //         console.log("Document data:", doc.data());
+  //         nomMateria = };
+          
+  //         //actResueltas.doc(miEmail).set(nomMateria);
+  //         actResueltas.add(nomMateria);
+  //         mainView.router.navigate('/mis-juegos/');
+
+  //     } else {
+  //         // doc.data() will be undefined in this case
+  //         console.log("No such document!");
+  //     }
+  // }).catch((error) => {
+  //     console.log("Error getting document:", error);
+  // });
 }
 
 
@@ -1264,6 +1318,9 @@ function juegoMozart(miEmail, nomJuego) {
 
 function juegoJirafa(miEmail, nomJuego) {
   console.log('juego jirafa');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
+  console.log('FECHA: ' + Fecha);
 
  var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
@@ -1271,8 +1328,10 @@ function juegoJirafa(miEmail, nomJuego) {
             console.log("Document data:", doc.data());
             emLogin = doc.data().Email;
             miEmail = emLogin;
-            nomJuego = { nombreActividad : "Jirafa Fita"};
-            actResueltas.doc(miEmail).set(nomJuego);
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, fecha: actividadFecha };
+            //actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
             
@@ -1290,6 +1349,8 @@ function juegoJirafa(miEmail, nomJuego) {
 
 function encontrarVocales(miEmail, nomJuego) {
   console.log('juego vocales');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
 
  var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
@@ -1297,8 +1358,10 @@ function encontrarVocales(miEmail, nomJuego) {
             console.log("Document data:", doc.data());
             emLogin = doc.data().Email;
             miEmail = emLogin;
-            nomJuego = { nombreActividad : "Encontrando las vocales"};
-            actResueltas.doc(miEmail).set(nomJuego);
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, fecha: actividadFecha };
+            // actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1317,6 +1380,9 @@ function encontrarVocales(miEmail, nomJuego) {
 
 function juegoConsonante(miEmail, nomJuego) {
   console.log('juego consonante');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
+
 
  var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
@@ -1324,8 +1390,11 @@ function juegoConsonante(miEmail, nomJuego) {
             console.log("Document data:", doc.data());
             emLogin = doc.data().Email;
             miEmail = emLogin;
-            nomJuego = { nombreActividad : "B ó V"};
-            actResueltas.doc(miEmail).set(nomJuego);
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: actividadFecha };
+            
+            // actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1344,6 +1413,8 @@ function juegoConsonante(miEmail, nomJuego) {
 
 function juegoNumeros(miEmail, nomJuego) {
   console.log('juego consonante');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
 
  var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
@@ -1351,8 +1422,10 @@ function juegoNumeros(miEmail, nomJuego) {
             console.log("Document data:", doc.data());
             emLogin = doc.data().Email;
             miEmail = emLogin;
-            nomJuego = { nombreActividad : "¡A contar!"};
-            actResueltas.doc(miEmail).set(nomJuego);
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: actividadFecha };
+            // actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1370,6 +1443,8 @@ function juegoNumeros(miEmail, nomJuego) {
 
 function serONoSer(miEmail, nomJuego) {
   console.log('juego ser o no ser');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
 
  var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
@@ -1377,8 +1452,10 @@ function serONoSer(miEmail, nomJuego) {
             console.log("Document data:", doc.data());
             emLogin = doc.data().Email;
             miEmail = emLogin;
-            nomJuego = { nombreActividad : "Ser o no ser"};
-            actResueltas.doc(miEmail).set(nomJuego);
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "Ser o no ser", email: miEmail, fecha: Fecha};
+            // actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1395,6 +1472,8 @@ function serONoSer(miEmail, nomJuego) {
 
 function juegoBelgrano(miEmail, nomJuego) { 
   console.log('juego belgrano');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
 
   var docRef = colUsuarios.doc(emLogin);
   docRef.get().then((doc) => {
@@ -1402,9 +1481,11 @@ function juegoBelgrano(miEmail, nomJuego) {
       console.log("Document data:", doc.data());
       emLogin = doc.data().Email;
       miEmail = emLogin;
-      nomJuego = { nombreActividad : "Belgrano" };
+      actividadFecha = {actFecha: Fecha };
+      nomJuego = { nombreActividad : "Belgrano", email: miEmail, fecha: Fecha};
 
-      actResueltas.doc(miEmail).set(nomJuego);
+      // actResueltas.doc(miEmail).set(nomJuego);
+      actResueltas.add(nomJuego);
       mainView.router.navigate('/mis-juegos/');
       console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
     } else {
