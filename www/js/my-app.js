@@ -99,10 +99,10 @@ $$(document).on('deviceready', function() {
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init', function (e) {
     // Do something here when page loaded and initialize
-console.log(e);
+    console.log(e);
 
     // Llamada a funciones donde cada una tendrá datos que se subirán a la BD
-    fnAgregarMaterias();
+      fnAgregarMaterias();
 
 })
 
@@ -112,19 +112,19 @@ console.log(e);
 // INDEX
 
 $$(document).on('page:init', '.page[data-name="index"]', function (e) {
-console.log("carga index");
+    console.log("carga index");
 
 // Oculto navbar y toolbar en el index
-    app.navbar.hide('#navBar');
-    app.toolbar.hide('#toolBar');
+      app.navbar.hide('#navBar');
+      app.toolbar.hide('#toolBar');
 
-    $$('#registro').on('click', function(){
-      mainView.router.navigate('/registro/');
-    })
+        $$('#registro').on('click', function(){
+          mainView.router.navigate('/registro/');
+        })
 
-    $$('#login').on('click', function(){
-      mainView.router.navigate('/login/');
-    })
+        $$('#login').on('click', function(){
+          mainView.router.navigate('/login/');
+        })
      
 })
 
@@ -132,18 +132,16 @@ console.log("carga index");
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
 
-console.log("carga registro");
+      console.log("carga registro");
 
-app.navbar.hide('#navbar');
-app.toolbar.hide('#toolBar');
+      app.navbar.hide('#navbar');
+      app.toolbar.hide('#toolBar');
 
 
 //Al hacer click en Registrarme, llamas a la funcion para registro de usuarios
-$$('#btnRegistro').on('click', registroUsuarios);
+      $$('#btnRegistro').on('click', registroUsuarios);
 
-
-
-$$('.fotoPerfil').on('click', avatarUsuario);
+      $$('.fotoPerfil').on('click', avatarUsuario);
 
 })
 
@@ -153,10 +151,10 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
     console.log("carga login");
 
-    app.navbar.hide('#navBar');
-    app.toolbar.hide('#toolBar');
+      app.navbar.hide('#navBar');
+      app.toolbar.hide('#toolBar');
 
-    $$('#btnLogin').on('click', loginUsuarios);
+      $$('#btnLogin').on('click', loginUsuarios);
 
 
 })
@@ -182,38 +180,59 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
         });
       });
 
-       $$('#btnLogout').on('click', cerrarSesion);
+        $$('#btnLogout').on('click', cerrarSesion);
 
       // Se muestra el avatar en el perfil
-      $$('#avatarUsuario').attr('src', avatarReg);
+        $$('#avatarUsuario').attr('src', avatarReg);
 })
 
 
 // MIS JUEGOS
 $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
 
-  console.log("carga misJuegos");
+    console.log("carga misJuegos");
 
-  app.navbar.hide('#navBar');
-  app.toolbar.hide('#toolBar');
+    app.navbar.hide('#navBar');
+    app.toolbar.hide('#toolBar');
 
-
-  var docRef = actResueltas.doc(emLogin);
-
-docRef.get().then((doc) => {
-    if (doc.exists) {
-        console.log("Document data:", doc.data());
-        juegoRealizado = doc.data().nombreActividad;
-        console.log('NOMBRE JUEGO: ' + JSON.stringify(juegoRealizado));
-        $$('#miProgreso').html('<p>Mis juegos: ' + JSON.stringify(juegoRealizado) +'</p>');
+    var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          emLogin = doc.data().Email;
+          miEmail = emLogin;
+          actividadFecha = {actFecha: Fecha };
+          nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha};
+            //actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego);
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
-      }).catch((error) => {
-          console.log("Error getting document:", error);
-      });
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    })
+
+
+    var docRef = actResueltas.doc(emLogin);
+
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+          console.log("Document data:", doc.data());
+            juegoRealizado = doc.data().nombreActividad;
+              console.log('NOMBRE JUEGO: ' + JSON.stringify(juegoRealizado));
+                $$('#miProgreso').html('<p>Mis juegos: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
+
+          } else {
+            // doc.data() will be undefined in this case
+              console.log("No such document!");
+        }
+        }).catch((error) => {
+              console.log("Error getting document:", error);
+        });
 
 
 })
@@ -246,14 +265,14 @@ $$(document).on('page:init', '.page[data-name="lectura"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
 
-    $$('#btnLeer').on('click', function(){
-      mainView.router.navigate('/primer-grado/lengua/lectura/mozart');
-    })
+      $$('#btnLeer').on('click', function(){
+        mainView.router.navigate('/primer-grado/lengua/lectura/mozart');
+      })
 
-    $$('#aLeer').on('click', function(){
-      mainView.router.navigate('/primer-grado/lengua/lectura/jirafa');
+      $$('#aLeer').on('click', function(){
+        mainView.router.navigate('/primer-grado/lengua/lectura/jirafa');
 
-    })
+      })
   
 })
 
@@ -269,14 +288,14 @@ $$(document).on('page:init', '.page[data-name="mozart"]', function (e) {
 
     // JUGAR DE NUEVO
     $$('#otroJuego').on('click', function() {
-        $$('.opcionCor').removeClass('fondoVerde');
-        $$('.opcionInc').removeClass('fondoRojo');
-        $$('.rtaFinal').html('');
-        $$('.rtas').html('');
+          $$('.opcionCor').removeClass('fondoVerde');
+          $$('.opcionInc').removeClass('fondoRojo');
+          $$('.rtaFinal').html('');
+          $$('.rtas').html('');
     } )
 
 
-    $$('#btnFin').on('click', juegoMozart);
+      $$('#btnFin').on('click', juegoMozart);
 
 })
 
@@ -287,105 +306,105 @@ function FnRespuestas(){
 
 ////////   Respuestas correctas  /////////
     switch(valRespuestas) {
-      case 'austria':
-        respuestaCorrecta = $$('#rta1C').addClass('fondoVerde');
-        rtaCorrecta = $$('.austria').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-      break
-
-      case 'padre':
-        $$('#rta2A').addClass('fondoVerde');
-        $$('.padre').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-      break
-
-       case 'palacios':
-         $$('#rta3C').addClass('fondoVerde');
-         $$('.palacio').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-       break
-
-       case 'piano':
-         $$('#rta4A').addClass('fondoVerde');
-         $$('.piano').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+        case 'austria':
+          respuestaCorrecta = $$('#rta1C').addClass('fondoVerde');
+          rtaCorrecta = $$('.austria').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
         break
 
-      case 'violin':
-        $$('#rta4D').addClass('fondoVerde');
-        $$('.violin').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-      break
+        case 'padre':
+          $$('#rta2A').addClass('fondoVerde');
+          $$('.padre').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+        break
+
+        case 'palacios':
+          $$('#rta3C').addClass('fondoVerde');
+          $$('.palacio').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+        break
+
+        case 'piano':
+          $$('#rta4A').addClass('fondoVerde');
+          $$('.piano').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+        break
+
+        case 'violin':
+          $$('#rta4D').addClass('fondoVerde');
+          $$('.violin').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+        break
 
       ////////   Respuestas incorrectas  /////////
 
-      case 'paisMaravillas':
-       $$('#rta1A').addClass('fondoRojo');
-       $$('.maravillas').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'paisMaravillas':
+          $$('#rta1A').addClass('fondoRojo');
+          $$('.maravillas').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'españa':
-       $$('#rta1B').addClass('fondoRojo');
-       $$('.españa').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'españa':
+          $$('#rta1B').addClass('fondoRojo');
+          $$('.españa').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-       case 'rumania':
-        $$('#rta1D').addClass('fondoRojo');
-        $$('.rumania').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'rumania':
+          $$('#rta1D').addClass('fondoRojo');
+          $$('.rumania').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'hermana':
-       $$('#rta2B').addClass('fondoRojo');
-       $$('.hna').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'hermana':
+          $$('#rta2B').addClass('fondoRojo');
+          $$('.hna').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'internet':
-       $$('#rta2C').addClass('fondoRojo');
-       $$('.internet').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'internet':
+          $$('#rta2C').addClass('fondoRojo');
+          $$('.internet').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'vecino':
-       $$('#rta2D').addClass('fondoRojo');
-       $$('.vecino').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'vecino':
+          $$('#rta2D').addClass('fondoRojo');
+          $$('.vecino').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'centro':
-       $$('#rta3A').addClass('fondoRojo');
-       $$('.centro').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'centro':
+          $$('#rta3A').addClass('fondoRojo');
+          $$('.centro').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'ciudad':
-       $$('#rta3B').addClass('fondoRojo');
-       $$('.ciudad').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'ciudad':
+          $$('#rta3B').addClass('fondoRojo');
+          $$('.ciudad').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'colegio':
-       $$('#rta3D').addClass('fondoRojo');
-       $$('.colegio').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'colegio':
+          $$('#rta3D').addClass('fondoRojo');
+          $$('.colegio').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'trompeta':
-       $$('#rta4B').addClass('fondoRojo');
-       $$('.trompeta').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'trompeta':
+          $$('#rta4B').addClass('fondoRojo');
+          $$('.trompeta').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
 
-      case 'gElectrica':
-       $$('#rta4C').addClass('fondoRojo');
-       $$('.guitarra').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-      break
+        case 'gElectrica':
+          $$('#rta4C').addClass('fondoRojo');
+          $$('.guitarra').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+        break
   }
 }
 
 
 // COMP. LECTORA---> CUENTO JIRAFA
 $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
-  $$('.jirafaJuego').on('click', opcionesCorrectas);
-  $$('.jirafaJuego').on('click', opcionesIncorrectas);
+    $$('.jirafaJuego').on('click', opcionesCorrectas);
+    $$('.jirafaJuego').on('click', opcionesIncorrectas);
 
-  $$('#btnFinalizar').on('click', juegoJirafa);
-  $$('#rehacer').on('click', function(){
+      $$('#btnFinalizar').on('click', juegoJirafa);
+      $$('#rehacer').on('click', function(){
 
-    $$('.good').removeClass('bordeVerde');
-    $$('.bad').removeClass('bordeRojo');
+      $$('.good').removeClass('bordeVerde');
+      $$('.bad').removeClass('bordeRojo');
 
-    $$('.img-bien').attr('src', '');
-    $$('.img-error').attr('src', '');
-  })
+      $$('.img-bien').attr('src', '');
+      $$('.img-error').attr('src', '');
+})
 
   function opcionesCorrectas(){
     rtaC= this.value;
@@ -415,7 +434,7 @@ $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
   function opcionesIncorrectas(){
     rtaI= this.value;
 
-    switch(rtaI) {
+      switch(rtaI) {
           case 'ballena':
             $$('.ballena').attr('src', 'img/iconos/cruz.png');
             $$('#b1').addClass('bordeRojo');
@@ -490,7 +509,6 @@ $$(document).on('page:init', '.page[data-name="consonantes"]', function (e) {
 
     $$('.popover-bien').on('popover:open', function (e) {
           $$('#contenido').html('<h4 style="color:green">¡Muy bien!</h4>' + '<img src="img/iconos/bien.png" alt="">');
-  
       });
 
     $$('.popover-mal').on('popover:open', function (e) {
@@ -515,8 +533,6 @@ $$(document).on('page:init', '.page[data-name="numeros"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
   
-
-
 $$('.juegoNro').on('click', function() { fnContar(this.id) });
 $$('.respuestaInc').on('click', function() { nroIncorrecto(this.id) });
 
@@ -530,45 +546,44 @@ $$('#terminar').on('click', juegoNumeros);
 
     function fnContar(id) {
       cantidad = id;
-      console.log('ID: ' + cantidad);
-      if( cantidad == "cant4") {
-        $$('#cant4').addClass('fondoVerde');
-      } else {
-          if(cantidad == "cant2"){
-            $$('#cant2').addClass('fondoVerde');
+        console.log('ID: ' + cantidad);
+          if( cantidad == "cant4") {
+            $$('#cant4').addClass('fondoVerde');
+          } else {
+              if(cantidad == "cant2"){
+                $$('#cant2').addClass('fondoVerde');
+              }
+              if(cantidad == "cant1") {
+                $$('#cant1').addClass('fondoVerde');
+              }
+              if(cantidad == "cant3") {
+                $$('#cant3').addClass('fondoVerde');
+              }
+              if(cantidad == "cant5") {
+                $$('#cant5').addClass('fondoVerde');
+              }
           }
-          if(cantidad == "cant1") {
-            $$('#cant1').addClass('fondoVerde');
-          }
-          if(cantidad == "cant3") {
-            $$('#cant3').addClass('fondoVerde');
-          }
-          if(cantidad == "cant5") {
-            $$('#cant5').addClass('fondoVerde');
-          }
-      }
-
     }
 
     function nroIncorrecto(id) {
-      nroInc = id;
-      console.log('ID: ' + nroInc);
-      if( nroInc == "nro3") {
-        $$('#nro3').addClass('fondoRojo');
-      } else {
-          if(nroInc == "nro4"){
-            $$('#nro4').addClass('fondoRojo');
-          }
-          if(nroInc == "nro2") {
-            $$('#nro2').addClass('fondoRojo');
-          }
-          if(nroInc == "nro5") {
-            $$('#nro5').addClass('fondoRojo');
-          }
-          if(nroInc == "nro6") {
-            $$('#nro6').addClass('fondoRojo');
-          }
-      }
+        nroInc = id;
+          console.log('ID: ' + nroInc);
+            if( nroInc == "nro3") {
+              $$('#nro3').addClass('fondoRojo');
+            } else {
+                if(nroInc == "nro4"){
+                  $$('#nro4').addClass('fondoRojo');
+                }
+                  if(nroInc == "nro2") {
+                    $$('#nro2').addClass('fondoRojo');
+                  }
+                    if(nroInc == "nro5") {
+                      $$('#nro5').addClass('fondoRojo');
+                    }
+                      if(nroInc == "nro6") {
+                        $$('#nro6').addClass('fondoRojo');
+                      }
+            }
     }
 
 
@@ -606,11 +621,11 @@ $$(document).on('page:init', '.page[data-name="belgrano"]', function (e) {
 
   // Jugar nuevamente
   $$('#aJugar').on('click', function() {
-    $$('.tilde').attr('src', '');
-    $$('.cruz').attr('src', '');
+      $$('.tilde').attr('src', '');
+      $$('.cruz').attr('src', '');
 
-    $$('.itemOpcionesV').removeClass('bordeVerde');
-    $$('.itemOpcionesR').removeClass('bordeRojo');
+      $$('.itemOpcionesV').removeClass('bordeVerde');
+      $$('.itemOpcionesR').removeClass('bordeRojo');
   })
 })
 
@@ -618,20 +633,20 @@ $$(document).on('page:init', '.page[data-name="belgrano"]', function (e) {
 
 function correcta() {
   item = this.value;
-  console.log('VALUE: ' + item);
+    console.log('VALUE: ' + item);
 
-  if(item == "belgrano") {
-      $$('.mBelgrano').attr('src', 'img/iconos/tilde.png');
-      $$('#belgrano').addClass('bordeVerde');
-  } else {
-    if (item == "españa"){
-      $$('.espania').attr('src', 'img/iconos/tilde.png');
-      $$('#esp').addClass('bordeVerde');
+    if(item == "belgrano") {
+        $$('.mBelgrano').attr('src', 'img/iconos/tilde.png');
+        $$('#belgrano').addClass('bordeVerde');
+    } else {
+      if (item == "españa"){
+        $$('.espania').attr('src', 'img/iconos/tilde.png');
+        $$('#esp').addClass('bordeVerde');
+      }
+    }if (item == "celesteBlanca"){
+      $$('.cyb').attr('src', 'img/iconos/tilde.png');
+      $$('#celesteB').addClass('bordeVerde');
     }
-  }if (item == "celesteBlanca"){
-    $$('.cyb').attr('src', 'img/iconos/tilde.png');
-    $$('#celesteB').addClass('bordeVerde');
-  }
 
 }
 
@@ -955,14 +970,14 @@ function fnVocalA(id){
 
       if (palabra == 'btnBotella') {
         // guardo en la variable, para recuperar el texto
-        botella = $$('.botella').text();
+          botella = $$('.botella').text();
         // reemplazo el _ con la consonante correcta
-        botella = botella.replace('_', 'B');
+          botella = botella.replace('_', 'B');
 
         // sobrescribo la palabra, con la consonante correcta
-        $$('.botella').text(botella);
+          $$('.botella').text(botella);
 
-         $$('#btnBotella').addClass('fondoVerde');
+          $$('#btnBotella').addClass('fondoVerde');
 
         console.log('Palabra: ' + botella);
     } else {
@@ -1037,13 +1052,13 @@ function registroUsuarios() {
     avatarReg= $$('#' + avatarElegido).attr('src'); // la variable avatarReg es el id de cada foto
     // y guarda la ruta de c/ foto
  
-  console.log('AVATAR: ' + avatarElegido);
-  console.log('SRC DE AVATAR: ' + avatarReg);
+    console.log('AVATAR: ' + avatarElegido);
+    console.log('SRC DE AVATAR: ' + avatarReg);
     // Guardo el email del usuario que es el ID del usuario
     idUsuario = email;
 
-firebase.auth().createUserWithEmailAndPassword(email, pass)
-    .then((user) => {
+    firebase.auth().createUserWithEmailAndPassword(email, pass)
+      .then((user) => {
 
       // Datos de usuario guardados en BD
         var datosReg = {
@@ -1051,12 +1066,13 @@ firebase.auth().createUserWithEmailAndPassword(email, pass)
             Email: email,
             Fecha: fechaNacReg,
             Password: pass,
-            Avatar: avatarReg, 
+            // Avatar: avatarReg, 
           };
 
           colUsuarios.doc(email).set(datosReg);
 
           console.log('Datos de usuario: '+ (datosReg));
+          console.log('Usuario: ' + user);
 
           mainView.router.navigate('/primer-grado/');
          
@@ -1065,11 +1081,12 @@ firebase.auth().createUserWithEmailAndPassword(email, pass)
     .catch((error) =>{
        var errorCode = error.code;
        var errorMessage = error.message;
+       console.log('Errores: ' + errorCode + '' + errorMessage);
       if(nom == "" | email == "" | fechaNacReg == "" | pass == "" ){
          app.dialog.alert('¡Debés completar todos los campos!', 'Atención');
          mainView.router.navigate('/registro/');
       }
-    })
+    });
 
 
 // OBTENIENDO DATOS DE USUARIO
@@ -1096,61 +1113,61 @@ function avatarUsuario() {
 
 // Evalúo distintos casos, dependiendo de la imagen que elijo
   switch(avatarElegido){
-    case 'nene':
-      $$('#nene').addClass('miAvatar');
-      $$('#avion').removeClass('miAvatar');
-      $$('#nena').removeClass('miAvatar');
-      $$('#icon-mariposa').removeClass('miAvatar');
-      $$('#icon-pelota').removeClass('miAvatar');
-      $$('#flor').removeClass('miAvatar');
-    break
+      case 'nene':
+        $$('#nene').addClass('miAvatar');
+        $$('#avion').removeClass('miAvatar');
+        $$('#nena').removeClass('miAvatar');
+        $$('#icon-mariposa').removeClass('miAvatar');
+        $$('#icon-pelota').removeClass('miAvatar');
+        $$('#flor').removeClass('miAvatar');
+      break
 
-    case 'nena':
-      $$('#nena').addClass('miAvatar');
-      $$('#nene').removeClass('miAvatar');
-      $$('#avion').removeClass('miAvatar');
-      $$('#icon-mariposa').removeClass('miAvatar');
-      $$('#icon-pelota').removeClass('miAvatar');
-      $$('#flor').removeClass('miAvatar');
-         
-    break
-
-    case 'icon-mariposa':
-      $$('#icon-mariposa').addClass('miAvatar');
-      $$('#nene').removeClass('miAvatar');
-      $$('#avion').removeClass('miAvatar');
-      $$('#nena').removeClass('miAvatar');
-      $$('#icon-pelota').removeClass('miAvatar');
-      $$('#flor').removeClass('miAvatar');
+      case 'nena':
+        $$('#nena').addClass('miAvatar');
+        $$('#nene').removeClass('miAvatar');
+        $$('#avion').removeClass('miAvatar');
+        $$('#icon-mariposa').removeClass('miAvatar');
+        $$('#icon-pelota').removeClass('miAvatar');
+        $$('#flor').removeClass('miAvatar');
           
-    break
+      break
 
-    case 'avion':
-      $$('#avion').addClass('miAvatar');
-      $$('#nene').removeClass('miAvatar');
-      $$('#nena').removeClass('miAvatar');
-      $$('#icon-mariposa').removeClass('miAvatar');
-      $$('#icon-pelota').removeClass('miAvatar');
-      $$('#flor').removeClass('miAvatar');
-    break
+      case 'icon-mariposa':
+        $$('#icon-mariposa').addClass('miAvatar');
+        $$('#nene').removeClass('miAvatar');
+        $$('#avion').removeClass('miAvatar');
+        $$('#nena').removeClass('miAvatar');
+        $$('#icon-pelota').removeClass('miAvatar');
+        $$('#flor').removeClass('miAvatar');
+            
+      break
 
-    case 'icon-pelota':
-      $$('#icon-pelota').addClass('miAvatar');
-      $$('#nene').removeClass('miAvatar');
-      $$('#avion').removeClass('miAvatar');
-      $$('#nena').removeClass('miAvatar');
-      $$('#icon-mariposa').removeClass('miAvatar');
-      $$('#flor').removeClass('miAvatar');
-    break
+      case 'avion':
+        $$('#avion').addClass('miAvatar');
+        $$('#nene').removeClass('miAvatar');
+        $$('#nena').removeClass('miAvatar');
+        $$('#icon-mariposa').removeClass('miAvatar');
+        $$('#icon-pelota').removeClass('miAvatar');
+        $$('#flor').removeClass('miAvatar');
+      break
 
-    case 'flor':
-      $$('#flor').addClass('miAvatar');
-      $$('#nene').removeClass('miAvatar');
-      $$('#avion').removeClass('miAvatar');
-      $$('#nena').removeClass('miAvatar');
-      $$('#icon-mariposa').removeClass('miAvatar');
-      $$('#icon-pelota').removeClass('miAvatar');  
-    break  
+      case 'icon-pelota':
+        $$('#icon-pelota').addClass('miAvatar');
+        $$('#nene').removeClass('miAvatar');
+        $$('#avion').removeClass('miAvatar');
+        $$('#nena').removeClass('miAvatar');
+        $$('#icon-mariposa').removeClass('miAvatar');
+        $$('#flor').removeClass('miAvatar');
+      break
+
+      case 'flor':
+        $$('#flor').addClass('miAvatar');
+        $$('#nene').removeClass('miAvatar');
+        $$('#avion').removeClass('miAvatar');
+        $$('#nena').removeClass('miAvatar');
+        $$('#icon-mariposa').removeClass('miAvatar');
+        $$('#icon-pelota').removeClass('miAvatar');  
+      break  
   } 
 
 }
@@ -1162,7 +1179,7 @@ function avatarUsuario() {
    emailLogin = $$('#emailLogin').val();
    passLogin = $$('#passLogin').val();
    
-    emLogin = emailLogin;
+    // emLogin = emailLogin;
 
  // var datosLog = {
  //   Email: emailLogin,
@@ -1173,25 +1190,33 @@ function avatarUsuario() {
  .then((docRef) => {
      // colUsuarios.doc(emLogin).get(datosLog);
 
-    var docRef = colUsuarios.doc(emLogin);
+    var docRef = colUsuarios.doc(emailLogin);
   
     docRef.get().then((doc) => {
         if (doc.exists) {
-            console.log("Document data:", doc.data());
-            nom = doc.data().Nombre;
+          console.log("Document data:", doc.data());
+           nom = doc.data().Nombre;
             emLogin = doc.data().Email;
-            console.log('EMAIL: ' + emLogin);
-            avatarReg = doc.data().Avatar;
+              console.log('EMAIL: ' + emLogin);
+              avatarReg = doc.data().Avatar;
 
             mainView.router.navigate('/primer-grado/');
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
+            if(emailLogin == "" | passLogin == "" ){
+              console.log('Mi email: ' + emailLogin + 'Mi pass: ' +  passLogin);
+                app.dialog.alert('¡Debés completar todos los campos!', 'Atención');
+                mainView.router.navigate('/login/');
+           }
         }
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });
+    }).catch((error) =>{
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode + errorMessage);
 
+   });
+ })
         // var usuario = firebase.auth().currentUser;
 
         // if (usuario) {
@@ -1201,17 +1226,9 @@ function avatarUsuario() {
         //   // No user is signed in.
         //   console.log('error');
         // }
-   })
+  
 
-   .catch((error) =>{
-       var errorCode = error.code;
-       var errorMessage = error.message;
-       console.log(errorCode + errorMessage);
-      if(emailLogin == "" | passLogin == "" ){
-         app.dialog.alert('¡Debés completar todos los campos!', 'Atención');
-         mainView.router.navigate('/login/');
-      }
-    })
+   
 }
 
 /////////////  AGREGO MATERIAS A LA BD ///////////////
@@ -1227,18 +1244,18 @@ function avatarUsuario() {
 
     colMaterias.doc(nomMateria).set(actNombre);
 
-    nomMateria = "matematica";
-    actNombre = { act1: "Numeros"};
+      nomMateria = "matematica";
+      actNombre = { act1: "Numeros"};
     
     colMaterias.doc(nomMateria).set(actNombre);
 
-     nomMateria = "ciencias naturales";
-    actNombre = { act1: "Naturaleza"};
+      nomMateria = "ciencias naturales";
+      actNombre = { act1: "Naturaleza"};
     
     colMaterias.doc(nomMateria).set(actNombre);
 
      nomMateria = "ciencias sociales";
-    actNombre = { act1: "Fechas Patrias"};
+      actNombre = { act1: "Fechas Patrias"};
     
     colMaterias.doc(nomMateria).set(actNombre);
 
@@ -1267,18 +1284,18 @@ function avatarUsuario() {
 
 function juegoMozart(miEmail, nomJuego) {
   console.log('juego mozart');
-  const timestamp = Date.now();
-  const Fecha = new Date(timestamp);
-  console.log('FECHA: ' + Fecha);
+    const timestamp = Date.now();
+    const Fecha = new Date(timestamp);
+    console.log('FECHA: ' + Fecha);
   // ME TRAIGO DE LA BD, LA COLUMNA DE USUARIOS
  var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
         if (doc.exists) {
-            console.log("Document data:", doc.data());
-            emLogin = doc.data().Email;
-            miEmail = emLogin;
-            actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "Mozart", email: miEmail, fecha: Fecha};
+          console.log("Document data:", doc.data());
+          emLogin = doc.data().Email;
+          miEmail = emLogin;
+          actividadFecha = {actFecha: Fecha };
+          nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha};
             //actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
@@ -1291,14 +1308,14 @@ function juegoMozart(miEmail, nomJuego) {
     }).catch((error) => {
         console.log("Error getting document:", error);
     });
-
-  //   // ME TRAIGO DE LA BD, LA COLUMNA DE MATERIAS
+  }
+    // ME TRAIGO DE LA BD, LA COLUMNA DE MATERIAS
   //   var docRef = colMaterias.doc(nomMateria);
 
   //   docRef.get().then((doc) => {
   //     if (doc.exists) {
   //         console.log("Document data:", doc.data());
-  //         nomMateria = };
+  //         nomMateria = 
           
   //         //actResueltas.doc(miEmail).set(nomMateria);
   //         actResueltas.add(nomMateria);
@@ -1311,8 +1328,6 @@ function juegoMozart(miEmail, nomJuego) {
   // }).catch((error) => {
   //     console.log("Error getting document:", error);
   // });
-}
-
 
 // Guarda juego de jirafa
 
@@ -1329,7 +1344,7 @@ function juegoJirafa(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, fecha: actividadFecha };
+            nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, Fecha };
             //actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
@@ -1359,7 +1374,7 @@ function encontrarVocales(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, fecha: actividadFecha };
+            nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, Fecha };
             // actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
@@ -1391,7 +1406,7 @@ function juegoConsonante(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: actividadFecha };
+            nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: Fecha };
             
             // actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego);
@@ -1423,7 +1438,7 @@ function juegoNumeros(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: actividadFecha };
+            nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: Fecha };
             // actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego);
             mainView.router.navigate('/mis-juegos/');
