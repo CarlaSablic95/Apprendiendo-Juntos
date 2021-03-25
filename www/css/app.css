@@ -101,6 +101,14 @@ div[data-name="index"] {
   margin-top: 460px;
 }
 
+a.link.back {
+  color: #ffffff;
+}
+
+.f7-icons {
+  color: #ffffff;
+}
+
 #registro, #login {
   background-color: #689F82;
   color: rgb(244 245 239);
@@ -117,6 +125,7 @@ div[data-name="index"] {
 .link-login {
   margin-top: 10px;
 }
+
 
 .container-fotos{
   display: flex;
@@ -158,9 +167,10 @@ img.materia {
   width: 70%;
 }
 
-.vocal, .numeros,  {
+.contVocal, .numeros,  {
   border: 2px dotted black;
-  margin-bottom: 10px;
+  height: 30vh;
+  margin-bottom: 15px;
 }
 
 .naturales {

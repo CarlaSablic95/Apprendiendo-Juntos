@@ -1,4 +1,3 @@
-
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
  
@@ -85,8 +84,6 @@ var colFechas = db.collection("fechaHora");
 
  var nomJuego="";
 
- var juegoRealizado="";
-
  var botella="", ventana="", libro="", uva="";
 
 
@@ -103,7 +100,7 @@ $$(document).on('page:init', function (e) {
 
     // Llamada a funciones donde cada una tendrá datos que se subirán a la BD
       fnAgregarMaterias();
-
+      agregarActividades();
 })
 
 
@@ -195,47 +192,50 @@ $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
     app.navbar.hide('#navBar');
     app.toolbar.hide('#toolBar');
 
-    var docRef = colUsuarios.doc(emLogin);
-    docRef.get().then((doc) => {
-        if (doc.exists) {
-          console.log("Document data:", doc.data());
-          emLogin = doc.data().Email;
-          miEmail = emLogin;
-          actividadFecha = {actFecha: Fecha };
-          nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha};
-            //actResueltas.doc(miEmail).set(nomJuego);
-            actResueltas.add(nomJuego);
-            mainView.router.navigate('/mis-juegos/');
-            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+var queryJuegosRealizados = actResueltas.where('email', '==', emLogin).orderBy('nombreActividad');
+  queryJuegosRealizados.get('email', 'fecha', 'nombreActividad', 'nomMateria')
 
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    })
+  .then((querySnapshot) => {
+      $$('#misJuegos').html('');
+        querySnapshot.forEach((doc) => {
+          $$('#misJuegos').append('<h3>' + doc.data().nomMateria + ':' + ' ' + doc.data().nombreActividad + '</h3>');
 
-
-    var docRef = actResueltas.doc(emLogin);
-
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-          console.log("Document data:", doc.data());
-            juegoRealizado = doc.data().nombreActividad;
-              console.log('NOMBRE JUEGO: ' + JSON.stringify(juegoRealizado));
-                $$('#miProgreso').html('<p>Mis juegos: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
-
-          } else {
-            // doc.data() will be undefined in this case
-              console.log("No such document!");
-        }
-        }).catch((error) => {
-              console.log("Error getting document:", error);
         });
 
+        
+  }).catch((error) => console.log('Error al mostrar Juegos Realizados: ' + error));
+
+
+
+
+
+
+
+
+
+
+
+
+    //  var docRef = actResueltas.doc(nombreActividad);
+
+    // docRef.get().then((doc) => {
+    //   if (doc.exists) {
+    //       console.log("Document data:", doc.data());
+    //       console.log("OK! Con el ID: " + docRef.id);
+    //         nomJuego = doc.data().nombreActividad;
+    //           console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego));
+    //             $$('#miProgreso').html('<p>Mis juegos completados: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
+
+    //       } else {
+    //         // doc.data() will be undefined in this case
+    //           console.log("No such document!");
+    //     }
+    //     }).catch((error) => {
+    //           console.log("Error getting document:", error);
+    //     });
 
 })
+
 
 
 
@@ -574,15 +574,15 @@ $$('#terminar').on('click', juegoNumeros);
                 if(nroInc == "nro4"){
                   $$('#nro4').addClass('fondoRojo');
                 }
-                  if(nroInc == "nro2") {
-                    $$('#nro2').addClass('fondoRojo');
-                  }
-                    if(nroInc == "nro5") {
-                      $$('#nro5').addClass('fondoRojo');
-                    }
-                      if(nroInc == "nro6") {
-                        $$('#nro6').addClass('fondoRojo');
-                      }
+                if(nroInc == "nro2") {
+                   $$('#nro2').addClass('fondoRojo');
+                }
+                if(nroInc == "nro5") {
+                   $$('#nro5').addClass('fondoRojo');
+                }
+                 if(nroInc == "nro6") {
+                    $$('#nro6').addClass('fondoRojo');
+               }
             }
     }
 
@@ -856,7 +856,7 @@ function fnVocalA(id){
 
         function fnVocalE(id){
           vocalE = id;
-            console.log('Elegido: ' + vocalE);
+            //console.log('Elegido: ' + vocalE);
 
         switch(vocalE) {
           case 'item-barco':
@@ -882,7 +882,7 @@ function fnVocalA(id){
 }
       function fnVocalI(id){
         vocalI = id;
-         console.log('Elegido: ' + vocalI);
+         //console.log('Elegido: ' + vocalI);
     // VOCAL I
       switch(vocalI){
         case 'item-bicicleta':
@@ -908,8 +908,8 @@ function fnVocalA(id){
         }
 }
          function fnVocalO(id){
-        vocalO = id;
-         console.log('Elegido: ' + vocalO);
+            vocalO = id;
+        // console.log('Elegido: ' + vocalO);
        
          // VOCAL O
         switch(vocalO){
@@ -935,9 +935,8 @@ function fnVocalA(id){
   }    
 }
           function fnVocalU(id){
-
-              vocalU = id;
-               console.log('Elegido: ' + vocalU);
+             vocalU = id;
+               //console.log('Elegido: ' + vocalU);
            // VOCAL U
         switch(vocalU){
             case 'item-luna':
@@ -1235,8 +1234,8 @@ function avatarUsuario() {
 
  function fnAgregarMaterias() {
   console.log('funcion materias');
-    var nomMateria = "lengua";
-    var actNombre = { 
+     nomMateria = "lengua";
+    actNombre = { 
       act1: "Abecedario", 
       act2: "Vocales y consonantes",
       act3: "Comprensión lectora" 
@@ -1280,6 +1279,80 @@ function avatarUsuario() {
 
 /////////////  AGREGO ACTIVIDADES A LA BD ///////////////
 
+function agregarActividades() {
+  console.log('entro a función actividades');
+// MATERIA LENGUA
+nomJuego = "Abecedario";
+
+  contenido = {
+    Archivo: "Plantillas imprimibles",
+  }
+ colActividades.doc(nomJuego).set(contenido);
+
+
+  nomJuego = "Encontrando las vocales";
+
+  contenido = {
+    Video: "Aprendemos las vocales",
+    Imágenes: "íconos"
+  }
+
+  colActividades.doc(nomJuego).set(contenido);
+
+nomJuego = "¿B ó V?";
+
+  contenido = {
+    Video: "Las consonantes y las vocales para niños",
+    Imágenes: "íconos"
+  }
+
+  colActividades.doc(nomJuego).set(contenido);
+
+
+  nomJuego = "Mozart, el músico genial";
+
+  contenido = {
+     Imágenes: "íconos"
+  }
+
+colActividades.doc(nomJuego).set(contenido);
+
+
+// MATERIA MATEMÁTICA
+nomJuego = "¡A contar!";
+
+  contenido = {
+     Video: "Aprendemos los números",
+     Imágenes: "íconos"
+    }
+
+colActividades.doc(nomJuego).set(contenido);
+
+// MATERIA CIENCIAS SOCIALES
+
+nomJuego = "Belgrano";
+
+contenido = {
+Imágenes: "imagen"
+
+}
+colActividades.doc(nomJuego).set(contenido);
+
+// MATERIA CIENCIAS NATURALES
+
+nomJuego = "Ser o no ser";
+
+contenido = {
+  Video: "Seres vivos y seres inertes",
+  Imágenes: "iconos"
+
+}
+colActividades.doc(nomJuego).set(contenido);
+
+}
+
+
+
 // Guarda juego de mozart
 
 function juegoMozart(miEmail, nomJuego) {
@@ -1297,7 +1370,7 @@ function juegoMozart(miEmail, nomJuego) {
           actividadFecha = {actFecha: Fecha };
           nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha};
             //actResueltas.doc(miEmail).set(nomJuego);
-            actResueltas.add(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1346,7 +1419,7 @@ function juegoJirafa(miEmail, nomJuego) {
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, Fecha };
             //actResueltas.doc(miEmail).set(nomJuego);
-            actResueltas.add(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
             
@@ -1364,8 +1437,12 @@ function juegoJirafa(miEmail, nomJuego) {
 
 function encontrarVocales(miEmail, nomJuego) {
   console.log('juego vocales');
+
   const timestamp = Date.now();
+  console.log('TIMESTAMP: ' + timestamp);
+
   const Fecha = new Date(timestamp);
+  console.log('FECHA: ' + Fecha);
 
  var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
@@ -1376,7 +1453,7 @@ function encontrarVocales(miEmail, nomJuego) {
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, Fecha };
             // actResueltas.doc(miEmail).set(nomJuego);
-            actResueltas.add(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1393,7 +1470,7 @@ function encontrarVocales(miEmail, nomJuego) {
 
 // Guarda juego de consonante
 
-function juegoConsonante(miEmail, nomJuego) {
+function juegoConsonante(miEmail, nomJuego, nomMateria) {
   console.log('juego consonante');
   const timestamp = Date.now();
   const Fecha = new Date(timestamp);
@@ -1407,9 +1484,9 @@ function juegoConsonante(miEmail, nomJuego) {
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: Fecha };
-            
+            nomMateria = { nomMateria: "Lengua"};
             // actResueltas.doc(miEmail).set(nomJuego);
-            actResueltas.add(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1425,7 +1502,6 @@ function juegoConsonante(miEmail, nomJuego) {
 
 // Guarda JUEGO NUMEROS
 
-
 function juegoNumeros(miEmail, nomJuego) {
   console.log('juego consonante');
   const timestamp = Date.now();
@@ -1440,7 +1516,7 @@ function juegoNumeros(miEmail, nomJuego) {
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: Fecha };
             // actResueltas.doc(miEmail).set(nomJuego);
-            actResueltas.add(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1470,7 +1546,7 @@ function serONoSer(miEmail, nomJuego) {
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Ser o no ser", email: miEmail, fecha: Fecha};
             // actResueltas.doc(miEmail).set(nomJuego);
-            actResueltas.add(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
 
@@ -1500,7 +1576,7 @@ function juegoBelgrano(miEmail, nomJuego) {
       nomJuego = { nombreActividad : "Belgrano", email: miEmail, fecha: Fecha};
 
       // actResueltas.doc(miEmail).set(nomJuego);
-      actResueltas.add(nomJuego);
+      actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
       mainView.router.navigate('/mis-juegos/');
       console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
     } else {
