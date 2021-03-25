@@ -167,11 +167,15 @@ img.materia {
   width: 70%;
 }
 
-.contVocal, .numeros,  {
+.vocal, .numeros  {
   border: 2px dotted black;
-  height: 30vh;
   margin-bottom: 15px;
 }
+
+.vocal  {
+  height: 30vh;
+}
+
 
 .naturales {
   border: 1px solid black;
@@ -183,7 +187,7 @@ img.materia {
   text-transform: uppercase;
 }
 
-img.lengua, .mat, .cs-nat, .cs-soc, .imagen, {
+img.lengua, .mat, .cs-nat, .cs-soc, .imagen {
   width: 80%;
 }
 

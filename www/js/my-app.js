@@ -192,47 +192,49 @@ $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
     app.navbar.hide('#navBar');
     app.toolbar.hide('#toolBar');
 
+    // var queryMaterias = colMaterias.where("nombre", "==", nomMateria)
+    // queryMaterias.get('nomMateria')
+    // .then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //         // doc.data() is never undefined for query doc snapshots
+    //         console.log(doc.id, " => ", doc.data());
+    //     });
+    // })
+    // .catch((error) => {
+    //     console.log("Error getting documents: ", error);
+    // });
+
+    // consulto a la coleccion "actResueltas", que está en la BD
+    // donde el email sea igual al email del usuario logueado
 var queryJuegosRealizados = actResueltas.where('email', '==', emLogin).orderBy('nombreActividad');
   queryJuegosRealizados.get('email', 'fecha', 'nombreActividad', 'nomMateria')
 
   .then((querySnapshot) => {
       $$('#misJuegos').html('');
         querySnapshot.forEach((doc) => {
-          $$('#misJuegos').append('<h3>' + doc.data().nomMateria + ':' + ' ' + doc.data().nombreActividad + '</h3>');
+          $$('#misJuegos').append('<h3>'+ doc.data().nombreActividad + '</h3>');
 
         });
 
         
   }).catch((error) => console.log('Error al mostrar Juegos Realizados: ' + error));
+     var docRef = actResueltas.doc(nombreActividad);
 
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+          console.log("Document data:", doc.data());
+          console.log("OK! Con el ID: " + docRef.id);
+            nomJuego = doc.data().nombreActividad;
+              console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego));
+                $$('#miProgreso').html('<p>Mis juegos completados: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
 
-
-
-
-
-
-
-
-
-
-
-    //  var docRef = actResueltas.doc(nombreActividad);
-
-    // docRef.get().then((doc) => {
-    //   if (doc.exists) {
-    //       console.log("Document data:", doc.data());
-    //       console.log("OK! Con el ID: " + docRef.id);
-    //         nomJuego = doc.data().nombreActividad;
-    //           console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego));
-    //             $$('#miProgreso').html('<p>Mis juegos completados: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
-
-    //       } else {
-    //         // doc.data() will be undefined in this case
-    //           console.log("No such document!");
-    //     }
-    //     }).catch((error) => {
-    //           console.log("Error getting document:", error);
-    //     });
+          } else {
+            // doc.data() will be undefined in this case
+              console.log("No such document!");
+        }
+        }).catch((error) => {
+              console.log("Error getting document:", error);
+        });
 
 })
 
@@ -1065,7 +1067,7 @@ function registroUsuarios() {
             Email: email,
             Fecha: fechaNacReg,
             Password: pass,
-            // Avatar: avatarReg, 
+            //Avatar: avatarReg
           };
 
           colUsuarios.doc(email).set(datosReg);
