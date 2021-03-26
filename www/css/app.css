@@ -109,6 +109,10 @@ a.link.back {
   color: #ffffff;
 }
 
+.nombre-iconos {
+  text-transform: uppercase;
+}
+
 #registro, #login {
   background-color: #689F82;
   color: rgb(244 245 239);

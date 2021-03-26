@@ -80,7 +80,7 @@ var colFechas = db.collection("fechaHora");
  var avatarReg="", avatarElegido="", valRespuestas="";
 
 // VAR GLOBALES PARA LAS MATERIAS
- var nomMateria="", actNombre="", contenido="", actividad="";
+ var nomMateria="", nombreMateria="", actNombre="", contenido="", actividad="";
 
  var nomJuego="";
 
@@ -164,8 +164,7 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
     
-   // $$('#msjBienvenida').html('<h1>¡Bienvenido/a, ' +nom+'!</h1>');
-      // $$('#nomUsuario').html('<h1>¡Bienvenido/a, ' +nom+'!</h1>');
+      $$('#msjBienvenida').html('<h1>¡Bienvenido/a, ' +nom+'!</h1>');
       $$('#nomUsuario').html('<p>Nombre: ' + nom +'</p>');
       $$('#emUsuario').html('<p>Email: ' +emLogin+'</p>');
 
@@ -206,28 +205,46 @@ $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
 
     // consulto a la coleccion "actResueltas", que está en la BD
     // donde el email sea igual al email del usuario logueado
-var queryJuegosRealizados = actResueltas.where('email', '==', emLogin).orderBy('nombreActividad');
+var queryJuegosRealizados = actResueltas.where('email', '==', email).orderBy('nombreActividad');
   queryJuegosRealizados.get('email', 'nombreActividad')
 
   .then((querySnapshot) => {
       $$('#misJuegos').html('');
-        querySnapshot.forEach((doc) => {
-          $$('#misJuegos').append('<h3>'+ doc.data().nombreActividad + '</h3>');
+        querySnapshot.forEach((doc) => { //
+          $$('#misJuegos').append('<h3>'+ doc.data().nombreActividad + '<img src="img/iconos/listo.png">' + '</h3>');
 
         });
 
         
-  }).catch((error) => console.log('Error al mostrar Juegos Realizados: ' + error));
-     var docRef = actResueltas.doc(nombreActividad);
+  }).catch((error) => console.log('No se pueden mostrar los juegos realizados: ' + error));
+
+    // docRef.get().then((doc) => {
+    //   if (doc.exists) {
+    //       console.log("Document data:", doc.data());
+    //       console.log("OK! Con el ID: " + docRef.id);
+    //         nomJuego = doc.data().nombreActividad;
+    //           console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego));
+    //             $$('#miProgreso').html('<p>Mis juegos completados: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
+    //       } else {
+    //         // doc.data() will be undefined in this case
+    //           console.log("No such document!");
+    //     }
+    //     }).catch((error) => {
+    //           console.log("Error getting document:", error);
+    //     });
+
+
+          // NOMBRE DE MATERIA
+
+var docRef = colMaterias.doc(nomMateria);
 
     docRef.get().then((doc) => {
       if (doc.exists) {
           console.log("Document data:", doc.data());
           console.log("OK! Con el ID: " + docRef.id);
-            nomJuego = doc.data().nombreActividad;
-              console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego));
-                $$('#miProgreso').html('<p>Mis juegos completados: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
-
+            nombreMateria = doc.data().nomMateria;
+              console.log('NOMBRE JUEGO: ' + JSON.stringify(nombreMateria));
+                $$('#materia').html('<p>Mis juegos completados: ' + JSON.stringify(nombreMateria) +'</p>');
           } else {
             // doc.data() will be undefined in this case
               console.log("No such document!");
@@ -235,6 +252,24 @@ var queryJuegosRealizados = actResueltas.where('email', '==', emLogin).orderBy('
         }).catch((error) => {
               console.log("Error getting document:", error);
         });
+
+
+
+
+  var queryMaterias = colMaterias.where('nombre', '==', nomMateria);
+  queryMaterias.get('nomMateria')
+
+  .then((querySnapshot) => {
+      $$('#materia').html('');
+        querySnapshot.forEach((doc) => { //
+          $$('#materia').append('<h3>'+ doc.data().nomMateria + '</h3>');
+
+        });
+
+        
+  }).catch((error) => console.log('No se pueden mostrar los juegos realizados: ' + error));
+
+
 
 })
 
@@ -1067,13 +1102,13 @@ function registroUsuarios() {
             Email: email,
             Fecha: fechaNacReg,
             Password: pass,
-            //Avatar: avatarReg
+            Avatar: avatarReg
           };
 
           colUsuarios.doc(email).set(datosReg);
 
-          console.log('Datos de usuario: '+ (datosReg));
-          console.log('Usuario: ' + user);
+          console.log('Datos de usuario: '+ JSON.stringify(datosReg));
+          console.log('Usuario: ' + JSON.stringify(user));
 
           mainView.router.navigate('/primer-grado/');
          
@@ -1363,12 +1398,12 @@ function juegoMozart(miEmail, nomJuego) {
     const Fecha = new Date(timestamp);
     console.log('FECHA: ' + Fecha);
   // ME TRAIGO DE LA BD, LA COLUMNA DE USUARIOS
- var docRef = colUsuarios.doc(emLogin);
+ var docRef = colUsuarios.doc(email);
     docRef.get().then((doc) => {
         if (doc.exists) {
           console.log("Document data:", doc.data());
-          emLogin = doc.data().Email;
-          miEmail = emLogin;
+          email = doc.data().Email;
+          miEmail = email;
           actividadFecha = {actFecha: Fecha };
           nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha};
             //actResueltas.doc(miEmail).set(nomJuego);
@@ -1412,12 +1447,12 @@ function juegoJirafa(miEmail, nomJuego) {
   const Fecha = new Date(timestamp);
   console.log('FECHA: ' + Fecha);
 
- var docRef = colUsuarios.doc(emLogin);
+ var docRef = colUsuarios.doc(email);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            emLogin = doc.data().Email;
-            miEmail = emLogin;
+            email = doc.data().Email;
+            miEmail = email;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, Fecha };
             //actResueltas.doc(miEmail).set(nomJuego);
@@ -1446,12 +1481,12 @@ function encontrarVocales(miEmail, nomJuego) {
   const Fecha = new Date(timestamp);
   console.log('FECHA: ' + Fecha);
 
- var docRef = colUsuarios.doc(emLogin);
+ var docRef = colUsuarios.doc(email);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            emLogin = doc.data().Email;
-            miEmail = emLogin;
+            email = doc.data().Email;
+            miEmail = email;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, Fecha };
             // actResueltas.doc(miEmail).set(nomJuego);
@@ -1472,18 +1507,18 @@ function encontrarVocales(miEmail, nomJuego) {
 
 // Guarda juego de consonante
 
-function juegoConsonante(miEmail, nomJuego, nomMateria) {
+function juegoConsonante(miEmail, nomJuego) {
   console.log('juego consonante');
   const timestamp = Date.now();
   const Fecha = new Date(timestamp);
 
 
- var docRef = colUsuarios.doc(emLogin);
+ var docRef = colUsuarios.doc(email);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            emLogin = doc.data().Email;
-            miEmail = emLogin;
+            email = doc.data().Email;
+            miEmail = email;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: Fecha };
             nomMateria = { nomMateria: "Lengua"};
@@ -1509,12 +1544,12 @@ function juegoNumeros(miEmail, nomJuego) {
   const timestamp = Date.now();
   const Fecha = new Date(timestamp);
 
- var docRef = colUsuarios.doc(emLogin);
+ var docRef = colUsuarios.doc(email);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            emLogin = doc.data().Email;
-            miEmail = emLogin;
+            email = doc.data().Email;
+            miEmail = email;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: Fecha };
             // actResueltas.doc(miEmail).set(nomJuego);
@@ -1539,12 +1574,12 @@ function serONoSer(miEmail, nomJuego) {
   const timestamp = Date.now();
   const Fecha = new Date(timestamp);
 
- var docRef = colUsuarios.doc(emLogin);
+ var docRef = colUsuarios.doc(email);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            emLogin = doc.data().Email;
-            miEmail = emLogin;
+            email = doc.data().Email;
+            miEmail = email;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Ser o no ser", email: miEmail, fecha: Fecha};
             // actResueltas.doc(miEmail).set(nomJuego);
@@ -1568,12 +1603,12 @@ function juegoBelgrano(miEmail, nomJuego) {
   const timestamp = Date.now();
   const Fecha = new Date(timestamp);
 
-  var docRef = colUsuarios.doc(emLogin);
+  var docRef = colUsuarios.doc(email);
   docRef.get().then((doc) => {
     if(doc.exists) {
       console.log("Document data:", doc.data());
-      emLogin = doc.data().Email;
-      miEmail = emLogin;
+      email = doc.data().Email;
+      miEmail = email;
       actividadFecha = {actFecha: Fecha };
       nomJuego = { nombreActividad : "Belgrano", email: miEmail, fecha: Fecha};
 
