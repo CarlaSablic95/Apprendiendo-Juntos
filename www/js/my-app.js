@@ -130,14 +130,11 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
 
       console.log("carga registro");
-
       app.navbar.hide('#navbar');
       app.toolbar.hide('#toolBar');
 
-
 //Al hacer click en Registrarme, llamas a la funcion para registro de usuarios
       $$('#btnRegistro').on('click', registroUsuarios);
-
       $$('.fotoPerfil').on('click', avatarUsuario);
 
 })
@@ -147,13 +144,14 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
 $$(document).on('page:init', '.page[data-name="login"]', function (e) {
 
     console.log("carga login");
-
       app.navbar.hide('#navBar');
       app.toolbar.hide('#toolBar');
 
+      $$('#msjBienvenida').html('<h1 class="bienvenida">¡Bienvenido/a, ' +nom+'!</h1>');
+
+  console.log('Mi Nombre: ' + nom);
+
       $$('#btnLogin').on('click', loginUsuarios);
-
-
 })
 
 // PERFIL----------------------------------------
@@ -164,10 +162,8 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
     
-      $$('#msjBienvenida').html('<h1>¡Bienvenido/a, ' +nom+'!</h1>');
       $$('#nomUsuario').html('<p>Nombre: ' + nom +'</p>');
       $$('#emUsuario').html('<p>Email: ' +emLogin+'</p>');
-
 
       $$('.open-confirm').on('click', function () {
         app.dialog.confirm('¿Estás seguro/a de cerrar sesión?',nom , function () {
@@ -188,8 +184,8 @@ $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
 
     console.log("carga misJuegos");
 
-    app.navbar.hide('#navBar');
-    app.toolbar.hide('#toolBar');
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
 
     // var queryMaterias = colMaterias.where("nombre", "==", nomMateria)
     // queryMaterias.get('nomMateria')
@@ -283,7 +279,7 @@ $$(document).on('page:init', '.page[data-name="primer-grado"]', function (e) {
 // Muestro el Navbar y Toolbar para la pagina del listado de las materias
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
-
+    
     $$('#miAvatar').attr('src', avatarReg);
 })
 
@@ -338,91 +334,78 @@ $$(document).on('page:init', '.page[data-name="mozart"]', function (e) {
 
 function FnRespuestas(){
   //capturo el value de cada input radio
-  valRespuestas = this.value;
+  valRespuestas = this.value; // VALUE DEL INPUT
   console.log('VALUE: ' + valRespuestas);
 
-////////   Respuestas correctas  /////////
+////////   Respuestas correctas  --> EVALÚO LOS VALUES DE CADA INPUT /////////
     switch(valRespuestas) {
         case 'austria':
-          respuestaCorrecta = $$('#rta1C').addClass('fondoVerde');
-          rtaCorrecta = $$('.austria').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          $$('#rta1C').addClass('fondoVerde');
+          $$('.rta-austria').attr('src', 'img/iconos/tilde.png');
+         
         break
 
         case 'padre':
           $$('#rta2A').addClass('fondoVerde');
-          $$('.padre').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          $$('.rta-padre').attr('src', 'img/iconos/tilde.png');
         break
 
         case 'palacios':
           $$('#rta3C').addClass('fondoVerde');
-          $$('.palacio').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          $$('.rta-palacio').attr('src', 'img/iconos/tilde.png');
         break
 
         case 'piano':
           $$('#rta4A').addClass('fondoVerde');
-          $$('.piano').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          $$('.rta-piano').attr('src', 'img/iconos/tilde.png');
         break
 
         case 'violin':
           $$('#rta4D').addClass('fondoVerde');
-          $$('.violin').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+          $$('.rta-violin').attr('src', 'img/iconos/tilde.png');
+
         break
 
       ////////   Respuestas incorrectas  /////////
 
         case 'paisMaravillas':
           $$('#rta1A').addClass('fondoRojo');
-          $$('.maravillas').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          $$('.rta-maravillas').attr('src', 'img/iconos/cancelar.png');
         break
 
         case 'españa':
           $$('#rta1B').addClass('fondoRojo');
-          $$('.españa').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-        break
-
-        case 'rumania':
-          $$('#rta1D').addClass('fondoRojo');
-          $$('.rumania').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          $$('.rta-espania').attr('src', 'img/iconos/cancelar.png');
         break
 
         case 'hermana':
           $$('#rta2B').addClass('fondoRojo');
-          $$('.hna').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          $$('.rta-hermana').attr('src', 'img/iconos/cancelar.png');
+          $$('.hna').addClass('bordeRojo');
         break
 
         case 'internet':
           $$('#rta2C').addClass('fondoRojo');
-          $$('.internet').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-        break
-
-        case 'vecino':
-          $$('#rta2D').addClass('fondoRojo');
-          $$('.vecino').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          $$('.rta-internet').attr('src', 'img/iconos/cancelar.png');
+          $$('.internet').addClass('bordeRojo');
         break
 
         case 'centro':
           $$('#rta3A').addClass('fondoRojo');
-          $$('.centro').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          $$('.rta-centro').attr('src', 'img/iconos/cancelar.png');
         break
 
         case 'ciudad':
           $$('#rta3B').addClass('fondoRojo');
-          $$('.ciudad').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
-        break
-
-        case 'colegio':
-          $$('#rta3D').addClass('fondoRojo');
-          $$('.colegio').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+          $$('.rta-ciudad').attr('src', 'img/iconos/cancelar.png');
         break
 
         case 'trompeta':
           $$('#rta4B').addClass('fondoRojo');
-          $$('.trompeta').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
         break
 
         case 'gElectrica':
           $$('#rta4C').addClass('fondoRojo');
-          $$('.guitarra').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
         break
   }
 }
@@ -542,6 +525,7 @@ $$(document).on('page:init', '.page[data-name="consonantes"]', function (e) {
 
         $$('.rtaCor').removeClass('fondoVerde')
         $$('.rtaInc').removeClass('fondoRojo');
+        $$('.rtaInc').removeClass('oculto');
     });
 
     $$('.popover-bien').on('popover:open', function (e) {
@@ -576,6 +560,7 @@ $$('.respuestaInc').on('click', function() { nroIncorrecto(this.id) });
 $$('#juegoNuevo').on('click', function() { 
   $$('.juegoNro').removeClass('fondoVerde');
   $$('.respuestaInc').removeClass('fondoRojo');
+  $$('.num-opciones').removeClass('oculto');
 });
 
 $$('#terminar').on('click', juegoNumeros);
@@ -586,18 +571,23 @@ $$('#terminar').on('click', juegoNumeros);
         console.log('ID: ' + cantidad);
           if( cantidad == "cant4") {
             $$('#cant4').addClass('fondoVerde');
+            $$('#nro3').addClass('oculto');
           } else {
               if(cantidad == "cant2"){
                 $$('#cant2').addClass('fondoVerde');
+                $$('#nro4').addClass('oculto');
               }
               if(cantidad == "cant1") {
                 $$('#cant1').addClass('fondoVerde');
+                $$('#nro2').addClass('oculto');
               }
               if(cantidad == "cant3") {
                 $$('#cant3').addClass('fondoVerde');
+                $$('#nro5').addClass('oculto');
               }
               if(cantidad == "cant5") {
                 $$('#cant5').addClass('fondoVerde');
+                $$('#nro6').addClass('oculto');
               }
           }
     }
@@ -751,6 +741,7 @@ $$(document).on('page:init', '.page[data-name="naturaleza"]', function (e) {
     $$('#intentos').on('click', function() {
       $$('.rtaV').removeClass('fondoVerde');
       $$('.rtaF').removeClass('fondoRojo');
+      $$('.rtaF').removeClass('oculto');
     })
 
     $$('.popover-rtaVerdadera').on('popover:open', function (e) {
@@ -768,15 +759,19 @@ $$(document).on('page:init', '.page[data-name="naturaleza"]', function (e) {
 
       if(rtasV == "mesa") {
         $$('#mesa').addClass('fondoVerde');
+        $$('#a').addClass('oculto');
       } else {
           if(rtasV == "arbol") {
           $$('#arbol').addClass('fondoVerde');
+          $$('#b').addClass('oculto');
         }
           if(rtasV == "elefante") {
           $$('#elefante').addClass('fondoVerde');
+          $$('#c').addClass('oculto');
         }
           if(rtasV == "casa") {
           $$('#casa').addClass('fondoVerde');
+          $$('#d').addClass('oculto');
         }
       }
   }
@@ -871,6 +866,8 @@ function fnVocalA(id){
 // VOCAL A
           case 'item-abeja':
             $$('#item-abeja').addClass('fondoVerde');
+            $$('#item-sol').addClass('oculto');
+            $$('#item-te').addClass('oculto');
             $$('.vocal-1A').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
 
@@ -1009,11 +1006,11 @@ function fnVocalA(id){
           botella = $$('.botella').text();
         // reemplazo el _ con la consonante correcta
           botella = botella.replace('_', 'B');
-
         // sobrescribo la palabra, con la consonante correcta
           $$('.botella').text(botella);
 
           $$('#btnBotella').addClass('fondoVerde');
+          $$('#v1').addClass('oculto');
 
         console.log('Palabra: ' + botella);
     } else {
@@ -1026,7 +1023,7 @@ function fnVocalA(id){
         // sobrescribo la palabra, con la consonante correcta
         $$('.ventana').text(ventana);
         $$('#btnVentana').addClass('fondoVerde');
-
+        $$('#b2').addClass('oculto');
         console.log('Palabra: ' + ventana);
     }
       if (palabra == 'btnLibro') {
@@ -1038,7 +1035,7 @@ function fnVocalA(id){
         // sobrescribo la palabra, con la consonante correcta
         $$('.libro').text(libro);
         $$('#btnLibro').addClass('fondoVerde');
-
+        $$('#v3').addClass('oculto');
         console.log('Palabra: ' + libro);
     }
       if (palabra == 'btnUva') {
@@ -1049,8 +1046,8 @@ function fnVocalA(id){
 
         // sobrescribo la palabra, con la consonante correcta
         $$('.uva').text(uva);
-
         $$('#btnUva').addClass('fondoVerde');
+        $$('#b4').addClass('oculto');
         console.log('Palabra: ' + uva);
     }
   }
@@ -1064,13 +1061,13 @@ function fnVocalA(id){
       } else {
 
           if(consonanteInc == "b2") {
-          $$('#b2').addClass('fondoRojo');
+            $$('#b2').addClass('fondoRojo');
         }
           if(consonanteInc == "v3") {
             $$('#v3').addClass('fondoRojo');
           }
           if(consonanteInc == "b4") {
-          $$('#b4').addClass('fondoRojo');
+            $$('#b4').addClass('fondoRojo');
         }
     }
 }
@@ -1110,7 +1107,7 @@ function registroUsuarios() {
           console.log('Datos de usuario: '+ JSON.stringify(datosReg));
           console.log('Usuario: ' + JSON.stringify(user));
 
-          mainView.router.navigate('/primer-grado/');
+          mainView.router.navigate('/login/');
          
     })
 
@@ -1398,19 +1395,18 @@ function juegoMozart(miEmail, nomJuego) {
     const Fecha = new Date(timestamp);
     console.log('FECHA: ' + Fecha);
   // ME TRAIGO DE LA BD, LA COLUMNA DE USUARIOS
- var docRef = colUsuarios.doc(email);
+ var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
         if (doc.exists) {
           console.log("Document data:", doc.data());
-          email = doc.data().Email;
-          miEmail = email;
+          emLogin = doc.data().Email;
+          miEmail = emLogin;
           actividadFecha = {actFecha: Fecha };
           nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha};
             //actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
             console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
-
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
@@ -1447,12 +1443,12 @@ function juegoJirafa(miEmail, nomJuego) {
   const Fecha = new Date(timestamp);
   console.log('FECHA: ' + Fecha);
 
- var docRef = colUsuarios.doc(email);
+ var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            email = doc.data().Email;
-            miEmail = email;
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, Fecha };
             //actResueltas.doc(miEmail).set(nomJuego);
@@ -1481,12 +1477,12 @@ function encontrarVocales(miEmail, nomJuego) {
   const Fecha = new Date(timestamp);
   console.log('FECHA: ' + Fecha);
 
- var docRef = colUsuarios.doc(email);
+ var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            email = doc.data().Email;
-            miEmail = email;
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, Fecha };
             // actResueltas.doc(miEmail).set(nomJuego);
@@ -1513,12 +1509,12 @@ function juegoConsonante(miEmail, nomJuego) {
   const Fecha = new Date(timestamp);
 
 
- var docRef = colUsuarios.doc(email);
+ var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            email = doc.data().Email;
-            miEmail = email;
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: Fecha };
             nomMateria = { nomMateria: "Lengua"};
@@ -1544,12 +1540,12 @@ function juegoNumeros(miEmail, nomJuego) {
   const timestamp = Date.now();
   const Fecha = new Date(timestamp);
 
- var docRef = colUsuarios.doc(email);
+ var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            email = doc.data().Email;
-            miEmail = email;
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: Fecha };
             // actResueltas.doc(miEmail).set(nomJuego);
@@ -1574,12 +1570,12 @@ function serONoSer(miEmail, nomJuego) {
   const timestamp = Date.now();
   const Fecha = new Date(timestamp);
 
- var docRef = colUsuarios.doc(email);
+ var docRef = colUsuarios.doc(emLogin);
     docRef.get().then((doc) => {
         if (doc.exists) {
             console.log("Document data:", doc.data());
-            email = doc.data().Email;
-            miEmail = email;
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
             nomJuego = { nombreActividad : "Ser o no ser", email: miEmail, fecha: Fecha};
             // actResueltas.doc(miEmail).set(nomJuego);
@@ -1603,12 +1599,12 @@ function juegoBelgrano(miEmail, nomJuego) {
   const timestamp = Date.now();
   const Fecha = new Date(timestamp);
 
-  var docRef = colUsuarios.doc(email);
+  var docRef = colUsuarios.doc(emLogin);
   docRef.get().then((doc) => {
     if(doc.exists) {
       console.log("Document data:", doc.data());
-      email = doc.data().Email;
-      miEmail = email;
+      emLogin = doc.data().Email;
+      miEmail = emLogin;
       actividadFecha = {actFecha: Fecha };
       nomJuego = { nombreActividad : "Belgrano", email: miEmail, fecha: Fecha};
 

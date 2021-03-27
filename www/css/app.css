@@ -94,6 +94,21 @@ div[data-name="index"] {
   background-repeat: no-repeat;
 }
 
+.bienvenida {
+  font-size: 1.5rem;
+  text-align: center;
+  color: #636d68;
+}
+
+.contenedor-cons {
+  border: 2px solid black;
+  border-radius: 30px;
+}
+
+ul {
+  padding-left: 0px;
+}
+
 .botones {
   display: flex;
   justify-content: center;
@@ -111,6 +126,7 @@ a.link.back {
 
 .nombre-iconos {
   text-transform: uppercase;
+  letter-spacing: 3px;
 }
 
 #registro, #login {
@@ -129,7 +145,6 @@ a.link.back {
 .link-login {
   margin-top: 10px;
 }
-
 
 .container-fotos{
   display: flex;
@@ -152,7 +167,7 @@ a.link.back {
 }
 
 .img-inicio {
-   display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -161,6 +176,22 @@ a.link.back {
   background-color: white;
 }
 
+/* POPOVER */
+
+.popover-backdrop.backdrop-in {
+  visibility: visible;
+    opacity: 1.5;
+}
+
+.popover-bienvenida {
+  background-image: url('../img/fondo-escolar.jpg');
+  background-size: cover;
+  padding: 10px;
+}
+
+div.popover-inner {
+  text-align: center;
+}
 
 img.materia {
   width: 50%;
@@ -169,6 +200,11 @@ img.materia {
 
 .instrumentos {
   width: 70%;
+}
+
+.mariposa, .pez, .estrella, .flor, .leon {
+  width: 50px;
+  height: 50px;
 }
 
 .vocal, .numeros  {
@@ -180,9 +216,24 @@ img.materia {
   height: 30vh;
 }
 
+.oculto {
+  display: none;
+  visibility: hidden;
+}
+
+.ul-vocales {
+  background-color: aliceblue;
+}
 
 .naturales {
-  border: 1px solid black;
+  border: 2px solid cadetblue;
+  border-radius: 10%;
+  padding: 21px;
+}
+
+.naturales p {
+  text-align: center;
+  font-size: 15px;
 }
 
 .palabrasB, .palabrasV {
@@ -197,6 +248,11 @@ img.lengua, .mat, .cs-nat, .cs-soc, .imagen {
 
 .naturales {
   width: 50%;
+}
+
+.checkbox {
+  display: none;
+  visibility: hidden;
 }
 
 ul li{
