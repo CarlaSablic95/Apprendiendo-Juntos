@@ -201,14 +201,14 @@ $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
 
     // consulto a la coleccion "actResueltas", que está en la BD
     // donde el email sea igual al email del usuario logueado
-var queryJuegosRealizados = actResueltas.where('email', '==', email).orderBy('nombreActividad');
-  queryJuegosRealizados.get('email', 'nombreActividad')
+var queryJuegosRealizados = actResueltas.where('email', '==', email).orderBy('fecha');
+  queryJuegosRealizados.get('email', 'nombreActividad', 'nombreMateria')
 
   .then((querySnapshot) => {
       $$('#misJuegos').html('');
         querySnapshot.forEach((doc) => { //
-          $$('#misJuegos').append('<h3>'+ doc.data().nombreActividad + '<img src="img/iconos/listo.png">' + '</h3>');
-
+          $$('#materia').append('<h3>'+ doc.data().nombreMateria + '</h3>');
+          $$('#misJuegos').append('<h3>'+ doc.data().nombreActividad + '</h3>');
         });
 
         
@@ -228,44 +228,6 @@ var queryJuegosRealizados = actResueltas.where('email', '==', email).orderBy('no
     //     }).catch((error) => {
     //           console.log("Error getting document:", error);
     //     });
-
-
-          // NOMBRE DE MATERIA
-
-var docRef = colMaterias.doc(nomMateria);
-
-    docRef.get().then((doc) => {
-      if (doc.exists) {
-          console.log("Document data:", doc.data());
-          console.log("OK! Con el ID: " + docRef.id);
-            nombreMateria = doc.data().nomMateria;
-              console.log('NOMBRE JUEGO: ' + JSON.stringify(nombreMateria));
-                $$('#materia').html('<p>Mis juegos completados: ' + JSON.stringify(nombreMateria) +'</p>');
-          } else {
-            // doc.data() will be undefined in this case
-              console.log("No such document!");
-        }
-        }).catch((error) => {
-              console.log("Error getting document:", error);
-        });
-
-
-
-
-  var queryMaterias = colMaterias.where('nombre', '==', nomMateria);
-  queryMaterias.get('nomMateria')
-
-  .then((querySnapshot) => {
-      $$('#materia').html('');
-        querySnapshot.forEach((doc) => { //
-          $$('#materia').append('<h3>'+ doc.data().nomMateria + '</h3>');
-
-        });
-
-        
-  }).catch((error) => console.log('No se pueden mostrar los juegos realizados: ' + error));
-
-
 
 })
 
@@ -1402,7 +1364,7 @@ function juegoMozart(miEmail, nomJuego) {
           emLogin = doc.data().Email;
           miEmail = emLogin;
           actividadFecha = {actFecha: Fecha };
-          nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha};
+          nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha, nombreMateria: 'Lengua'};
             //actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
@@ -1450,7 +1412,7 @@ function juegoJirafa(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, Fecha };
+            nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, Fecha, nombreMateria: 'Lengua' };
             //actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
@@ -1484,7 +1446,7 @@ function encontrarVocales(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, Fecha };
+            nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, Fecha, nombreMateria: 'Lengua' };
             // actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
@@ -1516,7 +1478,7 @@ function juegoConsonante(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: Fecha };
+            nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: Fecha, nombreMateria: 'Lengua' };
             nomMateria = { nomMateria: "Lengua"};
             // actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
@@ -1547,7 +1509,7 @@ function juegoNumeros(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: Fecha };
+            nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: Fecha, nombreMateria: 'Matemática' };
             // actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
@@ -1577,7 +1539,7 @@ function serONoSer(miEmail, nomJuego) {
             emLogin = doc.data().Email;
             miEmail = emLogin;
             actividadFecha = {actFecha: Fecha };
-            nomJuego = { nombreActividad : "Ser o no ser", email: miEmail, fecha: Fecha};
+            nomJuego = { nombreActividad : "Ser o no ser", email: miEmail, fecha: Fecha, nombreMateria: 'Ciencias Naturales'};
             // actResueltas.doc(miEmail).set(nomJuego);
             actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
             mainView.router.navigate('/mis-juegos/');
@@ -1606,7 +1568,7 @@ function juegoBelgrano(miEmail, nomJuego) {
       emLogin = doc.data().Email;
       miEmail = emLogin;
       actividadFecha = {actFecha: Fecha };
-      nomJuego = { nombreActividad : "Belgrano", email: miEmail, fecha: Fecha};
+      nomJuego = { nombreActividad : "Belgrano", email: miEmail, fecha: Fecha, nombreMateria: 'Ciencias Sociales'};
 
       // actResueltas.doc(miEmail).set(nomJuego);
       actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO

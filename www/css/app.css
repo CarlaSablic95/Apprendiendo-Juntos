@@ -216,10 +216,7 @@ img.materia {
   height: 30vh;
 }
 
-.oculto {
-  display: none;
-  visibility: hidden;
-}
+
 
 .ul-vocales {
   background-color: aliceblue;
@@ -264,14 +261,6 @@ ul li{
   color: black;
 }
 
-.fondoRojo {
-  background-color: #ee6055;
-}
-
-.fondoVerde {
-  background-color: #a7c957;
-}
-
 .miAvatar {
   border: 2px solid green;
 }
@@ -282,6 +271,20 @@ ul li{
   margin-right: 10px;
 }
 
+/* EJERCICIOS */
+.oculto {
+  display: none;
+  visibility: hidden;
+}
+
+.fondoRojo {
+  background-color: #ee6055;
+}
+
+.fondoVerde {
+  background-color: #a7c957;
+}
+
 .bordeVerde {
   border: 2px solid #a7c957;
 }
@@ -289,6 +292,8 @@ ul li{
 .bordeRojo {
   border: 2px solid #ee6055;
 }
+
+/***/
 
 .numeros {
   display: flex;
@@ -319,4 +324,43 @@ ul li{
   width: 80%;
   border: 1px solid black;
 
+}
+
+/* TABLA DE JUEGOS */
+.tJuego{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.tituloJuego {
+  color: rgb(86 85 82);
+}
+
+.data-table {
+    border-radius: 10%;
+    width: 80%;
+  }
+
+
+thead {
+  --f7-table-head-bg-color: rgb(242 185 87);
+  --f7-table-head-font-size: 15px;
+  --f7-table-head-text-color:#293939;
+}
+
+.label-cell {
+ background-color: rgb(255 228 112);
+ color: rgb(45 45 45);
+}
+
+.numeric-cell {
+ background-color: rgb(255 228 112);
+}
+
+div[data-name="cs-naturales"] {
+  background-image: url('../img/naturaleza.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
