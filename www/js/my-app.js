@@ -284,9 +284,18 @@ $$(document).on('page:init', '.page[data-name="mozart"]', function (e) {
     // JUGAR DE NUEVO
     $$('#otroJuego').on('click', function() {
           $$('.opcionCor').removeClass('fondoVerde');
-          $$('.opcionInc').removeClass('fondoRojo');
           $$('.rtaFinal').html('');
+          $$('.opcionInc').removeClass('fondoRojo');
+          $$('.opcionInc').removeClass('oculto');
           $$('.rtas').html('');
+          $$('.img-tilde').attr('src', '');
+          $$('.img-cruz').attr('src', '');
+
+          // para desseleccionar los inputs de tipo radio
+          document.querySelectorAll('[name=demo-radio-start]').forEach((x) => x.checked=false);
+      // para desmarcar los checkbox, una vez que reinicia el juego
+          $$(".checkbox").prop("checked", false); 
+          
     } )
 
 
@@ -304,28 +313,38 @@ function FnRespuestas(){
         case 'austria':
           $$('#rta1C').addClass('fondoVerde');
           $$('.rta-austria').attr('src', 'img/iconos/tilde.png');
-         
+          $$('#rta1A').addClass('oculto');
+          $$('#rta1B').addClass('oculto');
+        
+          
         break
 
         case 'padre':
           $$('#rta2A').addClass('fondoVerde');
           $$('.rta-padre').attr('src', 'img/iconos/tilde.png');
+          $$('#rta2B').addClass('oculto');
+          $$('#rta2C').addClass('oculto');
         break
 
         case 'palacios':
           $$('#rta3C').addClass('fondoVerde');
           $$('.rta-palacio').attr('src', 'img/iconos/tilde.png');
+          $$('#rta3A').addClass('oculto');
+          $$('#rta3B').addClass('oculto');
         break
 
         case 'piano':
           $$('#rta4A').addClass('fondoVerde');
           $$('.rta-piano').attr('src', 'img/iconos/tilde.png');
+          $$('#rta4B').addClass('oculto');
+          $$('#rta4C').addClass('oculto');
         break
 
         case 'violin':
           $$('#rta4D').addClass('fondoVerde');
           $$('.rta-violin').attr('src', 'img/iconos/tilde.png');
-
+          $$('#rta4B').addClass('oculto');
+          $$('#rta4C').addClass('oculto');
         break
 
       ////////   Respuestas incorrectas  /////////
@@ -383,9 +402,13 @@ $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
 
       $$('.good').removeClass('bordeVerde');
       $$('.bad').removeClass('bordeRojo');
+      $$('.bad').removeClass('oculto');
 
       $$('.img-bien').attr('src', '');
       $$('.img-error').attr('src', '');
+
+      // para desseleccionar los inputs de tipo radio
+      document.querySelectorAll('[name=demo-radio-start]').forEach((x) => x.checked=false);
 })
 
   function opcionesCorrectas(){
@@ -397,16 +420,22 @@ $$(document).on('page:init', '.page[data-name="jirafa"]', function (e) {
           case 'liebre':
             $$('.liebre').attr('src', 'img/iconos/tilde.png');
             $$('#a1').addClass('bordeVerde');
+            $$('#b1').addClass('oculto');
+            $$('#c1').addClass('oculto');
           break
 
           case 'acacia':
             $$('.acacia').attr('src', 'img/iconos/tilde.png');
             $$('#b2').addClass('bordeVerde');
+            $$('#a2').addClass('oculto');
+            $$('#c2').addClass('oculto');
           break
 
            case 'pelaje':
             $$('.pelaje').attr('src', 'img/iconos/tilde.png');
             $$('#c3').addClass('bordeVerde');
+            $$('#a3').addClass('oculto');
+            $$('#b3').addClass('oculto');
           break
           
         }
@@ -615,6 +644,10 @@ $$(document).on('page:init', '.page[data-name="belgrano"]', function (e) {
 
       $$('.itemOpcionesV').removeClass('bordeVerde');
       $$('.itemOpcionesR').removeClass('bordeRojo');
+      $$('.itemOpcionesR').removeClass('oculto');
+
+      // para desseleccionar los inputs de tipo radio
+      document.querySelectorAll('[name=demo-radio-start]').forEach((x) => x.checked=false);
   })
 })
 
@@ -627,14 +660,20 @@ function correcta() {
     if(item == "belgrano") {
         $$('.mBelgrano').attr('src', 'img/iconos/tilde.png');
         $$('#belgrano').addClass('bordeVerde');
+        $$('#sanMartin').addClass('oculto');
+        $$('#castelli').addClass('oculto');
     } else {
       if (item == "españa"){
         $$('.espania').attr('src', 'img/iconos/tilde.png');
         $$('#esp').addClass('bordeVerde');
+        $$('#fr').addClass('oculto');
+        $$('#ing').addClass('oculto');
       }
     }if (item == "celesteBlanca"){
       $$('.cyb').attr('src', 'img/iconos/tilde.png');
       $$('#celesteB').addClass('bordeVerde');
+      $$('#rojaB').addClass('oculto');
+      $$('#rojaC').addClass('oculto');
     }
 
 }
@@ -765,21 +804,21 @@ $$(document).on('page:init', '.page[data-name="abecedario"]', function (e) {
     app.toolbar.show('#toolBar');
 
 
-    $$('.open-preloader-indicator').on('click', function () {
-        app.preloader.show();
-        setTimeout(function () { 
-          app.preloader.hide(); 
-        }, 3000);
-      });
+    // $$('.open-preloader-indicator').on('click', function () {
+    //     app.preloader.show();
+    //     setTimeout(function () { 
+    //       app.preloader.hide(); 
+    //     }, 3000);
+    //   });
 
 
     //Obtengo una referencia al servicio de almacenamiento, que se utiliza para crear referencias en mi depósito de almacenamiento
   
-    var storage = firebase.storage();
+    // var storage = firebase.storage();
 
   //Creo una referencia de almacenamiento desde el servicio de almacenamiento de firebase
 
-    var storageRef = storage.ref();
+    // var storageRef = storage.ref();
 
 
   })
@@ -811,7 +850,7 @@ $$(document).on('page:init', '.page[data-name="vocales"]', function (e) {
 $$('#juegoNuevo').on('click', function() { 
     $$('.vocal').removeClass('fondoVerde');
     $$('.vocal-inc').removeClass('fondoRojo');
-
+    $$('.vocal-inc').removeClass('oculto');
     $$('.texto').html('');
 });
 
@@ -846,6 +885,8 @@ function fnVocalA(id){
            case 'item-naranja':
             $$('#item-naranja').addClass('fondoVerde');
             $$('.vocal-4A').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
+            $$('#item-sol').addClass('oculto');
+            $$('#item-te').addClass('oculto');
           break
   }
  }          // VOCAL E

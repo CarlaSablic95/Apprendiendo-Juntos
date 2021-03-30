@@ -87,6 +87,9 @@
 body {
   color: black;
 }
+h2 {
+  text-align: center;
+}
 
 div[data-name="index"] {
   background-image: url('../img/fondo.jpg');
@@ -98,6 +101,12 @@ div[data-name="index"] {
   font-size: 1.5rem;
   text-align: center;
   color: #636d68;
+}
+
+#avatarUsuario {
+  border: 1px solid black;
+  border-radius: 61%;
+  padding: 8px;
 }
 
 .contenedor-cons {
@@ -129,6 +138,21 @@ a.link.back {
   letter-spacing: 3px;
 }
 
+/*Lectura */
+#lectura {
+  background-color: blanchedalmond;
+}
+
+.titulo-cuento {
+  color: #2a4038;
+  text-align: center;
+}
+
+.card-footer {
+  display: contents;
+}
+
+/* REGISTRO Y LOGIN*/
 #registro, #login {
   background-color: #689F82;
   color: rgb(244 245 239);
@@ -140,6 +164,27 @@ a.link.back {
 
 #registro{
    margin-left: 25px;
+}
+
+.cont-logo {
+  display: flex;
+  justify-content: center;
+}
+.cont-form  {
+  border-radius: 5%;
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+}
+
+#logo {
+  border-radius: 65%;
+  width: 45%;
+}
+
+.avatares {
+  display: flex;
+  justify-content: center;
+  background-color: #9fcfcf;
 }
 
 .link-login {
@@ -359,8 +404,27 @@ thead {
  background-color: rgb(255 228 112);
 }
 
-div[data-name="cs-naturales"] {
-  background-image: url('../img/naturaleza.jpg');
-  background-size: contain;
-  background-repeat: no-repeat;
+/*MATERIAS*/
+
+div[data-name="abecedario"] {
+  background-color: antiquewhite;
 }
+
+div[data-name="primer-grado"] {
+  background-image: url('../img/fondo-escolar.jpg');
+}
+
+#img-belgrano {
+  width: 92vw;
+  height: 69vh;
+}
+
+#abc {
+  width: 50%;
+  border-radius: 50%;
+}
+
+
+/* .check-instruments {
+  width: 80%;
+} */

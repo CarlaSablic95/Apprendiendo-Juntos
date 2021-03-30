@@ -10,7 +10,8 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
+   <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline'; font-src * data: URIs ">
+
 
     <!-- Required meta tags-->
     <meta charset="utf-8">
@@ -51,7 +52,7 @@
                         </div>
                         <div class="panel panel-left panel-cover panel-init">
                             <div class="block">
-                                  <div class="block block-strong no-padding-horizontal">
+                                  <div class="block no-padding-horizontal">
                                     <div class="treeview">
                                       <div class="treeview-item">
                                         <div class="treeview-item-root">
