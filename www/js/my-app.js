@@ -201,7 +201,7 @@ $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
 
     // consulto a la coleccion "actResueltas", que está en la BD
     // donde el email sea igual al email del usuario logueado
-var queryJuegosRealizados = actResueltas.where('email', '==', email).orderBy('fecha');
+var queryJuegosRealizados = actResueltas.where('email', '==', emLogin).orderBy('fecha');
   queryJuegosRealizados.get('email', 'nombreActividad', 'nombreMateria')
 
   .then((querySnapshot) => {
