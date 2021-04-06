@@ -1,6 +1,6 @@
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
-
+ 
 var app = new Framework7({
     // App root element
     root: '#app',
@@ -14,12 +14,10 @@ var app = new Framework7({
     },
     // Add default routes
     routes: [
-        // RUTAS GENERALES
       { path: '/', url: 'index.html', },
-      { path: '/tipos-usuario/', url: 'tipos-usuario.html' },
-      { path: '/registro-admin/', url: 'registro-admin.html', },
-      { path: '/registro-alumno/', url: 'registro-alumno.html', },
-      { path: '/login-user/', url: 'login-user.html', },
+
+      { path: '/registro/', url: 'registro.html', },
+      { path: '/login/', url: 'login.html', },
       { path: '/perfil/', url: 'perfil.html', options: { transition: 'f7-circle',}, },
       { path: '/mis-juegos/', url: 'mis-juegos.html', options: { transition: 'f7-circle',}, },
 
@@ -51,26 +49,40 @@ var app = new Framework7({
  // ... other parameters
   });
 
-  var mainView = app.views.create('.view-main');
+
+var mainView = app.views.create('.view-main');
 
 // db hace la conexión a la BD
  var db = firebase.firestore();
 
  var colUsuarios = db.collection("usuarios");
 
+ var colMaterias = db.collection("materias");
 
+ var colActividades = db.collection("actividades");
+
+ var actResueltas = db.collection("actResueltas");
 
 const fecha = "";
 var colFechas = db.collection("fechaHora");
 
+//  var fechaBD ="";
 
+//  var horaBD ="";
+
+//  var hoy="";
+// var fecha = "";
+// var hora="";
+// var diaActual = "";
  // Para el usuario
  var nom="", email="", emailLogin="", emLogin="", fechaNac="";
 
  var avatarReg="", avatarElegido="", valRespuestas="";
 
 // VAR GLOBALES PARA LAS MATERIAS
+ var nomMateria="", nombreMateria="", actNombre="", contenido="", actividad="";
 
+ var nomJuego="";
 
  var botella="", ventana="", libro="", uva="";
 
@@ -86,7 +98,9 @@ $$(document).on('page:init', function (e) {
     // Do something here when page loaded and initialize
     console.log(e);
 
-      
+    // Llamada a funciones donde cada una tendrá datos que se subirán a la BD
+      fnAgregarMaterias();
+      agregarActividades();
 })
 
 
@@ -102,7 +116,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
       app.toolbar.hide('#toolBar');
 
         $$('#registro').on('click', function(){
-          mainView.router.navigate('/tipos-usuario/');
+          mainView.router.navigate('/registro/');
         })
 
         $$('#login').on('click', function(){
@@ -111,23 +125,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
      
 })
 
-// ELEGIR TIPO DE USUARIO, CADA USUARIO TE LLEVA A REGISTRARTE AL FORMULARIO CORRESPONDIENTE
-
-$$(document).on('page:init', '.page[data-name="tipos-usuario"]', function (e) {
-
-    console.log("Elegi qué tipo de usuario sos");
-
-    $$('#admin').on('click', function() {
-      mainView.router.navigate('/registro-admin/');
-    })
-
-    $$('#alumno').on('click', function() {
-      mainView.router.navigate('/registro-alumno/');
-    })
-
-})
-
-// REGISTRO PARA EL USUARIO COMÚN
+// REGISTRO
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
 
@@ -140,10 +138,6 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
       $$('.fotoPerfil').on('click', avatarUsuario);
 
 })
-
-
-
-// REGISTRO PARA EL ADMIN
 
 // LOGIN--------------------------------------------------------------
 
@@ -1084,7 +1078,67 @@ function fnVocalA(id){
 
 
 // Registro de usuario-----------------------------------------
+function registroUsuarios() {
+  
+  // Guardo en variables cada dato que el usuario ingresa
+    nom = $$('#nombreRegistro').val();
+    email = $$('#emailRegistro').val();
+    pass = $$('#passRegistro').val();
+    fechaNacReg = $$('#fechaNacReg').val();
+    avatarReg= $$('#' + avatarElegido).attr('src'); // la variable avatarReg es el id de cada foto
+    // y guarda la ruta de c/ foto
+ 
+    console.log('AVATAR: ' + avatarElegido);
+    console.log('SRC DE AVATAR: ' + avatarReg);
+    // Guardo el email del usuario que es el ID del usuario
+    idUsuario = email;
 
+    firebase.auth().createUserWithEmailAndPassword(email, pass)
+      .then((user) => {
+
+      // Datos de usuario guardados en BD
+        var datosReg = {
+            Nombre: nom,
+            Email: email,
+            Fecha: fechaNacReg,
+            Password: pass,
+            Avatar: avatarReg
+          };
+
+          colUsuarios.doc(email).set(datosReg);
+
+          console.log('Datos de usuario: '+ JSON.stringify(datosReg));
+          console.log('Usuario: ' + JSON.stringify(user));
+
+          mainView.router.navigate('/login/');
+         
+    })
+
+    .catch((error) =>{
+       var errorCode = error.code;
+       var errorMessage = error.message;
+       console.log('Errores: ' + errorCode + '' + errorMessage);
+      if(nom == "" | email == "" | fechaNacReg == "" | pass == "" ){
+         app.dialog.alert('¡Debés completar todos los campos!', 'Atención');
+         mainView.router.navigate('/registro/');
+      }
+    });
+
+
+// OBTENIENDO DATOS DE USUARIO
+
+      colUsuarios.get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          console.log("DATA: " + doc.data().Nombre + " " + doc.data().Email);
+        });
+      })
+
+      .catch(function(error) {
+         console.log("Error: ", error);
+      })
+
+}
 
 
 // Elijo foto de perfil
@@ -1156,10 +1210,92 @@ function avatarUsuario() {
 
 //Login de usuario-------------------
 
- 
+ function loginUsuarios() {
+  console.log('ENTRANDO A: login');
+   emailLogin = $$('#emailLogin').val();
+   passLogin = $$('#passLogin').val();
+   
+    // emLogin = emailLogin;
+
+ // var datosLog = {
+ //   Email: emailLogin,
+ //   Password: passLogin,
+ // }
+
+ firebase.auth().signInWithEmailAndPassword(emailLogin, passLogin)
+ .then((docRef) => {
+     // colUsuarios.doc(emLogin).get(datosLog);
+
+    var docRef = colUsuarios.doc(emailLogin);
+  
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+           nom = doc.data().Nombre;
+            emLogin = doc.data().Email;
+              console.log('EMAIL: ' + emLogin);
+              avatarReg = doc.data().Avatar;
+
+            mainView.router.navigate('/primer-grado/');
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+            if(emailLogin == "" | passLogin == "" ){
+              console.log('Mi email: ' + emailLogin + 'Mi pass: ' +  passLogin);
+                app.dialog.alert('¡Debés completar todos los campos!', 'Atención');
+                mainView.router.navigate('/login/');
+           }
+        }
+    }).catch((error) =>{
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode + errorMessage);
+
+   });
+ })
+        // var usuario = firebase.auth().currentUser;
+
+        // if (usuario) {
+        //   // User is signed in.
+        //   // console.log('Usuario actual: ' + (datosLog));
+        // } else {
+        //   // No user is signed in.
+        //   console.log('error');
+        // }
+  
+
+   
+}
+
 /////////////  AGREGO MATERIAS A LA BD ///////////////
 
- 
+ function fnAgregarMaterias() {
+  console.log('funcion materias');
+     nomMateria = "lengua";
+    actNombre = { 
+      act1: "Abecedario", 
+      act2: "Vocales y consonantes",
+      act3: "Comprensión lectora" 
+     };
+
+    colMaterias.doc(nomMateria).set(actNombre);
+
+      nomMateria = "matematica";
+      actNombre = { act1: "Numeros"};
+    
+    colMaterias.doc(nomMateria).set(actNombre);
+
+      nomMateria = "ciencias naturales";
+      actNombre = { act1: "Naturaleza"};
+    
+    colMaterias.doc(nomMateria).set(actNombre);
+
+     nomMateria = "ciencias sociales";
+      actNombre = { act1: "Fechas Patrias"};
+    
+    colMaterias.doc(nomMateria).set(actNombre);
+
+ }
 
 // function fnFechayHora() {
 //   // hoy = new Date();
@@ -1179,6 +1315,314 @@ function avatarUsuario() {
 // }
 
 /////////////  AGREGO ACTIVIDADES A LA BD ///////////////
+
+function agregarActividades() {
+  console.log('entro a función actividades');
+// MATERIA LENGUA
+nomJuego = "Abecedario";
+
+  contenido = {
+    Archivo: "Plantillas imprimibles",
+  }
+ colActividades.doc(nomJuego).set(contenido);
+
+
+  nomJuego = "Encontrando las vocales";
+
+  contenido = {
+    Video: "Aprendemos las vocales",
+    Imágenes: "íconos"
+  }
+
+  colActividades.doc(nomJuego).set(contenido);
+
+nomJuego = "¿B ó V?";
+
+  contenido = {
+    Video: "Las consonantes y las vocales para niños",
+    Imágenes: "íconos"
+  }
+
+  colActividades.doc(nomJuego).set(contenido);
+
+
+  nomJuego = "Mozart, el músico genial";
+
+  contenido = {
+     Imágenes: "íconos"
+  }
+
+colActividades.doc(nomJuego).set(contenido);
+
+
+// MATERIA MATEMÁTICA
+nomJuego = "¡A contar!";
+
+  contenido = {
+     Video: "Aprendemos los números",
+     Imágenes: "íconos"
+    }
+
+colActividades.doc(nomJuego).set(contenido);
+
+// MATERIA CIENCIAS SOCIALES
+
+nomJuego = "Belgrano";
+
+contenido = {
+Imágenes: "imagen"
+
+}
+colActividades.doc(nomJuego).set(contenido);
+
+// MATERIA CIENCIAS NATURALES
+
+nomJuego = "Ser o no ser";
+
+contenido = {
+  Video: "Seres vivos y seres inertes",
+  Imágenes: "iconos"
+
+}
+colActividades.doc(nomJuego).set(contenido);
+
+}
+
+
+
+// Guarda juego de mozart
+
+function juegoMozart(miEmail, nomJuego) {
+  console.log('juego mozart');
+    const timestamp = Date.now();
+    const Fecha = new Date(timestamp);
+    console.log('FECHA: ' + Fecha);
+  // ME TRAIGO DE LA BD, LA COLUMNA DE USUARIOS
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          emLogin = doc.data().Email;
+          miEmail = emLogin;
+          actividadFecha = {actFecha: Fecha };
+          nomJuego = { nombreActividad : "Mozart", email: miEmail, Fecha, nombreMateria: 'Lengua'};
+            //actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+  }
+    // ME TRAIGO DE LA BD, LA COLUMNA DE MATERIAS
+  //   var docRef = colMaterias.doc(nomMateria);
+
+  //   docRef.get().then((doc) => {
+  //     if (doc.exists) {
+  //         console.log("Document data:", doc.data());
+  //         nomMateria = 
+          
+  //         //actResueltas.doc(miEmail).set(nomMateria);
+  //         actResueltas.add(nomMateria);
+  //         mainView.router.navigate('/mis-juegos/');
+
+  //     } else {
+  //         // doc.data() will be undefined in this case
+  //         console.log("No such document!");
+  //     }
+  // }).catch((error) => {
+  //     console.log("Error getting document:", error);
+  // });
+
+// Guarda juego de jirafa
+
+function juegoJirafa(miEmail, nomJuego) {
+  console.log('juego jirafa');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
+  console.log('FECHA: ' + Fecha);
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "Jirafa Fita", email: miEmail, Fecha, nombreMateria: 'Lengua' };
+            //actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+            
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
+
+
+// Guarda juego de vocales
+
+function encontrarVocales(miEmail, nomJuego) {
+  console.log('juego vocales');
+
+  const timestamp = Date.now();
+  console.log('TIMESTAMP: ' + timestamp);
+
+  const Fecha = new Date(timestamp);
+  console.log('FECHA: ' + Fecha);
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "Encontrando las vocales", email: miEmail, Fecha, nombreMateria: 'Lengua' };
+            // actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
+
+
+
+// Guarda juego de consonante
+
+function juegoConsonante(miEmail, nomJuego) {
+  console.log('juego consonante');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
+
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "B ó V", email: miEmail, fecha: Fecha, nombreMateria: 'Lengua' };
+            nomMateria = { nomMateria: "Lengua"};
+            // actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
+
+
+// Guarda JUEGO NUMEROS
+
+function juegoNumeros(miEmail, nomJuego) {
+  console.log('juego consonante');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "¡A contar!", email: miEmail, fecha: Fecha, nombreMateria: 'Matemática' };
+            // actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
+
+
+// Guarda JUEGO NATURALES
+
+function serONoSer(miEmail, nomJuego) {
+  console.log('juego ser o no ser');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
+
+ var docRef = colUsuarios.doc(emLogin);
+    docRef.get().then((doc) => {
+        if (doc.exists) {
+            console.log("Document data:", doc.data());
+            emLogin = doc.data().Email;
+            miEmail = emLogin;
+            actividadFecha = {actFecha: Fecha };
+            nomJuego = { nombreActividad : "Ser o no ser", email: miEmail, fecha: Fecha, nombreMateria: 'Ciencias Naturales'};
+            // actResueltas.doc(miEmail).set(nomJuego);
+            actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
+            mainView.router.navigate('/mis-juegos/');
+            console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch((error) => {
+        console.log("Error getting document:", error);
+    });
+}
+
+// Guardo el juego Belgrano
+
+function juegoBelgrano(miEmail, nomJuego) { 
+  console.log('juego belgrano');
+  const timestamp = Date.now();
+  const Fecha = new Date(timestamp);
+
+  var docRef = colUsuarios.doc(emLogin);
+  docRef.get().then((doc) => {
+    if(doc.exists) {
+      console.log("Document data:", doc.data());
+      emLogin = doc.data().Email;
+      miEmail = emLogin;
+      actividadFecha = {actFecha: Fecha };
+      nomJuego = { nombreActividad : "Belgrano", email: miEmail, fecha: Fecha, nombreMateria: 'Ciencias Sociales'};
+
+      // actResueltas.doc(miEmail).set(nomJuego);
+      actResueltas.add(nomJuego); // add() --> GENERA UN ID AUTOMÁTICO
+      mainView.router.navigate('/mis-juegos/');
+      console.log('Juego ' + JSON.stringify(nomJuego.nombreActividad) + ' terminado por ' + miEmail);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  }
 
 
 

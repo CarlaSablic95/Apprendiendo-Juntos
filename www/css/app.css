@@ -103,6 +103,30 @@ div[data-name="index"] {
   color: #636d68;
 }
 
+/* TIPOS DE USUARIO */
+
+div[data-name="tipos-usuario"] {
+  background-color:rgb(255, 251, 192);
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+#admin {
+  background-color: #caf186;
+    border-radius: 70%;
+    padding: 35px;
+    width: 75%;
+    margin: 0 auto 25px auto;
+}
+
+#alumno {
+  background-color: #b4f3e0;
+    border-radius: 70%;
+    padding: 35px;
+    width: 75%;
+    margin: 0 auto;
+}
+
 #avatarUsuario {
   border: 1px solid black;
   border-radius: 61%;
