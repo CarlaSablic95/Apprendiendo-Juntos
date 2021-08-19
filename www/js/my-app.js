@@ -16,10 +16,8 @@ var app = new Framework7({
     routes: [
         // RUTAS GENERALES
       { path: '/', url: 'index.html', },
-      { path: '/tipos-usuario/', url: 'tipos-usuario.html' },
-      { path: '/registro-admin/', url: 'registro-admin.html', },
-      { path: '/registro-alumno/', url: 'registro-alumno.html', },
-      { path: '/login-user/', url: 'login-user.html', },
+      { path: '/registro/', url: 'registro.html', },
+      { path: '/login/', url: 'login.html', },
       { path: '/perfil/', url: 'perfil.html', options: { transition: 'f7-circle',}, },
       { path: '/mis-juegos/', url: 'mis-juegos.html', options: { transition: 'f7-circle',}, },
 
@@ -65,7 +63,7 @@ var colFechas = db.collection("fechaHora");
 
 
  // Para el usuario
- var nom="", email="", emailLogin="", emLogin="", fechaNac="";
+ var nombre="", emailReg="", emLogin="", passReg="", passLogin= "", fechaNac="";
 
  var avatarReg="", avatarElegido="", valRespuestas="";
 
@@ -84,7 +82,7 @@ $$(document).on('deviceready', function() {
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init', function (e) {
     // Do something here when page loaded and initialize
-    console.log(e);
+    // console.log(e);
 
       
 })
@@ -102,7 +100,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
       app.toolbar.hide('#toolBar');
 
         $$('#registro').on('click', function(){
-          mainView.router.navigate('/tipos-usuario/');
+          mainView.router.navigate('/registro/');
         })
 
         $$('#login').on('click', function(){
@@ -111,39 +109,46 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
      
 })
 
-// ELEGIR TIPO DE USUARIO, CADA USUARIO TE LLEVA A REGISTRARTE AL FORMULARIO CORRESPONDIENTE
-
-$$(document).on('page:init', '.page[data-name="tipos-usuario"]', function (e) {
-
-    console.log("Elegi qué tipo de usuario sos");
-
-    $$('#admin').on('click', function() {
-      mainView.router.navigate('/registro-admin/');
-    })
-
-    $$('#alumno').on('click', function() {
-      mainView.router.navigate('/registro-alumno/');
-    })
-
-})
-
-// REGISTRO PARA EL USUARIO COMÚN
+// REGISTRO
 
 $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
-
       console.log("carga registro");
+      
+      // ocultamos el navbar y toolbar
       app.navbar.hide('#navbar');
       app.toolbar.hide('#toolBar');
 
-//Al hacer click en Registrarme, llamas a la funcion para registro de usuarios
+//Al hacer click en Registrarme, llamo a la funcion para registro de usuarios
       $$('#btnRegistro').on('click', registroUsuarios);
+
       $$('.fotoPerfil').on('click', avatarUsuario);
 
 })
 
+// FUNCIÓN QUE REGISTRA A LOS USUARIOS
 
+function registroUsuarios() {
+  nombre = $$('#nombreReg').val();
+  emailReg = $$('#emRegistro').val();
+  passReg = $$('#passRegistro').val();
 
-// REGISTRO PARA EL ADMIN
+  firebase.auth().createUserWithEmailAndPassword(emailReg, passReg)
+  .then((userCredential) => {
+    // Signed in 
+    var user = userCredential.user;
+    console.info(`Usuario con email: ${emailReg} registrado con éxito`);
+  })
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    
+    // Que los campos no vengan vacíos
+
+    if(typeof nombre !== string) return console.warn(`${nombre} no es un nombre válido`);
+    if(passReg.length > 8) return console.warn("La contraseña no puede exceder los 8 caracteres");
+  });
+
+}
 
 // LOGIN--------------------------------------------------------------
 
@@ -153,9 +158,9 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
       app.navbar.hide('#navBar');
       app.toolbar.hide('#toolBar');
 
-      $$('#msjBienvenida').html('<h1 class="bienvenida">¡Bienvenido/a, ' +nom+'!</h1>');
+      $$('#msjBienvenida').html('<h1 class="bienvenida">¡Bienvenido/a, ' + nombre +'!</h1>');
 
-  console.log('Mi Nombre: ' + nom);
+  console.log('Mi Nombre: ' + nombre);
 
       $$('#btnLogin').on('click', loginUsuarios);
 })
@@ -167,12 +172,28 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
 // Muestro el Navbar y Toolbar para la pagina del listado de las materias
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in
+      var user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+
+      if(emLogin !== emailReg) return console.error('El email es incorrecto');
+
+      if(passLogin !== passReg) return console.error('La contraseña es incorrecta');
+    });
+
     
-      $$('#nomUsuario').html('<p>Nombre: ' + nom +'</p>');
-      $$('#emUsuario').html('<p>Email: ' +emLogin+'</p>');
+      $$('#nomUsuario').html('<p>Nombre: ' + nombre +'</p>');
+      $$('#emUsuario').html('<p>Email: ' + emLogin + '</p>');
 
       $$('.open-confirm').on('click', function () {
-        app.dialog.confirm('¿Estás seguro/a de cerrar sesión?',nom , function () {
+        app.dialog.confirm('¿Estás seguro/a de cerrar sesión?', nombre , function () {
           mainView.router.navigate('/login/');
           app.dialog.alert('¡Volvé pronto!');
         });
@@ -180,10 +201,20 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
 
         $$('#btnLogout').on('click', cerrarSesion);
 
-      // Se muestra el avatar en el perfil
+        // Se muestra el avatar en el perfil
         $$('#avatarUsuario').attr('src', avatarReg);
 })
+      
 
+      // CERRAR SESIÓN DE USUARIO
+      function cerrarSesion() {
+        firebase.auth().signOut().then(() => {
+          mainView.router.navigate('/login/');
+        }).catch((error) => {
+          // An error happened.
+          console.error(error);
+        });
+      }
 
 // MIS JUEGOS
 $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
@@ -1181,16 +1212,3 @@ function avatarUsuario() {
 /////////////  AGREGO ACTIVIDADES A LA BD ///////////////
 
 
-
-// CERRAR SESIÓN DE USUARIO
-function cerrarSesion() {
-  firebase.auth().signOut().then(() => {
-  // Sign-out successful.
-mainView.router.navigate('/login/');
-   
-    console.log('Cerré sesión');
-}).catch((error) => {
-  // An error happened.
-   console.log('Error ' + error);
-});
-}

@@ -184,6 +184,7 @@ a.link.back {
   width: 90%;
   letter-spacing: 2px;
   padding: 20px;
+  position: static;
 }
 
 #registro{
@@ -396,9 +397,9 @@ ul li{
 
 
 .abc {
-   display: flex;
-   justify-content: center;
-   align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
