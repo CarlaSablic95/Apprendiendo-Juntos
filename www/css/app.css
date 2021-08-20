@@ -111,26 +111,9 @@ div[data-name="tipos-usuario"] {
   padding-bottom: 0px;
 }
 
-#admin {
-  background-color: #caf186;
-    border-radius: 70%;
-    padding: 35px;
-    width: 75%;
-    margin: 0 auto 25px auto;
-}
-
-#alumno {
-  background-color: #b4f3e0;
-    border-radius: 70%;
-    padding: 35px;
-    width: 75%;
-    margin: 0 auto;
-}
-
 #avatarUsuario {
-  border: 1px solid black;
   border-radius: 61%;
-  padding: 8px;
+  padding: 2px;
 }
 
 .contenedor-cons {
@@ -265,6 +248,10 @@ div[data-name="login"] {
   background-image: url('../img/fondo-escolar.jpg');
   background-size: cover;
   padding: 10px;
+  display: block;
+  position: absolute !important;
+  top: 197.5px !important;
+  left: 58.609px !important;
 }
 
 div.popover-inner {
@@ -323,6 +310,14 @@ img.lengua-img, .cs-nat, .cs-soc, .imagen {
   width: 80%;
 }
 
+.texto {
+  margin: 0 0 !important;
+}
+
+.texto > h3 {
+  margin: 0 0 !important;
+}
+
 .naturales {
   width: 50%;
 }
@@ -342,7 +337,7 @@ ul li{
 }
 
 .miAvatar {
-  border: 2px solid green;
+  border: 2px solid #078407;
 }
 
 .fotoPerfil {
@@ -388,10 +383,7 @@ ul li{
 
 #miAvatar {
     display: block;
-    width: 15%;
-    border: 1px solid #171717;
-    border-radius: 50%;
-    padding: 3px;
+    width: 17%;
     margin-top: 3px;
 }
 

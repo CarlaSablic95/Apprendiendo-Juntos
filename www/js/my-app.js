@@ -106,7 +106,7 @@ $$(document).on('page:init', '.page[data-name="index"]', function (e) {
         $$('#login').on('click', function(){
           mainView.router.navigate('/login/');
         })
-     
+        
 })
 
 // REGISTRO
@@ -128,6 +128,7 @@ $$(document).on('page:init', '.page[data-name="registro"]', function (e) {
 // FUNCIÓN QUE REGISTRA A LOS USUARIOS
 
 function registroUsuarios() {
+  avatarReg = $$('.fotoPerfil').attr();
   nombre = $$('#nombreReg').val();
   emailReg = $$('#emRegistro').val();
   passReg = $$('#passRegistro').val();
@@ -136,7 +137,9 @@ function registroUsuarios() {
   .then((userCredential) => {
     // Signed in 
     var user = userCredential.user;
+    mainView.router.navigate('/login/');
     console.info(`Usuario con email: ${emailReg} registrado con éxito`);
+    // avatarReg = $$('.fotoPerfil').attr('src', `img/iconos/${avatarElegido}.png`);
   })
   .catch((error) => {
     var errorCode = error.code;
@@ -144,11 +147,81 @@ function registroUsuarios() {
     
     // Que los campos no vengan vacíos
 
-    if(typeof nombre !== string) return console.warn(`${nombre} no es un nombre válido`);
+    if(typeof nombre !== "string") return console.warn(`${nombre} no es un nombre válido`);
     if(passReg.length > 8) return console.warn("La contraseña no puede exceder los 8 caracteres");
   });
 
 }
+
+
+// Elijo foto de perfil
+
+function avatarUsuario() {
+  avatarElegido = this.id;
+  console.log('Avatar elegido: ' + avatarElegido);
+
+// Evalúo distintos casos, dependiendo de la imagen que elijo
+  switch(avatarElegido){
+      case 'estrella':
+        $$('#estrella').addClass('miAvatar');
+        $$('#guitarra').removeClass('miAvatar');
+        $$('#manzana').removeClass('miAvatar');
+        $$('#piano').removeClass('miAvatar');
+        $$('#pelota').removeClass('miAvatar');
+        $$('#pintar').removeClass('miAvatar');
+      break
+
+      case 'manzana':
+        $$('#manzana').addClass('miAvatar');
+        $$('#estrella').removeClass('miAvatar');
+        $$('#guitarra').removeClass('miAvatar');
+        $$('#piano').removeClass('miAvatar');
+        $$('#pelota').removeClass('miAvatar');
+        $$('#pintar').removeClass('miAvatar');
+          
+      break
+
+      case 'piano':
+        $$('#piano').addClass('miAvatar');
+        $$('#estrella').removeClass('miAvatar');
+        $$('#guitarra').removeClass('miAvatar');
+        $$('#manzana').removeClass('miAvatar');
+        $$('#pelota').removeClass('miAvatar');
+        $$('#pintar').removeClass('miAvatar');
+            
+      break
+
+      case 'guitarra':
+        $$('#guitarra').addClass('miAvatar');
+        $$('#estrella').removeClass('miAvatar');
+        $$('#manzana').removeClass('miAvatar');
+        $$('#piano').removeClass('miAvatar');
+        $$('#pelota').removeClass('miAvatar');
+        $$('#pintar').removeClass('miAvatar');
+      break
+
+      case 'pelota':
+        $$('#pelota').addClass('miAvatar');
+        $$('#estrella').removeClass('miAvatar');
+        $$('#guitarra').removeClass('miAvatar');
+        $$('#manzana').removeClass('miAvatar');
+        $$('#piano').removeClass('miAvatar');
+        $$('#pintar').removeClass('miAvatar');
+      break
+
+      case 'pintar':
+        $$('#pintar').addClass('miAvatar');
+        $$('#estrella').removeClass('miAvatar');
+        $$('#guitarra').removeClass('miAvatar');
+        $$('#manzana').removeClass('miAvatar');
+        $$('#piano').removeClass('miAvatar');
+        $$('#pelota').removeClass('miAvatar');  
+      break  
+  } 
+
+}
+
+
 
 // LOGIN--------------------------------------------------------------
 
@@ -158,26 +231,28 @@ $$(document).on('page:init', '.page[data-name="login"]', function (e) {
       app.navbar.hide('#navBar');
       app.toolbar.hide('#toolBar');
 
-      $$('#msjBienvenida').html('<h1 class="bienvenida">¡Bienvenido/a, ' + nombre +'!</h1>');
+      
 
   console.log('Mi Nombre: ' + nombre);
 
       $$('#btnLogin').on('click', loginUsuarios);
 })
 
-// PERFIL----------------------------------------
 
-$$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
+// LOGIN
 
-// Muestro el Navbar y Toolbar para la pagina del listado de las materias
-    app.navbar.show('#navBar');
-    app.toolbar.show('#toolBar');
+function loginUsuarios() {
+  nombre;
+  emLogin = $$('#emailLogin').val();
+  passLogin = $$('#passLogin').val();
 
-    firebase.auth().signInWithEmailAndPassword(email, password)
+
+  firebase.auth().signInWithEmailAndPassword(emLogin, passLogin)
     .then((userCredential) => {
       // Signed in
       var user = userCredential.user;
-      // ...
+       console.info("Bienvenido/a " + nombre);
+       mainView.router.navigate('/primer-grado/');
     })
     .catch((error) => {
       var errorCode = error.code;
@@ -188,7 +263,20 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
       if(passLogin !== passReg) return console.error('La contraseña es incorrecta');
     });
 
-    
+}
+
+
+// PERFIL----------------------------------------
+
+$$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
+nombre;
+// Muestro el Navbar y Toolbar para la pagina del listado de las materias
+    app.navbar.show('#navBar');
+    app.toolbar.show('#toolBar');
+
+      // $$('#avatarUsuario').attr('src', avatarElegido);
+      // Se muestra el avatar en el perfil
+      $$('#avatarUsuario').attr('src', `img/iconos/${avatarElegido}.png`);
       $$('#nomUsuario').html('<p>Nombre: ' + nombre +'</p>');
       $$('#emUsuario').html('<p>Email: ' + emLogin + '</p>');
 
@@ -201,8 +289,8 @@ $$(document).on('page:init', '.page[data-name="perfil"]', function (e) {
 
         $$('#btnLogout').on('click', cerrarSesion);
 
-        // Se muestra el avatar en el perfil
-        $$('#avatarUsuario').attr('src', avatarReg);
+        
+        
 })
       
 
@@ -224,17 +312,17 @@ $$(document).on('page:init', '.page[data-name="juegos"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
 
-    // var queryMaterias = colMaterias.where("nombre", "==", nomMateria)
-    // queryMaterias.get('nomMateria')
-    // .then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //         // doc.data() is never undefined for query doc snapshots
-    //         console.log(doc.id, " => ", doc.data());
-    //     });
-    // })
-    // .catch((error) => {
-    //     console.log("Error getting documents: ", error);
-    // });
+    var queryMaterias = colMaterias.where("nombre", "==", nomMateria)
+    queryMaterias.get('nomMateria')
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+        });
+    })
+    .catch((error) => {
+        console.log("Error getting documents: ", error);
+    });
 
     // consulto a la coleccion "actResueltas", que está en la BD
     // donde el email sea igual al email del usuario logueado
@@ -251,20 +339,21 @@ var queryJuegosRealizados = actResueltas.where('email', '==', emLogin).orderBy('
         
   }).catch((error) => console.log('No se pueden mostrar los juegos realizados: ' + error));
 
-    // docRef.get().then((doc) => {
-    //   if (doc.exists) {
-    //       console.log("Document data:", doc.data());
-    //       console.log("OK! Con el ID: " + docRef.id);
-    //         nomJuego = doc.data().nombreActividad;
-    //           console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego));
-    //             $$('#miProgreso').html('<p>Mis juegos completados: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
-    //       } else {
-    //         // doc.data() will be undefined in this case
-    //           console.log("No such document!");
-    //     }
-    //     }).catch((error) => {
-    //           console.log("Error getting document:", error);
-    //     });
+  
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+          console.log("Document data:", doc.data());
+          console.log("OK! Con el ID: " + docRef.id);
+            nomJuego = doc.data().nombreActividad;
+              console.log('NOMBRE JUEGO: ' + JSON.stringify(nomJuego));
+                $$('#miProgreso').html('<p>Mis juegos completados: ' + JSON.stringify(nomJuego.nombreActividad) +'</p>');
+          } else {
+            // doc.data() will be undefined in this case
+              console.log("No such document!");
+        }
+        }).catch((error) => {
+              console.log("Error getting document:", error);
+        });
 
 })
 
@@ -279,7 +368,8 @@ $$(document).on('page:init', '.page[data-name="primer-grado"]', function (e) {
     app.navbar.show('#navBar');
     app.toolbar.show('#toolBar');
     
-    $$('#miAvatar').attr('src', avatarReg);
+    $$('#miAvatar').attr('src', `img/iconos/${avatarElegido}.png`);
+    $$('#msjBienvenida').html('<h1 class="bienvenida">¡Bienvenido/a, ' + nombre +'!</h1>');
 })
 
 // LENGUA------------------------------------------------------
@@ -600,22 +690,27 @@ $$('#terminar').on('click', juegoNumeros);
           if( cantidad == "cant4") {
             $$('#cant4').addClass('fondoVerde');
             $$('#nro3').addClass('oculto');
+            $$('#nroCor').html('<h3 style="color: #078407;">¡Genial!</h3>' + '<img src="img/iconos/bien.png">');
           } else {
               if(cantidad == "cant2"){
                 $$('#cant2').addClass('fondoVerde');
                 $$('#nro4').addClass('oculto');
+                $$('#nroCor').html('<h3 style="color: #078407;">¡Genial!</h3>' + '<img src="img/iconos/bien.png">');
               }
               if(cantidad == "cant1") {
                 $$('#cant1').addClass('fondoVerde');
                 $$('#nro2').addClass('oculto');
+                $$('#nroCor').html('<h3 style="color: #078407;">¡Genial!</h3>' + '<img src="img/iconos/bien.png">');
               }
               if(cantidad == "cant3") {
                 $$('#cant3').addClass('fondoVerde');
                 $$('#nro5').addClass('oculto');
+                $$('#nroCor').html('<h3 style="color: #078407;">¡Genial!</h3>' + '<img src="img/iconos/bien.png">');
               }
               if(cantidad == "cant5") {
                 $$('#cant5').addClass('fondoVerde');
                 $$('#nro6').addClass('oculto');
+                $$('#nroCor').html('<h3 style="color: #078407;">¡Genial!</h3>' + '<img src="img/iconos/bien.png">');
               }
           }
     }
@@ -625,18 +720,23 @@ $$('#terminar').on('click', juegoNumeros);
           console.log('ID: ' + nroInc);
             if( nroInc == "nro3") {
               $$('#nro3').addClass('fondoRojo');
+              $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
             } else {
                 if(nroInc == "nro4"){
                   $$('#nro4').addClass('fondoRojo');
+                  $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
                 }
                 if(nroInc == "nro2") {
                    $$('#nro2').addClass('fondoRojo');
+                   $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
                 }
                 if(nroInc == "nro5") {
                    $$('#nro5').addClass('fondoRojo');
+                   $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
                 }
                  if(nroInc == "nro6") {
                     $$('#nro6').addClass('fondoRojo');
+                    $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
                }
             }
     }
@@ -798,18 +898,22 @@ $$(document).on('page:init', '.page[data-name="naturaleza"]', function (e) {
       if(rtasV == "mesa") {
         $$('#mesa').addClass('fondoVerde');
         $$('#a').addClass('oculto');
+        $$('#popoverV').html('<h3 style="color: #078407;">¡Excelente!</h3>' + '<img src="img/iconos/bien.png">');
       } else {
           if(rtasV == "arbol") {
           $$('#arbol').addClass('fondoVerde');
           $$('#b').addClass('oculto');
+          $$('#popoverV').html('<h3 style="color: #078407;">¡Excelente!</h3>' + '<img src="img/iconos/bien.png">');
         }
           if(rtasV == "elefante") {
           $$('#elefante').addClass('fondoVerde');
           $$('#c').addClass('oculto');
+          $$('#popoverV').html('<h3 style="color: #078407;">¡Excelente!</h3>' + '<img src="img/iconos/bien.png">');
         }
           if(rtasV == "casa") {
           $$('#casa').addClass('fondoVerde');
           $$('#d').addClass('oculto');
+          $$('#popoverV').html('<h3 style="color: #078407;">¡Excelente!</h3>' + '<img src="img/iconos/bien.png">');
         }
       }
   }
@@ -820,15 +924,19 @@ $$(document).on('page:init', '.page[data-name="naturaleza"]', function (e) {
 
      if(rtasF == "a") {
         $$('#a').addClass('fondoRojo');
+        $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
       } else {
           if(rtasF == "b") {
           $$('#b').addClass('fondoRojo');
+          $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
         }
           if(rtasF == "c") {
           $$('#c').addClass('fondoRojo');
+          $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
         }
           if(rtasF == "d") {
           $$('#d').addClass('fondoRojo');
+          $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
         }
     }
   }
@@ -1035,6 +1143,12 @@ function fnVocalA(id){
    }
   }    
   
+
+  // FINALIZAR JUEGO VOCALES
+
+    // function encontrarVocales() {
+
+    // }
  
 // CONSONANTES (ACTIVIDAD)-------------------------------------------------
     function rtaCorrecta(id) {
@@ -1046,13 +1160,14 @@ function fnVocalA(id){
           botella = $$('.botella').text();
         // reemplazo el _ con la consonante correcta
           botella = botella.replace('_', 'B');
-        // sobrescribo la palabra, con la consonante correcta
+        // sobreescribo la palabra, con la consonante correcta
           $$('.botella').text(botella);
 
           $$('#btnBotella').addClass('fondoVerde');
           $$('#v1').addClass('oculto');
 
         console.log('Palabra: ' + botella);
+        $$('#contenido').html('<h3 style="color: #078407;">¡Muy bien!</h3>' + '<img src="img/iconos/bien.png">');
     } else {
        if (palabra == 'btnVentana') {
         // guardo en la variable, para recuperar el texto
@@ -1060,11 +1175,12 @@ function fnVocalA(id){
         // reemplazo el _ con la consonante correcta
         ventana = ventana.replace('_', 'V');
 
-        // sobrescribo la palabra, con la consonante correcta
+        // sobreescribo la palabra, con la consonante correcta
         $$('.ventana').text(ventana);
         $$('#btnVentana').addClass('fondoVerde');
         $$('#b2').addClass('oculto');
         console.log('Palabra: ' + ventana);
+        $$('#contenido').html('<h3 style="color: #078407;">¡Muy bien!</h3>' + '<img src="img/iconos/bien.png">');
     }
       if (palabra == 'btnLibro') {
         // guardo en la variable, para recuperar el texto
@@ -1072,11 +1188,12 @@ function fnVocalA(id){
         // reemplazo el _ con la consonante correcta
         libro = libro.replace('_', 'B');
 
-        // sobrescribo la palabra, con la consonante correcta
+        // sobreescribo la palabra, con la consonante correcta
         $$('.libro').text(libro);
         $$('#btnLibro').addClass('fondoVerde');
         $$('#v3').addClass('oculto');
         console.log('Palabra: ' + libro);
+        $$('#contenido').html('<h3 style="color: #078407;">¡Muy bien!</h3>' + '<img src="img/iconos/bien.png">');
     }
       if (palabra == 'btnUva') {
         // guardo en la variable, para recuperar el texto
@@ -1084,11 +1201,12 @@ function fnVocalA(id){
         // reemplazo el _ con la consonante correcta
         uva = uva.replace('_', 'V');
 
-        // sobrescribo la palabra, con la consonante correcta
+        // sobreescribo la palabra, con la consonante correcta
         $$('.uva').text(uva);
         $$('#btnUva').addClass('fondoVerde');
         $$('#b4').addClass('oculto');
         console.log('Palabra: ' + uva);
+        $$('#contenido').html('<h3 style="color: #078407;">¡Muy bien!</h3>' + '<img src="img/iconos/bien.png">');
     }
   }
 }
@@ -1098,96 +1216,25 @@ function fnVocalA(id){
 
       if(consonanteInc == "v1") {
         $$('#v1').addClass('fondoRojo');
+        $$('#correccion').html('<h3 style="color: #d00000;">¡Es incorrecto!</h3>');
       } else {
 
           if(consonanteInc == "b2") {
             $$('#b2').addClass('fondoRojo');
+            $$('#correccion').html('<h3 style="color: #d00000;">¡Es incorrecto!</h3>');
         }
           if(consonanteInc == "v3") {
             $$('#v3').addClass('fondoRojo');
+            $$('#correccion').html('<h3 style="color: #d00000;">¡Es incorrecto!</h3>');
           }
           if(consonanteInc == "b4") {
             $$('#b4').addClass('fondoRojo');
+            $$('#correccion').html('<h3 style="color: #d00000;">¡Es incorrecto!</h3>');
         }
     }
 }
 
 
-
-// Registro de usuario-----------------------------------------
-
-
-
-// Elijo foto de perfil
-
-function avatarUsuario() {
-  avatarElegido = this.id;
-  console.log('Avatar elegido: ' + avatarElegido);
-
-// Evalúo distintos casos, dependiendo de la imagen que elijo
-  switch(avatarElegido){
-      case 'nene':
-        $$('#nene').addClass('miAvatar');
-        $$('#avion').removeClass('miAvatar');
-        $$('#nena').removeClass('miAvatar');
-        $$('#icon-mariposa').removeClass('miAvatar');
-        $$('#icon-pelota').removeClass('miAvatar');
-        $$('#flor').removeClass('miAvatar');
-      break
-
-      case 'nena':
-        $$('#nena').addClass('miAvatar');
-        $$('#nene').removeClass('miAvatar');
-        $$('#avion').removeClass('miAvatar');
-        $$('#icon-mariposa').removeClass('miAvatar');
-        $$('#icon-pelota').removeClass('miAvatar');
-        $$('#flor').removeClass('miAvatar');
-          
-      break
-
-      case 'icon-mariposa':
-        $$('#icon-mariposa').addClass('miAvatar');
-        $$('#nene').removeClass('miAvatar');
-        $$('#avion').removeClass('miAvatar');
-        $$('#nena').removeClass('miAvatar');
-        $$('#icon-pelota').removeClass('miAvatar');
-        $$('#flor').removeClass('miAvatar');
-            
-      break
-
-      case 'avion':
-        $$('#avion').addClass('miAvatar');
-        $$('#nene').removeClass('miAvatar');
-        $$('#nena').removeClass('miAvatar');
-        $$('#icon-mariposa').removeClass('miAvatar');
-        $$('#icon-pelota').removeClass('miAvatar');
-        $$('#flor').removeClass('miAvatar');
-      break
-
-      case 'icon-pelota':
-        $$('#icon-pelota').addClass('miAvatar');
-        $$('#nene').removeClass('miAvatar');
-        $$('#avion').removeClass('miAvatar');
-        $$('#nena').removeClass('miAvatar');
-        $$('#icon-mariposa').removeClass('miAvatar');
-        $$('#flor').removeClass('miAvatar');
-      break
-
-      case 'flor':
-        $$('#flor').addClass('miAvatar');
-        $$('#nene').removeClass('miAvatar');
-        $$('#avion').removeClass('miAvatar');
-        $$('#nena').removeClass('miAvatar');
-        $$('#icon-mariposa').removeClass('miAvatar');
-        $$('#icon-pelota').removeClass('miAvatar');  
-      break  
-  } 
-
-}
-
-//Login de usuario-------------------
-
- 
 /////////////  AGREGO MATERIAS A LA BD ///////////////
 
  
