@@ -369,7 +369,7 @@ $$(document).on('page:init', '.page[data-name="primer-grado"]', function (e) {
     app.toolbar.show('#toolBar');
     
     $$('#miAvatar').attr('src', `img/iconos/${avatarElegido}.png`);
-    $$('#msjBienvenida').html('<h1 class="bienvenida">¡Bienvenido/a, ' + nombre +'!</h1>');
+    
 })
 
 // LENGUA------------------------------------------------------
@@ -651,7 +651,7 @@ $$(document).on('page:init', '.page[data-name="consonantes"]', function (e) {
       });
 
     $$('.popover-mal').on('popover:open', function (e) {
-          $$('#correccion').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+          $$('#correccion').html('<h4 style="color:#900b0b;">¡Es incorrecto!</h4>');
       });
 
 
@@ -720,23 +720,23 @@ $$('#terminar').on('click', juegoNumeros);
           console.log('ID: ' + nroInc);
             if( nroInc == "nro3") {
               $$('#nro3').addClass('fondoRojo');
-              $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
+              $$('#nroInc').html('<h4 style="color:#900b0b;">¡Intentalo otra vez!</h4>');
             } else {
                 if(nroInc == "nro4"){
                   $$('#nro4').addClass('fondoRojo');
-                  $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
+                  $$('#nroInc').html('<h4 style="color:#900b0b;">¡Intentalo otra vez!</h4>');
                 }
                 if(nroInc == "nro2") {
                    $$('#nro2').addClass('fondoRojo');
-                   $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
+                   $$('#nroInc').html('<h4 style="color:#900b0b;">¡Intentalo otra vez!</h4>');
                 }
                 if(nroInc == "nro5") {
                    $$('#nro5').addClass('fondoRojo');
-                   $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
+                   $$('#nroInc').html('<h4 style="color:#900b0b;">¡Intentalo otra vez!</h4>');
                 }
                  if(nroInc == "nro6") {
                     $$('#nro6').addClass('fondoRojo');
-                    $$('#nroInc').html('<h4 style="color:#d00000">¡Intentalo otra vez!</h4>');
+                    $$('#nroInc').html('<h4 style="color:#900b0b;">¡Intentalo otra vez!</h4>');
                }
             }
     }
@@ -747,7 +747,7 @@ $$('#terminar').on('click', juegoNumeros);
       });
 
     $$('.popover-inc').on('popover:open', function (e) {
-          $$('#nroInc').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+          $$('#nroInc').html('<h4 style="color:#900b0b;">¡Es incorrecto!</h4>');
       });
 
 })
@@ -887,7 +887,7 @@ $$(document).on('page:init', '.page[data-name="naturaleza"]', function (e) {
       });
 
     $$('.popover-rtaFalsa').on('popover:open', function (e) {
-          $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+          $$('#popoverF').html('<h4 style="color:#900b0b;">¡Es incorrecto!</h4>');
       });
   })
 
@@ -924,19 +924,19 @@ $$(document).on('page:init', '.page[data-name="naturaleza"]', function (e) {
 
      if(rtasF == "a") {
         $$('#a').addClass('fondoRojo');
-        $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+        $$('#popoverF').html('<h4 style="color:#900b0b;">¡Es incorrecto!</h4>');
       } else {
           if(rtasF == "b") {
           $$('#b').addClass('fondoRojo');
-          $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+          $$('#popoverF').html('<h4 style="color:#900b0b;">¡Es incorrecto!</h4>');
         }
           if(rtasF == "c") {
           $$('#c').addClass('fondoRojo');
-          $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+          $$('#popoverF').html('<h4 style="color:#900b0b;">¡Es incorrecto!</h4>');
         }
           if(rtasF == "d") {
           $$('#d').addClass('fondoRojo');
-          $$('#popoverF').html('<h4 style="color:#d00000">¡Es incorrecto!</h4>');
+          $$('#popoverF').html('<h4 style="color:#900b0b;">¡Es incorrecto!</h4>');
         }
     }
   }
@@ -1012,26 +1012,32 @@ function fnVocalA(id){
 // VOCAL A
           case 'item-abeja':
             $$('#item-abeja').addClass('fondoVerde');
-            $$('#item-sol').addClass('oculto');
-            $$('#item-te').addClass('oculto');
             $$('.vocal-1A').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
           break
 
           case 'item-sol':
            $$('#item-sol').addClass('fondoRojo');
-            $$('.vocal-2A').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            $$('.vocal-2A').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+             // una vez que elige la respuesta incorrecta, tarda 2 milisegundos en desaparecer
+            setTimeout(() => {
+              $$('#item-sol').addClass('oculto');
+            }, 1000);
           break
 
           case 'item-te':
             $$('#item-te').addClass('fondoRojo');
-            $$('.vocal-3A').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            $$('.vocal-3A').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+            // una vez que elige la respuesta incorrecta, tarda 2 milisegundos en desaparecer
+            setTimeout(() => {
+              $$('#item-te').addClass('oculto');
+            },1000);
+            
           break
 
            case 'item-naranja':
             $$('#item-naranja').addClass('fondoVerde');
             $$('.vocal-4A').html('<h3 style="color:green" class="text-align-center">¡Muy bien!</h3>');
-            $$('#item-sol').addClass('oculto');
-            $$('#item-te').addClass('oculto');
+
           break
   }
  }          // VOCAL E
@@ -1043,12 +1049,18 @@ function fnVocalA(id){
         switch(vocalE) {
           case 'item-barco':
             $$('#item-barco').addClass('fondoRojo');
-            $$('.vocal-1E').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            $$('.vocal-1E').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+            setTimeout(() => {
+              $$('#item-barco').addClass('oculto');
+            },1000);
           break
 
           case 'item-vaca':
             $$('#item-vaca').addClass('fondoRojo');
-            $$('.vocal-2E').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            $$('.vocal-2E').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+            setTimeout(() => {
+              $$('#item-vaca').addClass('oculto');
+            },1000);
           break
 
            case 'item-estrella':
@@ -1079,12 +1091,18 @@ function fnVocalA(id){
 
            case 'item-nena':
             $$('#item-nena').addClass('fondoRojo');
-            $$('.vocal-3I').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            $$('.vocal-3I').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+            setTimeout(() => {
+              $$('#item-nena').addClass('oculto');
+            }, 1000);
           break
 
           case 'item-ventana':
            $$('#item-ventana').addClass('fondoRojo');
-            $$('.vocal-4I').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+            $$('.vocal-4I').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+            setTimeout(() => {
+              $$('#item-ventana').addClass('oculto');
+            }, 1000);
           break
 
         }
@@ -1107,12 +1125,18 @@ function fnVocalA(id){
 
              case 'item-isla':
               $$('#item-isla').addClass('fondoRojo');
-              $$('.vocal-3O').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+              $$('.vocal-3O').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+              setTimeout(() => {
+                $$('#item-isla').addClass('oculto');
+              }, 1000);
             break
 
             case 'item-pez':
              $$('#item-pez').addClass('fondoRojo');
-              $$('.vocal-4O').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+              $$('.vocal-4O').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+              setTimeout(() => {
+                $$('#item-pez').addClass('oculto');
+              }, 1000);
             break
   }    
 }
@@ -1133,12 +1157,18 @@ function fnVocalA(id){
 
                case 'item-mariposa':
                 $$('#item-mariposa').addClass('fondoRojo');
-                $$('.vocal-3U').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+                $$('.vocal-3U').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+                setTimeout(() => {
+                  $$('#item-mariposa').addClass('oculto');
+                }, 1000);
               break
 
               case 'item-libro':
                $$('#item-libro').addClass('fondoRojo');
-                $$('.vocal-4U').html('<h3 style="color:#d00000" class="text-align-center">Es incorrecto</h3>');
+                $$('.vocal-4U').html('<h3 style="color:#900b0b;" class="text-align-center">Es incorrecto</h3>');
+                setTimeout(() => {
+                  $$('#item-libro').addClass('oculto');
+                }, 1000);
               break
    }
   }    
@@ -1146,9 +1176,9 @@ function fnVocalA(id){
 
   // FINALIZAR JUEGO VOCALES
 
-    // function encontrarVocales() {
-
-    // }
+    function encontrarVocales() {
+      mainView.router.navigate('/mis-juegos/');
+    }
  
 // CONSONANTES (ACTIVIDAD)-------------------------------------------------
     function rtaCorrecta(id) {
@@ -1216,20 +1246,20 @@ function fnVocalA(id){
 
       if(consonanteInc == "v1") {
         $$('#v1').addClass('fondoRojo');
-        $$('#correccion').html('<h3 style="color: #d00000;">¡Es incorrecto!</h3>');
+        $$('#correccion').html('<h3 style="color: #900b0b;;">¡Es incorrecto!</h3>');
       } else {
 
           if(consonanteInc == "b2") {
             $$('#b2').addClass('fondoRojo');
-            $$('#correccion').html('<h3 style="color: #d00000;">¡Es incorrecto!</h3>');
+            $$('#correccion').html('<h3 style="color: #900b0b;;">¡Es incorrecto!</h3>');
         }
           if(consonanteInc == "v3") {
             $$('#v3').addClass('fondoRojo');
-            $$('#correccion').html('<h3 style="color: #d00000;">¡Es incorrecto!</h3>');
+            $$('#correccion').html('<h3 style="color: #900b0b;;">¡Es incorrecto!</h3>');
           }
           if(consonanteInc == "b4") {
             $$('#b4').addClass('fondoRojo');
-            $$('#correccion').html('<h3 style="color: #d00000;">¡Es incorrecto!</h3>');
+            $$('#correccion').html('<h3 style="color: #900b0b;;">¡Es incorrecto!</h3>');
         }
     }
 }
